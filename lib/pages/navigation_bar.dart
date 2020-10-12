@@ -67,7 +67,7 @@ class _NavigationBarState extends State<NavigationBar> {
               size: 28.0,
               color: _page == index
                   ? Theme.of(context).primaryColor
-                  : Theme.of(context).textTheme.caption.color,
+                  : Colors.black38,
             ),
             SizedBox(
               height: 1,
@@ -75,10 +75,11 @@ class _NavigationBarState extends State<NavigationBar> {
             Text(
               text[index],
               style: TextStyle(
+                fontWeight: FontWeight.bold,
                 fontSize: 10.0,
                 color: _page == index
                     ? Theme.of(context).primaryColor
-                    : Theme.of(context).textTheme.caption.color,
+                    : Colors.black,
               ),
             ),
             SizedBox(

@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:responsive_flutter/responsive_flutter.dart';
+import 'package:yommie/pages/past_order.dart';
 
 class HistoryPage extends StatefulWidget {
   HistoryPage({Key key}) : super(key: key);
@@ -76,7 +78,7 @@ class _HistoryPageState extends State<HistoryPage> {
                           children: [
                             Container(
                               height: double.infinity,
-                              width: 250,
+                              width: ResponsiveFlutter.of(context).scale(200),
                               child: Column(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -90,7 +92,7 @@ class _HistoryPageState extends State<HistoryPage> {
                                     height: 8,
                                   ),
                                   Text(
-                                      "The Red Tropical,Haw purple Rice Yogurt"),
+                                      "The Red Tropical,\nHaw Purple Rice Yogurt"),
                                   Text("2020-10-10 22:55"),
                                 ],
                               ),
@@ -115,7 +117,15 @@ class _HistoryPageState extends State<HistoryPage> {
                                       shape: RoundedRectangleBorder(
                                           borderRadius:
                                               BorderRadius.circular(0)),
-                                      onPressed: () {},
+                                      onPressed: () {
+                                        Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                            builder: (BuildContext context) =>
+                                                PastOrder(),
+                                          ),
+                                        );
+                                      },
                                       child: Text(
                                         "Details",
                                         style: TextStyle(

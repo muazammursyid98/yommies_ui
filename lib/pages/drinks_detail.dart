@@ -6,8 +6,10 @@ import 'package:yommie/widget/rating_star.dart';
 class DrinksDetail extends StatefulWidget {
   final String img;
   final String title;
+  final String pts;
+  final String ringgit;
 
-  DrinksDetail({this.img, this.title});
+  DrinksDetail({this.img, this.title, this.pts, this.ringgit});
 
   @override
   _DrinksDetailState createState() => _DrinksDetailState();
@@ -181,7 +183,7 @@ class _DrinksDetailState extends State<DrinksDetail> {
           SizedBox(height: 8),
           SizedBox(height: 8),
           Text(
-            "1,640 pts",
+            widget.pts + "pts" + " /" + " RM " + widget.ringgit,
             textAlign: TextAlign.start,
             style: TextStyle(
               color: Colors.pink[300],

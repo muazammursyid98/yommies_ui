@@ -93,6 +93,8 @@ class _DrinksPageState extends State<DrinksPage> {
                           builder: (BuildContext context) => DrinksDetail(
                             title: item["title"],
                             img: item["img"],
+                            pts: item["pts"],
+                            ringgit: item["rm"],
                           ),
                         ),
                       );
@@ -104,6 +106,8 @@ class _DrinksPageState extends State<DrinksPage> {
                         children: [
                           Expanded(
                             child: Container(
+                              height: 100,
+                              width: double.infinity,
                               margin: EdgeInsets.only(
                                   left: 10, top: 15, right: 10, bottom: 2),
                               decoration: BoxDecoration(
@@ -119,7 +123,15 @@ class _DrinksPageState extends State<DrinksPage> {
                             child: Text(
                               item["title"],
                               style: TextStyle(
-                                  fontWeight: FontWeight.bold, fontSize: 16),
+                                  fontWeight: FontWeight.bold, fontSize: 14),
+                            ),
+                          ),
+                          Padding(
+                            padding: EdgeInsets.only(left: 10),
+                            child: Text(
+                              item["pts"] + "pts" + " / " + "RM " + item["rm"],
+                              style: TextStyle(
+                                  fontWeight: FontWeight.w400, fontSize: 16),
                             ),
                           ),
                         ],
