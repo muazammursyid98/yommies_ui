@@ -5,9 +5,18 @@ List location = [
 ];
 
 List product = [
-  {"img": "assets/images/product1.1.jpg"},
-  {"img": "assets/images/product1.2.jpg"},
-  {"img": "assets/images/product1.3.jpg"}
+  {
+    "img": "assets/images/product1.1.jpg",
+    "title": "The Red Tropicana",
+  },
+  {
+    "img": "assets/images/product1.2.jpg",
+    "title": "Hawaiian Bananana",
+  },
+  {
+    "img": "assets/images/product1.3.jpg",
+    "title": "New Purple Rice Yogurt",
+  }
 ];
 
 List events = [

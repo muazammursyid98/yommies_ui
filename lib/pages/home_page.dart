@@ -5,9 +5,6 @@ import 'package:percent_indicator/circular_percent_indicator.dart';
 import 'package:responsive_flutter/responsive_flutter.dart';
 import 'package:yommie/Utils/locationData.dart';
 import 'package:yommie/pages/cart_page.dart';
-import 'package:yommie/pages/drinks_page.dart';
-import 'package:yommie/pages/news_page.dart';
-import 'package:yommie/pages/rewards_page.dart';
 
 class HomePage extends StatefulWidget {
   HomePage({Key key}) : super(key: key);
@@ -245,7 +242,7 @@ class _HomePageState extends State<HomePage> {
                                   decoration: BoxDecoration(
                                     image: DecorationImage(
                                       image: AssetImage(item["img"]),
-                                      fit: BoxFit.fitWidth,
+                                      fit: BoxFit.cover,
                                     ),
                                   ),
                                 ),
@@ -292,18 +289,29 @@ class _HomePageState extends State<HomePage> {
                       itemCount: product.length,
                       itemBuilder: (context, index) {
                         final item = product[index];
-                        return Container(
-                          height: double.infinity,
-                          width: 130,
-                          margin: EdgeInsets.only(right: 20),
-                          child: Container(
-                            decoration: BoxDecoration(
-                              image: DecorationImage(
-                                image: AssetImage(item["img"]),
-                                fit: BoxFit.fitWidth,
+                        return Column(
+                          children: [
+                            Expanded(
+                              child: Container(
+                                height: double.infinity,
+                                width: 130,
+                                margin: EdgeInsets.only(right: 20),
+                                child: Container(
+                                  decoration: BoxDecoration(
+                                    image: DecorationImage(
+                                      image: AssetImage(item["img"]),
+                                      fit: BoxFit.cover,
+                                    ),
+                                  ),
+                                ),
                               ),
                             ),
-                          ),
+                            Text(
+                              item["title"],
+                              style: TextStyle(fontWeight: FontWeight.bold),
+                              textAlign: TextAlign.start,
+                            ),
+                          ],
                         );
                       },
                     ),
