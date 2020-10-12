@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:yommie/Theme/yommie_theme.dart';
 import 'package:yommie/class/hex_color.dart';
 import 'package:yommie/pages/home_page.dart';
+import 'package:yommie/pages/navigation_bar.dart';
 import 'package:yommie/pages/sing_up.dart';
 
 class LoginPage extends StatefulWidget {
@@ -95,7 +96,7 @@ class _LoginPageState extends State<LoginPage> {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (BuildContext context) => HomePage(),
+                        builder: (BuildContext context) => NavigationBar(),
                       ),
                     );
                   },

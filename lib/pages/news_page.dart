@@ -12,26 +12,34 @@ class _NewsPageState extends State<NewsPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: PreferredSize(
-        preferredSize: Size.fromHeight(50.0),
-        child: Container(
-          height: double.infinity,
-          width: double.infinity,
-          padding: EdgeInsets.only(top: 30),
-          color: Colors.yellow[300],
-          child: Row(
-            children: [
-              IconButton(
-                icon: Icon(Icons.arrow_back_ios),
-                color: Colors.black,
-                onPressed: () {
-                  Navigator.of(context).pop();
-                },
-              ),
-              Text(
-                "What's News",
-                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-              )
-            ],
+        preferredSize: Size.fromHeight(70.0),
+        child: SafeArea(
+          child: Container(
+            height: double.infinity,
+            width: double.infinity,
+            padding: EdgeInsets.only(top: 30),
+            color: Colors.yellow[300],
+            child: Row(
+              children: [
+                // IconButton(
+                //   icon: Icon(Icons.arrow_back_ios),
+                //   color: Colors.black,
+                //   onPressed: () {
+                //     Navigator.of(context).pop();
+                //   },
+                // ),
+                SizedBox(
+                  width: 30,
+                ),
+                Text(
+                  "What's News".toUpperCase(),
+                  style: TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                      letterSpacing: 2.0),
+                )
+              ],
+            ),
           ),
         ),
       ),

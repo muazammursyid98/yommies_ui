@@ -23,12 +23,15 @@ class _RewardPageState extends State<RewardPage> {
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
-              IconButton(
-                icon: Icon(Icons.arrow_back_ios),
-                color: Colors.black,
-                onPressed: () {
-                  Navigator.of(context).pop();
-                },
+              // IconButton(
+              //   icon: Icon(Icons.arrow_back_ios),
+              //   color: Colors.black,
+              //   onPressed: () {
+              //     Navigator.of(context).pop();
+              //   },
+              // ),
+              SizedBox(
+                width: 30,
               ),
               Expanded(
                 child: Container(

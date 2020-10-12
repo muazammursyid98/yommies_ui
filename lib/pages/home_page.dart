@@ -1,8 +1,10 @@
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';
 import 'package:responsive_flutter/responsive_flutter.dart';
 import 'package:yommie/Utils/locationData.dart';
+import 'package:yommie/pages/cart_page.dart';
 import 'package:yommie/pages/drinks_page.dart';
 import 'package:yommie/pages/news_page.dart';
 import 'package:yommie/pages/rewards_page.dart';
@@ -15,168 +17,176 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  final _controller = ScrollController();
-  final _controller2 = ScrollController();
-  final _controller3 = ScrollController();
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.pink[200],
       appBar: PreferredSize(
-        preferredSize: Size.fromHeight(130.0), // here the desired height
+        preferredSize: Size.fromHeight(110.0), // here the desired height
         child: Column(
           children: [
-            Container(
-              height: 100,
-              width: double.infinity,
-              padding: EdgeInsets.only(top: 30, left: 10, right: 20),
-              color: Colors.pink[200],
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        "Total Loyalty Point",
-                        style: TextStyle(
-                            fontSize: 16, fontWeight: FontWeight.w500),
-                      ),
-                      Row(
-                        children: [
-                          CircularPercentIndicator(
-                            radius: 40.0,
-                            lineWidth: 6.0,
-                            percent: 0.40,
-                            center: new Icon(
-                              FontAwesomeIcons.chessQueen,
-                              size: 18.0,
-                              color: Colors.redAccent,
-                            ),
-                            backgroundColor: Colors.grey,
-                            progressColor: Colors.redAccent,
-                          ),
-                          SizedBox(width: 5),
-                          Text(
-                            "1,203 pts",
-                            style: TextStyle(
-                                fontSize: 16,
-                                color: Colors.black,
-                                fontWeight: FontWeight.bold),
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
-                  Padding(
-                      padding: EdgeInsets.only(top: 15),
-                      child: Icon(Icons.arrow_forward_ios)),
-                  Expanded(child: SizedBox()),
-                  Padding(
-                    padding: EdgeInsets.only(top: 15),
-                    child: Icon(
-                      FontAwesomeIcons.cartPlus,
-                      size: 30.0,
-                      color: Colors.black54,
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            Expanded(
+            SafeArea(
               child: Container(
+                height: 100,
+                width: double.infinity,
+                padding: EdgeInsets.only(top: 30, left: 10, right: 20),
                 color: Colors.pink[200],
                 child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Expanded(
-                      child: GestureDetector(
-                        onTap: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (BuildContext context) => NewsPage(),
-                            ),
-                          );
-                        },
-                        child: Container(
-                          height: 30,
-                          margin: EdgeInsets.only(left: 10, right: 10),
-                          alignment: Alignment.center,
-                          decoration: BoxDecoration(
-                            color: Colors.white,
-                            shape: BoxShape.rectangle,
-                            borderRadius:
-                                BorderRadius.all(Radius.circular(30.0)),
-                          ),
-                          child: Text(
-                            "What's News",
-                            style: TextStyle(fontWeight: FontWeight.w500),
-                          ),
+                    Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          "Total Loyalty Point",
+                          style: TextStyle(
+                              fontSize: 16, fontWeight: FontWeight.w500),
                         ),
-                      ),
-                    ),
-                    Expanded(
-                      child: GestureDetector(
-                        onTap: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (BuildContext context) => DrinksPage(),
+                        Row(
+                          children: [
+                            CircularPercentIndicator(
+                              radius: 40.0,
+                              lineWidth: 6.0,
+                              percent: 0.40,
+                              center: new Icon(
+                                FontAwesomeIcons.chessQueen,
+                                size: 18.0,
+                                color: Colors.redAccent,
+                              ),
+                              backgroundColor: Colors.grey,
+                              progressColor: Colors.redAccent,
                             ),
-                          );
-                        },
-                        child: Container(
-                          height: 30,
-                          margin: EdgeInsets.only(left: 10, right: 10),
-                          alignment: Alignment.center,
-                          decoration: BoxDecoration(
-                            color: Colors.white,
-                            shape: BoxShape.rectangle,
-                            borderRadius:
-                                BorderRadius.all(Radius.circular(30.0)),
-                          ),
-                          child: Text(
-                            "Drinks",
-                            style: TextStyle(fontWeight: FontWeight.w500),
-                          ),
+                            SizedBox(width: 5),
+                            Text(
+                              "1,203 pts",
+                              style: TextStyle(
+                                  fontSize: 16,
+                                  color: Colors.black,
+                                  fontWeight: FontWeight.bold),
+                            ),
+                          ],
                         ),
-                      ),
+                      ],
                     ),
-                    Expanded(
+                    Padding(
+                        padding: EdgeInsets.only(top: 15),
+                        child: Icon(Icons.arrow_forward_ios)),
+                    Expanded(child: SizedBox()),
+                    Padding(
+                      padding: EdgeInsets.only(top: 15),
                       child: GestureDetector(
                         onTap: () {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (BuildContext context) => RewardPage(),
+                              builder: (BuildContext context) => CartPage(),
                             ),
                           );
                         },
-                        child: Container(
-                          height: 30,
-                          margin: EdgeInsets.only(left: 10, right: 10),
-                          alignment: Alignment.center,
-                          decoration: BoxDecoration(
-                            color: Colors.white,
-                            shape: BoxShape.rectangle,
-                            borderRadius:
-                                BorderRadius.all(Radius.circular(30.0)),
-                          ),
-                          child: Text(
-                            "Reward",
-                            style: TextStyle(fontWeight: FontWeight.w500),
-                          ),
+                        child: Icon(
+                          FontAwesomeIcons.cartPlus,
+                          size: 30.0,
+                          color: Colors.black54,
                         ),
                       ),
                     ),
                   ],
                 ),
               ),
-            )
+            ),
+            // Expanded(
+            //   child: Container(
+            //     color: Colors.pink[200],
+            //     child: Row(
+            //       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            //       children: [
+            //         Expanded(
+            //           child: GestureDetector(
+            //             onTap: () {
+            //               Navigator.push(
+            //                 context,
+            //                 MaterialPageRoute(
+            //                   builder: (BuildContext context) => NewsPage(),
+            //                 ),
+            //               );
+            //             },
+            //             child: Container(
+            //               height: 30,
+            //               margin: EdgeInsets.only(left: 10, right: 10),
+            //               alignment: Alignment.center,
+            //               decoration: BoxDecoration(
+            //                 color: Colors.white,
+            //                 shape: BoxShape.rectangle,
+            //                 borderRadius:
+            //                     BorderRadius.all(Radius.circular(30.0)),
+            //               ),
+            //               child: Text(
+            //                 "What's News",
+            //                 style: TextStyle(fontWeight: FontWeight.w500),
+            //               ),
+            //             ),
+            //           ),
+            //         ),
+            //         Expanded(
+            //           child: GestureDetector(
+            //             onTap: () {
+            //               Navigator.push(
+            //                 context,
+            //                 MaterialPageRoute(
+            //                   builder: (BuildContext context) => DrinksPage(),
+            //                 ),
+            //               );
+            //             },
+            //             child: Container(
+            //               height: 30,
+            //               margin: EdgeInsets.only(left: 10, right: 10),
+            //               alignment: Alignment.center,
+            //               decoration: BoxDecoration(
+            //                 color: Colors.white,
+            //                 shape: BoxShape.rectangle,
+            //                 borderRadius:
+            //                     BorderRadius.all(Radius.circular(30.0)),
+            //               ),
+            //               child: Text(
+            //                 "Drinks",
+            //                 style: TextStyle(fontWeight: FontWeight.w500),
+            //               ),
+            //             ),
+            //           ),
+            //         ),
+            //         Expanded(
+            //           child: GestureDetector(
+            //             onTap: () {
+            //               Navigator.push(
+            //                 context,
+            //                 MaterialPageRoute(
+            //                   builder: (BuildContext context) => RewardPage(),
+            //                 ),
+            //               );
+            //             },
+            //             child: Container(
+            //               height: 30,
+            //               margin: EdgeInsets.only(left: 10, right: 10),
+            //               alignment: Alignment.center,
+            //               decoration: BoxDecoration(
+            //                 color: Colors.white,
+            //                 shape: BoxShape.rectangle,
+            //                 borderRadius:
+            //                     BorderRadius.all(Radius.circular(30.0)),
+            //               ),
+            //               child: Text(
+            //                 "Reward",
+            //                 style: TextStyle(fontWeight: FontWeight.w500),
+            //               ),
+            //             ),
+            //           ),
+            //         ),
+            //       ],
+            //     ),
+            //   ),
+            // )
           ],
         ),
       ),
@@ -190,16 +200,12 @@ class _HomePageState extends State<HomePage> {
         ),
         child: ListView(
           children: [
-            Container(
-              margin: EdgeInsets.only(left: 20, right: 20, top: 20),
-              width: double.infinity,
-              height: 280,
-              decoration: BoxDecoration(
-                image: DecorationImage(
-                  image: AssetImage("assets/images/img1.jpg"),
-                  fit: BoxFit.fitWidth,
-                ),
-              ),
+            SizedBox(
+              height: 30,
+            ),
+            imageCarousel(),
+            SizedBox(
+              height: 20,
             ),
             Padding(
               padding: EdgeInsets.only(left: 20),
@@ -223,7 +229,6 @@ class _HomePageState extends State<HomePage> {
                 children: [
                   Expanded(
                     child: ListView.builder(
-                      controller: _controller,
                       scrollDirection: Axis.horizontal,
                       itemCount: location.length,
                       itemBuilder: (context, index) {
@@ -283,7 +288,6 @@ class _HomePageState extends State<HomePage> {
                 children: [
                   Expanded(
                     child: ListView.builder(
-                      controller: _controller2,
                       scrollDirection: Axis.horizontal,
                       itemCount: product.length,
                       itemBuilder: (context, index) {
@@ -412,7 +416,6 @@ class _HomePageState extends State<HomePage> {
                 children: [
                   Expanded(
                     child: ListView.builder(
-                      controller: _controller3,
                       scrollDirection: Axis.horizontal,
                       itemCount: events.length,
                       itemBuilder: (context, index) {
@@ -459,6 +462,43 @@ class _HomePageState extends State<HomePage> {
               height: 40,
             ),
           ],
+        ),
+      ),
+    );
+  }
+
+  Container imageCarousel() {
+    final double height = MediaQuery.of(context).size.height;
+    return Container(
+      height: 230.0,
+      margin: EdgeInsets.only(left: 20, right: 20, top: 20),
+      width: double.infinity,
+      child: CarouselSlider(
+        items: [
+          "assets/images/img1.jpg",
+          "assets/images/event1.jpg",
+          "assets/images/product1.1.jpg",
+          "assets/images/grandOpening.jpg"
+        ].map((i) {
+          return Builder(builder: (BuildContext context) {
+            return Container(
+              alignment: Alignment.center,
+              height: double.infinity,
+              width: double.infinity,
+              child: Image.asset(
+                i,
+                height: double.infinity,
+                width: double.infinity,
+                fit: BoxFit.cover,
+              ),
+            );
+          });
+        }).toList(),
+        options: CarouselOptions(
+          height: height,
+          viewportFraction: 1.0,
+          enlargeCenterPage: false,
+          autoPlay: true,
         ),
       ),
     );

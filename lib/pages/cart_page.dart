@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:yommie/pages/payment_qr.dart';
 
 class CartPage extends StatefulWidget {
   CartPage({Key key}) : super(key: key);
@@ -67,29 +68,28 @@ class _CartPageState extends State<CartPage> {
                                             CrossAxisAlignment.start,
                                         children: [
                                           Text(
-                                            "Happy Jones",
+                                            "Haw Purple Rice Yogurt",
                                             style: TextStyle(
                                               fontWeight: FontWeight.bold,
                                             ),
                                           ),
-                                          Text(
-                                            "6 Pack",
-                                            style:
-                                                TextStyle(color: Colors.grey),
-                                          ),
                                           Spacer(),
-                                          Text.rich(TextSpan(children: [
+                                          Text.rich(
                                             TextSpan(
-                                                text: "Pts ",
-                                                style: TextStyle(
-                                                  color: Colors.red,
-                                                )),
-                                            TextSpan(
-                                                text: "950",
-                                                style: TextStyle(
-                                                    fontWeight:
-                                                        FontWeight.bold))
-                                          ]))
+                                              children: [
+                                                TextSpan(
+                                                    text: "Pts ",
+                                                    style: TextStyle(
+                                                      color: Colors.red,
+                                                    )),
+                                                TextSpan(
+                                                    text: "950",
+                                                    style: TextStyle(
+                                                        fontWeight:
+                                                            FontWeight.bold))
+                                              ],
+                                            ),
+                                          )
                                         ],
                                       ),
                                     ),
@@ -191,15 +191,10 @@ class _CartPageState extends State<CartPage> {
                                             CrossAxisAlignment.start,
                                         children: [
                                           Text(
-                                            "Uncle Boons",
+                                            "The Red Tropical",
                                             style: TextStyle(
                                               fontWeight: FontWeight.bold,
                                             ),
-                                          ),
-                                          Text(
-                                            "6 Pack",
-                                            style:
-                                                TextStyle(color: Colors.grey),
                                           ),
                                           Spacer(),
                                           Text.rich(TextSpan(children: [
@@ -316,15 +311,10 @@ class _CartPageState extends State<CartPage> {
                                             CrossAxisAlignment.start,
                                         children: [
                                           Text(
-                                            "Pizza",
+                                            "Hawaiian Banananana",
                                             style: TextStyle(
                                               fontWeight: FontWeight.bold,
                                             ),
-                                          ),
-                                          Text(
-                                            "Single",
-                                            style:
-                                                TextStyle(color: Colors.grey),
                                           ),
                                           Spacer(),
                                           Text.rich(TextSpan(children: [
@@ -450,73 +440,9 @@ class _CartPageState extends State<CartPage> {
                           Row(
                             children: [
                               Text(
-                                "Pts total",
-                                style: TextStyle(fontWeight: FontWeight.bold),
-                              ),
-                              Spacer(),
-                              Text(
-                                "Pts ",
-                                style: TextStyle(
-                                    color: Colors.red,
-                                    fontWeight: FontWeight.bold),
-                              ),
-                              Text(
-                                "2306",
-                                style: TextStyle(fontWeight: FontWeight.bold),
-                              )
-                            ],
-                          ),
-                          Row(
-                            children: [
-                              Text(
-                                "Delivery charges",
-                                style: TextStyle(fontWeight: FontWeight.bold),
-                              ),
-                              Spacer(),
-                              Text(
-                                "Pts ",
-                                style: TextStyle(
-                                    color: Colors.red,
-                                    fontWeight: FontWeight.bold),
-                              ),
-                              Text(
-                                "200",
-                                style: TextStyle(fontWeight: FontWeight.bold),
-                              )
-                            ],
-                          ),
-                          // Row(
-                          //   children: [
-                          //     Text(
-                          //       "Donate RM1.00 to needy ",
-                          //       style: TextStyle(fontWeight: FontWeight.bold),
-                          //     ),
-                          //     Text(
-                          //       " Remove",
-                          //       style: TextStyle(
-                          //         fontWeight: FontWeight.bold,
-                          //         color: Colors.red,
-                          //       ),
-                          //     ),
-                          //     Spacer(),
-                          //     Text(
-                          //       "RM",
-                          //       style: TextStyle(
-                          //           color: Colors.red,
-                          //           fontWeight: FontWeight.bold),
-                          //     ),
-                          //     Text(
-                          //       "1.00",
-                          //       style: TextStyle(fontWeight: FontWeight.bold),
-                          //     )
-                          //   ],
-                          // ),
-                          Row(
-                            children: [
-                              Text(
                                 "To pay",
                                 style: TextStyle(
-                                    fontSize: 20, fontWeight: FontWeight.bold),
+                                    fontSize: 26, fontWeight: FontWeight.bold),
                               ),
                               Spacer(),
                               Text(
@@ -527,55 +453,14 @@ class _CartPageState extends State<CartPage> {
                               ),
                               Text(
                                 "2606",
-                                style: TextStyle(fontWeight: FontWeight.bold),
+                                style: TextStyle(
+                                    fontWeight: FontWeight.bold, fontSize: 26),
                               )
                             ],
                           )
                         ],
                       ),
                     ),
-                    // Container(
-                    //   padding: EdgeInsets.all(16),
-                    //   margin: EdgeInsets.all(16),
-                    //   height: 64,
-                    //   decoration: BoxDecoration(
-                    //       color: Colors.orange[100],
-                    //       borderRadius: BorderRadius.circular(16)),
-                    //   child: Row(
-                    //     children: [
-                    //       Icon(
-                    //         Icons.card_giftcard,
-                    //         color: Colors.red,
-                    //       ),
-                    //       Padding(
-                    //         padding: const EdgeInsets.symmetric(horizontal: 16),
-                    //         child: Column(
-                    //           crossAxisAlignment: CrossAxisAlignment.start,
-                    //           children: [
-                    //             Text("Pay Using"),
-                    //             Text(
-                    //               "Apple Pay",
-                    //               style: TextStyle(
-                    //                 fontSize: 14,
-                    //                 fontWeight: FontWeight.bold,
-                    //               ),
-                    //             ),
-                    //           ],
-                    //         ),
-                    //       ),
-                    //       Spacer(),
-                    //       Center(
-                    //         child: Text(
-                    //           "Change",
-                    //           style: TextStyle(
-                    //               fontWeight: FontWeight.w700,
-                    //               fontSize: 13,
-                    //               color: Colors.red),
-                    //         ),
-                    //       )
-                    //     ],
-                    //   ),
-                    // ),
                   ],
                 ),
               ),
@@ -591,11 +476,12 @@ class _CartPageState extends State<CartPage> {
             padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
             child: GestureDetector(
               onTap: () {
-                showDialog(
-                    context: context,
-                    builder: (context) => AlertDialog(
-                          content: Text("Payment"),
-                        ));
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (BuildContext context) => PaymentQR(),
+                  ),
+                );
               },
               child: Container(
                 height: 64,

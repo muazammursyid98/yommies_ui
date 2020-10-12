@@ -89,51 +89,61 @@ class _DrinksDetailState extends State<DrinksDetail> {
     );
   }
 
-  Container bottomWidget() {
-    return Container(
-      width: MediaQuery.of(context).size.width,
-      height: 35,
-      margin: EdgeInsets.only(bottom: 10, left: 30, right: 30),
-      decoration: BoxDecoration(
-        boxShadow: kElevationToShadow[4],
-        color: Colors.white,
-      ),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.start,
-        children: [
-          SizedBox(width: 10),
-          Text(
-            "1",
-            textAlign: TextAlign.start,
-            style: TextStyle(
-              color: Colors.black,
-              fontSize: 20.0,
-              fontWeight: FontWeight.bold,
-            ),
+  GestureDetector bottomWidget() {
+    return GestureDetector(
+      onTap: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (BuildContext context) => CartPage(),
           ),
-          SizedBox(width: 8),
-          Icon(
-            FontAwesomeIcons.cartArrowDown,
-            color: Colors.black45,
-          ),
-          SizedBox(width: 10),
-          Flexible(
-            child: Container(
-              color: Colors.red,
-              width: double.infinity,
-              alignment: Alignment.center,
-              child: Text(
-                "ADD TO BAG",
-                textAlign: TextAlign.start,
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 15.0,
-                  fontWeight: FontWeight.bold,
-                ),
+        );
+      },
+      child: Container(
+        width: MediaQuery.of(context).size.width,
+        height: 35,
+        margin: EdgeInsets.only(bottom: 10, left: 30, right: 30),
+        decoration: BoxDecoration(
+          boxShadow: kElevationToShadow[4],
+          color: Colors.white,
+        ),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: [
+            SizedBox(width: 10),
+            Text(
+              "1",
+              textAlign: TextAlign.start,
+              style: TextStyle(
+                color: Colors.black,
+                fontSize: 20.0,
+                fontWeight: FontWeight.bold,
               ),
             ),
-          )
-        ],
+            SizedBox(width: 8),
+            Icon(
+              FontAwesomeIcons.cartArrowDown,
+              color: Colors.black45,
+            ),
+            SizedBox(width: 10),
+            Flexible(
+              child: Container(
+                color: Colors.red,
+                width: double.infinity,
+                alignment: Alignment.center,
+                child: Text(
+                  "ADD TO BAG",
+                  textAlign: TextAlign.start,
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 15.0,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ),
+            )
+          ],
+        ),
       ),
     );
   }
@@ -169,16 +179,6 @@ class _DrinksDetailState extends State<DrinksDetail> {
             ],
           ),
           SizedBox(height: 8),
-          // Expanded(
-          //   child: Text(
-          //     widget.desc,
-          //     textAlign: TextAlign.start,
-          //     style: TextStyle(
-          //       color: Colors.black,
-          //       fontSize: 13.0,
-          //     ),
-          //   ),
-          // ),
           SizedBox(height: 8),
           Text(
             "1,640 pts",

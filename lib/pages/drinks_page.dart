@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:yommie/Utils/productData.dart';
+import 'package:yommie/pages/cart_page.dart';
 import 'package:yommie/pages/drinks_detail.dart';
 
 class DrinksPage extends StatefulWidget {
@@ -13,37 +14,52 @@ class _DrinksPageState extends State<DrinksPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: PreferredSize(
-        preferredSize: Size.fromHeight(55.0),
-        child: Container(
-          height: double.infinity,
-          width: double.infinity,
-          padding: EdgeInsets.only(top: 30),
-          color: Colors.pink[100],
-          child: Row(
-            children: [
-              IconButton(
-                icon: Icon(Icons.arrow_back_ios),
-                color: Colors.black,
-                onPressed: () {
-                  Navigator.of(context).pop();
-                },
-              ),
-              Expanded(
-                child: Text(
-                  "Drinks",
-                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+        preferredSize: Size.fromHeight(80.0),
+        child: SafeArea(
+          child: Container(
+            height: double.infinity,
+            width: double.infinity,
+            padding: EdgeInsets.only(top: 30),
+            color: Colors.pink[100],
+            child: Row(
+              children: [
+                // IconButton(
+                //   icon: Icon(Icons.arrow_back_ios),
+                //   color: Colors.black,
+                //   onPressed: () {
+                //     Navigator.of(context).pop();
+                //   },
+                // ),
+                SizedBox(
+                  width: 30,
                 ),
-              ),
-              Padding(
-                padding: const EdgeInsets.only(right: 10),
-                child: IconButton(
-                    icon: Icon(
-                      FontAwesomeIcons.cartPlus,
-                      color: Colors.black54,
-                    ),
-                    onPressed: null),
-              )
-            ],
+                Expanded(
+                  child: Text(
+                    "Drinks".toUpperCase(),
+                    style: TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                        letterSpacing: 2.0),
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(right: 10),
+                  child: IconButton(
+                      icon: Icon(
+                        FontAwesomeIcons.cartPlus,
+                        color: Colors.black54,
+                      ),
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (BuildContext context) => CartPage(),
+                          ),
+                        );
+                      }),
+                )
+              ],
+            ),
           ),
         ),
       ),
