@@ -1,9 +1,15 @@
+import 'dart:convert';
+import 'dart:io';
+
 import 'package:flutter/material.dart';
+import 'package:http/http.dart';
 import 'package:yommie/Theme/yommie_theme.dart';
 import 'package:yommie/class/hex_color.dart';
+import 'package:yommie/models/loginViewModels.dart';
 import 'package:yommie/pages/home_page.dart';
 import 'package:yommie/pages/navigation_bar.dart';
 import 'package:yommie/pages/sing_up.dart';
+import 'package:yommie/provider/rest.dart';
 
 class LoginPage extends StatefulWidget {
   LoginPage({Key key}) : super(key: key);
@@ -13,6 +19,9 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
+  final username = TextEditingController();
+  final password = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -41,6 +50,7 @@ class _LoginPageState extends State<LoginPage> {
                 ),
               ),
               TextField(
+                controller: username,
                 autocorrect: true,
                 decoration: InputDecoration(
                   prefixIcon: Icon(
@@ -64,7 +74,9 @@ class _LoginPageState extends State<LoginPage> {
               ),
               SizedBox(height: 15),
               TextField(
+                controller: password,
                 autocorrect: true,
+                obscureText: true,
                 decoration: InputDecoration(
                   prefixIcon: Icon(
                     Icons.lock,
@@ -93,12 +105,10 @@ class _LoginPageState extends State<LoginPage> {
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(20)),
                   onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (BuildContext context) => NavigationBar(),
-                      ),
-                    );
+                    var jsons = {};
+                    jsons["username"] = username.text;
+                    jsons["password"] = password.text;
+                    LoginViewModels().loginPhp(jsons, context);
                   },
                   child: Text("LOGIN"),
                 ),

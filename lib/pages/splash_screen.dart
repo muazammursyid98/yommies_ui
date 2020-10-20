@@ -2,9 +2,12 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:yommie/pages/login_page.dart';
+import 'package:yommie/pages/navigation_bar.dart';
 
 class SplashScreen extends StatefulWidget {
-  static const String id = "splash_screen";
+  final String userId;
+  SplashScreen({this.userId});
+
   @override
   _SplashScreenState createState() => _SplashScreenState();
 }
@@ -14,12 +17,20 @@ class _SplashScreenState extends State<SplashScreen> {
 
   removeScreen() {
     return _timer = Timer(Duration(seconds: 3), () {
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(
-          builder: (BuildContext context) => LoginPage(),
-        ),
-      );
+      widget.userId == null
+          ? Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(
+                builder: (BuildContext context) => LoginPage(),
+              ),
+            )
+          : Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(
+                builder: (BuildContext context) => NavigationBar(),
+              ),
+            );
+      ;
     });
   }
 

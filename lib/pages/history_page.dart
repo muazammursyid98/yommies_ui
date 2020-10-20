@@ -1,5 +1,9 @@
+import 'package:cool_alert/cool_alert.dart';
 import 'package:flutter/material.dart';
 import 'package:responsive_flutter/responsive_flutter.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:yommie/class/alertDialog.dart';
+import 'package:yommie/pages/login_page.dart';
 import 'package:yommie/pages/past_order.dart';
 
 class HistoryPage extends StatefulWidget {
@@ -23,13 +27,6 @@ class _HistoryPageState extends State<HistoryPage> {
             color: Colors.pink[100],
             child: Row(
               children: [
-                // IconButton(
-                //   icon: Icon(Icons.arrow_back_ios),
-                //   color: Colors.black,
-                //   onPressed: () {
-                //     Navigator.of(context).pop();
-                //   },
-                // ),
                 SizedBox(
                   width: 30,
                 ),
@@ -42,6 +39,32 @@ class _HistoryPageState extends State<HistoryPage> {
                         letterSpacing: 2.0),
                   ),
                 ),
+                IconButton(
+                  icon: Icon(
+                    Icons.logout,
+                    size: 28,
+                  ),
+                  onPressed: () async {
+                    DialogAction().alertDialog(
+                        context,
+                        "Are you sure ?",
+                        CoolAlertType.info,
+                        "do you want to log out ?",
+                        "No",
+                        "Yes", () async {
+                      Navigator.of(context).pop();
+                    }, () async {
+                      Navigator.of(context).pop();
+                      final prefs = await SharedPreferences.getInstance();
+                      prefs.clear();
+                      var route = new MaterialPageRoute(
+                        builder: (BuildContext context) => LoginPage(),
+                      );
+                      Navigator.of(context).pushReplacement(route);
+                    });
+                  },
+                ),
+                SizedBox(width: 30)
               ],
             ),
           ),

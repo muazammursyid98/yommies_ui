@@ -2,6 +2,7 @@ import 'dart:math' as math;
 
 import 'package:flutter/material.dart';
 import 'package:yommie/class/hex_color.dart';
+import 'package:flutter/services.dart';
 
 const Duration _kDropdownMenuDuration = Duration(milliseconds: 300);
 const double _kMenuItemHeight = 48.0;
@@ -469,6 +470,7 @@ class _DropdownButtonState<T> extends State<CustomDropdownButton<T>>
   void initState() {
     super.initState();
 //    _updateSelectedIndex();
+    SystemChannels.textInput.invokeMethod('TextInput.hide');
     WidgetsBinding.instance.addObserver(this);
   }
 
