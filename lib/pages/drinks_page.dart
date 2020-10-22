@@ -1,8 +1,8 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:yommie/Utils/productData.dart';
+import 'package:yommie/models/producModels.dart';
 import 'package:yommie/pages/cart_page.dart';
-import 'package:yommie/pages/drinks_detail.dart';
 
 class DrinksPage extends StatefulWidget {
   @override
@@ -10,6 +10,18 @@ class DrinksPage extends StatefulWidget {
 }
 
 class _DrinksPageState extends State<DrinksPage> {
+  List<Product> listProduct = [];
+  @override
+  void initState() {
+    var jsons = {};
+    ProductModels().productPhp(jsons, context).then((value) {
+      setState(() {
+        listProduct = value;
+      });
+    });
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -20,16 +32,9 @@ class _DrinksPageState extends State<DrinksPage> {
             height: double.infinity,
             width: double.infinity,
             padding: EdgeInsets.only(top: 30),
-            color: Colors.pink[100],
+            color: Theme.of(context).primaryColor,
             child: Row(
               children: [
-                // IconButton(
-                //   icon: Icon(Icons.arrow_back_ios),
-                //   color: Colors.black,
-                //   onPressed: () {
-                //     Navigator.of(context).pop();
-                //   },
-                // ),
                 SizedBox(
                   width: 30,
                 ),
@@ -63,7 +68,7 @@ class _DrinksPageState extends State<DrinksPage> {
           ),
         ),
       ),
-      backgroundColor: Colors.pink[100],
+      backgroundColor: Theme.of(context).primaryColor,
       body: Container(
         decoration: BoxDecoration(
           color: Colors.white.withOpacity(0.9),
@@ -79,25 +84,25 @@ class _DrinksPageState extends State<DrinksPage> {
             ),
             Expanded(
               child: GridView.builder(
-                itemCount: productItem.length,
+                itemCount: listProduct == null ? 0 : listProduct.length,
                 gridDelegate: new SliverGridDelegateWithFixedCrossAxisCount(
                   crossAxisCount: 2,
                 ),
                 itemBuilder: (context, index) {
-                  final item = productItem[index];
+                  final item = listProduct[index];
                   return GestureDetector(
                     onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (BuildContext context) => DrinksDetail(
-                            title: item["title"],
-                            img: item["img"],
-                            pts: item["pts"],
-                            ringgit: item["rm"],
-                          ),
-                        ),
-                      );
+                      // Navigator.push(
+                      //   context,
+                      //   MaterialPageRoute(
+                      //     builder: (BuildContext context) => DrinksDetail(
+                      //       title: item["title"],
+                      //       img: item["img"],
+                      //       pts: item["pts"],
+                      //       ringgit: item["rm"],
+                      //     ),
+                      //   ),
+                      // );
                     },
                     child: GridTile(
                       child: Column(
@@ -110,10 +115,19 @@ class _DrinksPageState extends State<DrinksPage> {
                               width: double.infinity,
                               margin: EdgeInsets.only(
                                   left: 10, top: 15, right: 10, bottom: 2),
-                              decoration: BoxDecoration(
-                                image: DecorationImage(
-                                  image: AssetImage(item["img"]),
+                              child: ClipRRect(
+                                borderRadius: BorderRadius.circular(5.0),
+                                child: CachedNetworkImage(
                                   fit: BoxFit.cover,
+                                  useOldImageOnUrlChange: false,
+                                  imageUrl:
+                                      "https://yomies.com.my/pages/product/photo/${item.photo}",
+                                  errorWidget: (context, url, error) {
+                                    return Image(
+                                      image:
+                                          AssetImage("assets/images/news1.jpg"),
+                                    );
+                                  },
                                 ),
                               ),
                             ),
@@ -121,7 +135,7 @@ class _DrinksPageState extends State<DrinksPage> {
                           Padding(
                             padding: EdgeInsets.only(left: 10),
                             child: Text(
-                              item["title"],
+                              item.productName,
                               style: TextStyle(
                                   fontWeight: FontWeight.bold, fontSize: 14),
                             ),
@@ -129,10 +143,17 @@ class _DrinksPageState extends State<DrinksPage> {
                           Padding(
                             padding: EdgeInsets.only(left: 10),
                             child: Text(
-                              item["pts"] + "pts" + " / " + "RM " + item["rm"],
+                              item.point +
+                                  "pts" +
+                                  " / " +
+                                  "RM " +
+                                  item.priceNormal,
                               style: TextStyle(
                                   fontWeight: FontWeight.w400, fontSize: 16),
                             ),
+                          ),
+                          SizedBox(
+                            height: 20,
                           ),
                         ],
                       ),
@@ -140,9 +161,6 @@ class _DrinksPageState extends State<DrinksPage> {
                   );
                 },
               ),
-            ),
-            SizedBox(
-              height: 40,
             ),
           ],
         ),

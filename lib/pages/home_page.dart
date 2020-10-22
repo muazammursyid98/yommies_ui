@@ -4,6 +4,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';
 import 'package:responsive_flutter/responsive_flutter.dart';
 import 'package:yommie/Utils/locationData.dart';
+import 'package:yommie/class/hex_color.dart';
 import 'package:yommie/pages/cart_page.dart';
 
 class HomePage extends StatefulWidget {
@@ -17,7 +18,7 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.pink[200],
+      backgroundColor: HexColor('#FFC5C5'),
       appBar: PreferredSize(
         preferredSize: Size.fromHeight(110.0), // here the desired height
         child: Column(
@@ -27,7 +28,7 @@ class _HomePageState extends State<HomePage> {
                 height: 100,
                 width: double.infinity,
                 padding: EdgeInsets.only(top: 30, left: 10, right: 20),
-                color: Colors.pink[200],
+                color: HexColor('#FFC5C5'),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.start,

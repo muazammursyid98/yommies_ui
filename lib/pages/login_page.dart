@@ -3,6 +3,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:http/http.dart';
+import 'package:responsive_flutter/responsive_flutter.dart';
 import 'package:yommie/Theme/yommie_theme.dart';
 import 'package:yommie/class/hex_color.dart';
 import 'package:yommie/models/loginViewModels.dart';
@@ -25,12 +26,7 @@ class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      decoration: BoxDecoration(
-        image: DecorationImage(
-          image: AssetImage("assets/images/bg2.jpg"),
-          fit: BoxFit.cover,
-        ),
-      ),
+      color: Colors.white,
       child: Scaffold(
         backgroundColor: Colors.transparent,
         body: Padding(
@@ -41,14 +37,15 @@ class _LoginPageState extends State<LoginPage> {
             children: [
               Container(
                 width: double.infinity,
-                height: 100,
+                height: ResponsiveFlutter.of(context).verticalScale(100),
                 decoration: BoxDecoration(
                   image: DecorationImage(
-                    image: AssetImage("assets/images/logoyommie.png"),
+                    image: AssetImage("assets/images/yomiesKL.png"),
                     fit: BoxFit.cover,
                   ),
                 ),
               ),
+              SizedBox(height: ResponsiveFlutter.of(context).verticalScale(20)),
               TextField(
                 controller: username,
                 autocorrect: true,
@@ -60,15 +57,15 @@ class _LoginPageState extends State<LoginPage> {
                   hintText: 'Username',
                   hintStyle: TextStyle(color: Colors.black54),
                   filled: true,
-                  fillColor: HexColor("#f8df78"),
+                  fillColor: HexColor("#FFF5CC"),
                   enabledBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.all(Radius.circular(30.0)),
                     borderSide:
-                        BorderSide(color: HexColor("#f8df78"), width: 2),
+                        BorderSide(color: HexColor("#FFF5CC"), width: 2),
                   ),
                   focusedBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.all(Radius.circular(30.0)),
-                    borderSide: BorderSide(color: HexColor("#f8df78")),
+                    borderSide: BorderSide(color: HexColor("#FFF5CC")),
                   ),
                 ),
               ),
@@ -85,15 +82,15 @@ class _LoginPageState extends State<LoginPage> {
                   hintText: 'Password',
                   hintStyle: TextStyle(color: Colors.black54),
                   filled: true,
-                  fillColor: HexColor("#f8df78"),
+                  fillColor: HexColor("#FFF5CC"),
                   enabledBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.all(Radius.circular(30.0)),
                     borderSide:
-                        BorderSide(color: HexColor("#f8df78"), width: 2),
+                        BorderSide(color: HexColor("#FFF5CC"), width: 2),
                   ),
                   focusedBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.all(Radius.circular(30.0)),
-                    borderSide: BorderSide(color: HexColor("#f8df78")),
+                    borderSide: BorderSide(color: HexColor("#FFF5CC")),
                   ),
                 ),
               ),
@@ -102,6 +99,7 @@ class _LoginPageState extends State<LoginPage> {
                 height: 40,
                 width: 200,
                 child: RaisedButton(
+                  color: HexColor('#CAF8FC'),
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(20)),
                   onPressed: () {

@@ -25,7 +25,7 @@ class _DropdownMenuPainter extends CustomPainter {
                 // If you add an image here, you must provide a real
                 // configuration in the paint() function and you must provide some sort
                 // of onChanged callback here.
-                color: HexColor("#f8df78"),
+                color: HexColor("#FFF5CC"),
                 borderRadius: new BorderRadius.circular(30.0),
                 boxShadow: kElevationToShadow[1])
             .createBoxPainter(),
@@ -156,7 +156,7 @@ class _DropdownMenuState<T> extends State<_DropdownMenu<T>> {
         child: new InkWell(
           child: new Container(
             decoration: BoxDecoration(
-              color: HexColor("#f8df78"),
+              color: HexColor("#FFF5CC"),
               borderRadius: BorderRadius.all(Radius.circular(30.0)),
             ),
             padding: widget.padding,
@@ -584,7 +584,7 @@ class _DropdownButtonState<T> extends State<CustomDropdownButton<T>>
         padding: EdgeInsets.only(left: 30),
         height: widget.isDense ? _denseButtonHeight : null,
         decoration: BoxDecoration(
-          color: HexColor("#f8df78"),
+          color: HexColor("#FFF5CC"),
           borderRadius: BorderRadius.all(Radius.circular(30.0)),
         ),
         child: new Row(
@@ -623,7 +623,7 @@ class _DropdownButtonState<T> extends State<CustomDropdownButton<T>>
             child: new Container(
               height: 1.0,
               decoration: BoxDecoration(
-                color: HexColor("#f8df78"),
+                color: HexColor("#FFF5CC"),
                 borderRadius: BorderRadius.all(Radius.circular(30.0)),
               ),
             ),

@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:responsive_flutter/responsive_flutter.dart';
 import 'package:yommie/pages/login_page.dart';
 import 'package:yommie/pages/navigation_bar.dart';
 
@@ -49,12 +50,16 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Theme.of(context).primaryColor,
-      body: Container(
-        decoration: new BoxDecoration(
-          image: new DecorationImage(
-            image: new AssetImage("assets/images/logo.jpg"),
-            fit: BoxFit.cover,
+      backgroundColor: Colors.white,
+      body: Center(
+        child: Container(
+          width: ResponsiveFlutter.of(context).scale(350),
+          height: ResponsiveFlutter.of(context).verticalScale(350),
+          decoration: new BoxDecoration(
+            image: new DecorationImage(
+              image: new AssetImage("assets/images/yomiesLogo.png"),
+              fit: BoxFit.cover,
+            ),
           ),
         ),
       ),

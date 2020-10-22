@@ -29,12 +29,11 @@ class LoginViewModels {
           ),
         );
       } else {
+        final map = json.decode(response);
+        String reason = map['reason'];
+        String message = map['message'];
         DialogAction().alertDialogOneButton(
-            context,
-            "Warning",
-            CoolAlertType.warning,
-            "Your username and password is incorrect!",
-            "Ok", () {
+            context, message, CoolAlertType.error, reason, "Ok", () {
           Navigator.of(context).pop();
         });
       }

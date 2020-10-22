@@ -63,7 +63,7 @@ class _DetailRewardState extends State<DetailReward> {
           ),
         ),
       ),
-      backgroundColor: Colors.pink[100],
+      backgroundColor: Theme.of(context).primaryColor,
       body: ListView(
         children: [
           Container(

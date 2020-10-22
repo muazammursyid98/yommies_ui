@@ -24,7 +24,7 @@ class _HistoryPageState extends State<HistoryPage> {
             height: double.infinity,
             width: double.infinity,
             padding: EdgeInsets.only(top: 30),
-            color: Colors.pink[100],
+            color: Theme.of(context).primaryColor,
             child: Row(
               children: [
                 SizedBox(
@@ -70,7 +70,7 @@ class _HistoryPageState extends State<HistoryPage> {
           ),
         ),
       ),
-      backgroundColor: Colors.pink[100],
+      backgroundColor: Theme.of(context).primaryColor,
       body: Container(
         decoration: BoxDecoration(
           color: Colors.white.withOpacity(0.9),
