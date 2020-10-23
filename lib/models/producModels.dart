@@ -12,8 +12,14 @@ class ProductModels {
         final jsonResponse = json.decode(response);
         List<Product> listProduct = [];
         for (var u in jsonResponse) {
-          Product item = Product(u["product_id"], u["product_code"],
-              u["product_name"], u["price_normal"], u["point"], u["photo"]);
+          Product item = Product(
+            u["product_id"],
+            u["product_code"],
+            u["product_name"],
+            u["price_normal"].toString(),
+            u["point"].toString(),
+            u["photo"],
+          );
           listProduct.add(item);
         }
         return listProduct;

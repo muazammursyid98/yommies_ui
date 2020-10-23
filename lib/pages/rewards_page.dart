@@ -1,5 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:responsive_flutter/responsive_flutter.dart';
+import 'package:yommie/models/rewardDetail.dart';
 import 'package:yommie/models/rewardModels.dart';
 import 'package:yommie/pages/detail_reward.dart';
 
@@ -12,6 +14,10 @@ class RewardPage extends StatefulWidget {
 
 class _RewardPageState extends State<RewardPage> {
   List<Reward> listRewards = [];
+  List<Widget> itemList = [];
+  List<Widget> itemListFreegift = [];
+  List<ProductReward> listProductReward = [];
+  List<FreegiftReward> listFreegift = [];
 
   @override
   void initState() {
@@ -24,9 +30,164 @@ class _RewardPageState extends State<RewardPage> {
     super.initState();
   }
 
+  getMyProduct(response) {
+    List product = response["product"] == null ? [] : response["product"];
+    List freegift = response["freegift"] == null ? [] : response["freegift"];
+    for (var u in product) {
+      ProductReward item = ProductReward(
+          u["id"],
+          u["reward_id"],
+          u["product_id"],
+          u["quantity"],
+          u["product_code"],
+          u["product_name"],
+          u["photo"]);
+      listProductReward.add(item);
+    }
+
+    for (var u in freegift) {
+      FreegiftReward item = FreegiftReward(
+          u["id"],
+          u["reward_id"],
+          u["freegift"],
+          u["quantity"],
+          u["freegift_code"],
+          u["freegift_name"],
+          u["photo"]);
+      listFreegift.add(item);
+    }
+    addListProductReward();
+  }
+
+  addListProductReward() {
+    addlistProduct();
+    addlistFreegift();
+    print("object");
+  }
+
+  addlistProduct() {
+    listProductReward.forEach((ProductReward item) {
+      itemList.add(
+        Column(
+          children: [
+            SizedBox(height: 5),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Container(
+                  width: 90,
+                  height: 90,
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                  ),
+                  child: CachedNetworkImage(
+                    fit: BoxFit.cover,
+                    useOldImageOnUrlChange: false,
+                    imageUrl:
+                        "https://yomies.com.my/pages/reward/photo/yomie-bg-2-6441242523-8875398728.jpg",
+                    errorWidget: (context, url, error) {
+                      return Image(
+                        image: AssetImage("assets/images/news1.jpg"),
+                      );
+                    },
+                  ),
+                ),
+                SizedBox(width: 8),
+                Expanded(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        item.productName,
+                        style: TextStyle(
+                          color: Colors.black,
+                          fontSize: 16,
+                        ),
+                      ),
+                      Text(
+                        "Quantity : " + item.quantity,
+                        style: TextStyle(
+                          color: Colors.black54,
+                          fontSize: 16,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          ],
+        ),
+      );
+    });
+  }
+
+  addlistFreegift() {
+    listFreegift.forEach((FreegiftReward item) {
+      itemListFreegift.add(
+        Column(
+          children: [
+            SizedBox(height: 5),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Container(
+                  width: 90,
+                  height: 90,
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                  ),
+                  child: CachedNetworkImage(
+                    fit: BoxFit.cover,
+                    useOldImageOnUrlChange: false,
+                    imageUrl:
+                        "https://yomies.com.my/pages/reward/photo/yomie-bg-2-6441242523-8875398728.jpg",
+                    errorWidget: (context, url, error) {
+                      return Image(
+                        image: AssetImage("assets/images/news1.jpg"),
+                      );
+                    },
+                  ),
+                ),
+                SizedBox(width: 8),
+                Expanded(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        item.freegiftName,
+                        style: TextStyle(
+                          color: Colors.black,
+                          fontSize: 16,
+                        ),
+                      ),
+                      Text(
+                        "Quantity : " + item.quantity,
+                        style: TextStyle(
+                          color: Colors.black54,
+                          fontSize: 16,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          ],
+        ),
+      );
+    });
+  }
+
   @override
   void dispose() {
     listRewards.clear();
+    itemList.clear();
+    listProductReward.clear();
     super.dispose();
   }
 
@@ -82,7 +243,16 @@ class _RewardPageState extends State<RewardPage> {
             final item = listRewards[index];
             return GestureDetector(
               onTap: () {
-                _detailsReward(context);
+                itemList.clear();
+                listProductReward.clear();
+                var jsons = {};
+                jsons["id"] = "3";
+                RewardDetailModel()
+                    .rewardDetailPhp(jsons, context)
+                    .then((value) {
+                  getMyProduct(value);
+                  _detailsReward(value, context);
+                });
               },
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.start,
@@ -196,33 +366,116 @@ class _RewardPageState extends State<RewardPage> {
     );
   }
 
-  void _detailsReward(context) {
+  void _detailsReward(response, context) {
     showModalBottomSheet(
       context: context,
-      builder: (BuildContext bc) {
-        return Container(
-          height: MediaQuery.of(context).size.height * .60,
-          child: Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: ListView(
-              children: [
-                Container(
-                  child: Placeholder(),
-                ),
-                Container(
-                  child: Placeholder(),
-                ),
-                Container(
-                  child: Placeholder(),
-                ),
-                Container(
-                  child: Placeholder(),
-                ),
-              ],
-            ),
+      isScrollControlled: true,
+      backgroundColor: Colors.transparent,
+      builder: (context) => Container(
+        height: MediaQuery.of(context).size.height * 0.75,
+        decoration: new BoxDecoration(
+          color: Colors.white,
+          borderRadius: new BorderRadius.only(
+            topLeft: const Radius.circular(25.0),
+            topRight: const Radius.circular(25.0),
           ),
-        );
-      },
+        ),
+        child: Padding(
+          padding: EdgeInsets.only(left: 15),
+          child: ListView(
+            children: [
+              Container(
+                margin: EdgeInsets.only(top: 20),
+                height: ResponsiveFlutter.of(context).verticalScale(100),
+                width: double.infinity,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      "Detail Reward".toUpperCase() + " 100 Points",
+                      style:
+                          TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+                    ),
+                    SizedBox(height: 10),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Container(
+                          width: 90,
+                          height: 90,
+                          decoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                          ),
+                          child: CachedNetworkImage(
+                            fit: BoxFit.cover,
+                            useOldImageOnUrlChange: false,
+                            imageUrl:
+                                "https://yomies.com.my/pages/reward/photo/yomie-bg-2-6441242523-8875398728.jpg",
+                            errorWidget: (context, url, error) {
+                              return Image(
+                                image: AssetImage("assets/images/news1.jpg"),
+                              );
+                            },
+                          ),
+                        ),
+                        SizedBox(
+                          width: 8,
+                        ),
+                        Expanded(
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                "Free 1x drink",
+                                style: TextStyle(
+                                  color: Colors.black,
+                                  fontSize: 16,
+                                ),
+                              ),
+                              Text(
+                                "Redeem any of smoothies drinks at nearest store in Klang Valley",
+                                style: TextStyle(
+                                  color: Colors.black54,
+                                  fontSize: 16,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+              SizedBox(height: 20),
+              Text(
+                "Your rewards drinks",
+                style: TextStyle(
+                    fontWeight: FontWeight.w400,
+                    fontSize: 18,
+                    color: Colors.grey),
+              ),
+              Column(
+                children: itemList,
+              ),
+              SizedBox(height: 20),
+              Text(
+                "Freegift",
+                style: TextStyle(
+                    fontWeight: FontWeight.w400,
+                    fontSize: 18,
+                    color: Colors.grey),
+              ),
+              Column(
+                children: itemListFreegift,
+              ),
+            ],
+          ),
+        ),
+      ),
     );
   }
 }

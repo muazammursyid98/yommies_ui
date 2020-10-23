@@ -143,11 +143,11 @@ class _DrinksPageState extends State<DrinksPage> {
                           Padding(
                             padding: EdgeInsets.only(left: 10),
                             child: Text(
-                              item.point +
+                              item.point.toString() +
                                   "pts" +
                                   " / " +
                                   "RM " +
-                                  item.priceNormal,
+                                  item.priceNormal.toString(),
                               style: TextStyle(
                                   fontWeight: FontWeight.w400, fontSize: 16),
                             ),
