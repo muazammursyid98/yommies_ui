@@ -54,7 +54,7 @@ class _RewardPageState extends State<RewardPage> {
                   height: 100,
                   decoration: BoxDecoration(
                     image: DecorationImage(
-                      image: AssetImage("assets/images/logoyommie.png"),
+                      image: AssetImage("assets/images/yomiesKL.png"),
                       fit: BoxFit.cover,
                     ),
                   ),
@@ -80,114 +80,149 @@ class _RewardPageState extends State<RewardPage> {
           itemCount: listRewards == null ? 0 : listRewards.length,
           itemBuilder: (BuildContext context, int index) {
             final item = listRewards[index];
-            return Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                SizedBox(
-                  height: 20,
-                ),
-                Text(
-                  "Unlock at ${item.point} Points",
-                  style: TextStyle(
-                      color: Colors.black45,
-                      fontSize: 16,
-                      fontWeight: FontWeight.bold),
-                ),
-                SizedBox(height: 8),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Container(
-                      width: 80,
-                      height: 80,
-                      decoration: BoxDecoration(
-                        shape: BoxShape.circle,
-                      ),
-                      child: CachedNetworkImage(
-                        fit: BoxFit.cover,
-                        useOldImageOnUrlChange: false,
-                        imageUrl:
-                            "https://yomies.com.my/pages/reward/photo/${item.photo}",
-                        errorWidget: (context, url, error) {
-                          return Image(
-                            image: AssetImage("assets/images/news1.jpg"),
-                          );
-                        },
-                      ),
-                    ),
-                    SizedBox(
-                      width: 15,
-                    ),
-                    Expanded(
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            "Free 1x drink",
-                            style: TextStyle(
-                              color: Colors.black,
-                              fontSize: 16,
-                            ),
-                          ),
-                          Text(
-                            "Redeem any of smoothies drinks at nearest store in Klang Valley",
-                            style: TextStyle(
-                              color: Colors.black54,
-                              fontSize: 16,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
-                SizedBox(height: 10),
-                item.status != "LOCK"
-                    ? SizedBox(
-                        height: 40,
-                        width: double.infinity,
-                        child: RaisedButton(
-                          shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(20)),
-                          onPressed: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (BuildContext context) =>
-                                    DetailReward(),
-                              ),
+            return GestureDetector(
+              onTap: () {
+                _detailsReward(context);
+              },
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  SizedBox(
+                    height: 20,
+                  ),
+                  Text(
+                    "Unlock at ${item.point} Points",
+                    style: TextStyle(
+                        color: Colors.black45,
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold),
+                  ),
+                  SizedBox(height: 8),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Container(
+                        width: 80,
+                        height: 80,
+                        decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                        ),
+                        child: CachedNetworkImage(
+                          fit: BoxFit.cover,
+                          useOldImageOnUrlChange: false,
+                          imageUrl:
+                              "https://yomies.com.my/pages/reward/photo/${item.photo}",
+                          errorWidget: (context, url, error) {
+                            return Image(
+                              image: AssetImage("assets/images/news1.jpg"),
                             );
                           },
-                          child: Text(
-                            "USED AT COUNTER",
-                            style: TextStyle(fontWeight: FontWeight.bold),
-                          ),
-                        ),
-                      )
-                    : SizedBox(
-                        height: 40,
-                        width: double.infinity,
-                        child: RaisedButton(
-                          color: Colors.grey,
-                          shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(20)),
-                          onPressed: () {},
-                          child: Text(
-                            "USED",
-                            style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                color: Colors.white),
-                          ),
                         ),
                       ),
-              ],
+                      SizedBox(
+                        width: 15,
+                      ),
+                      Expanded(
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              "Free 1x drink",
+                              style: TextStyle(
+                                color: Colors.black,
+                                fontSize: 16,
+                              ),
+                            ),
+                            Text(
+                              "Redeem any of smoothies drinks at nearest store in Klang Valley",
+                              style: TextStyle(
+                                color: Colors.black54,
+                                fontSize: 16,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                  SizedBox(height: 10),
+                  item.status != "LOCK"
+                      ? SizedBox(
+                          height: 40,
+                          width: double.infinity,
+                          child: RaisedButton(
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(20)),
+                            onPressed: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (BuildContext context) =>
+                                      DetailReward(),
+                                ),
+                              );
+                            },
+                            child: Text(
+                              "USED AT COUNTER",
+                              style: TextStyle(fontWeight: FontWeight.bold),
+                            ),
+                          ),
+                        )
+                      : SizedBox(
+                          height: 40,
+                          width: double.infinity,
+                          child: RaisedButton(
+                            color: Colors.grey,
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(20)),
+                            onPressed: () {},
+                            child: Text(
+                              "USED",
+                              style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.white),
+                            ),
+                          ),
+                        ),
+                ],
+              ),
             );
           },
         ),
       ),
+    );
+  }
+
+  void _detailsReward(context) {
+    showModalBottomSheet(
+      context: context,
+      builder: (BuildContext bc) {
+        return Container(
+          height: MediaQuery.of(context).size.height * .60,
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: ListView(
+              children: [
+                Container(
+                  child: Placeholder(),
+                ),
+                Container(
+                  child: Placeholder(),
+                ),
+                Container(
+                  child: Placeholder(),
+                ),
+                Container(
+                  child: Placeholder(),
+                ),
+              ],
+            ),
+          ),
+        );
+      },
     );
   }
 }

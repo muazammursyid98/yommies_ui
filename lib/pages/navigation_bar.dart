@@ -4,7 +4,9 @@ import 'package:yommie/pages/drinks_page.dart';
 import 'package:yommie/pages/history_page.dart';
 import 'package:yommie/pages/home_page.dart';
 import 'package:yommie/pages/news_page.dart';
+import 'package:yommie/pages/profile_page.dart';
 import 'package:yommie/pages/rewards_page.dart';
+import 'package:yommie/pages/userMenu.dart';
 
 class NavigationBar extends StatefulWidget {
   NavigationBar({Key key}) : super(key: key);
@@ -23,15 +25,15 @@ class _NavigationBarState extends State<NavigationBar> {
     FontAwesomeIcons.newspaper,
     FontAwesomeIcons.list,
     FontAwesomeIcons.gift,
-    FontAwesomeIcons.history,
+    FontAwesomeIcons.user
   ];
 
   List text = [
     'Home',
     'News',
-    'Drinks',
+    'Menu',
     'Reward',
-    'Orders',
+    'Me',
   ];
 
   @override
@@ -103,7 +105,7 @@ class _NavigationBarState extends State<NavigationBar> {
           NewsPage(),
           DrinksPage(),
           RewardPage(),
-          HistoryPage(),
+          UserMenuPage(),
         ],
       ),
       bottomNavigationBar: AnimatedContainer(
