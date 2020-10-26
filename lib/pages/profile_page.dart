@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
+import 'login_page.dart';
 
 class ProfilePage extends StatefulWidget {
   @override
@@ -216,6 +219,41 @@ class _ProfilePageState extends State<ProfilePage> {
                 SizedBox(
                   height: 40,
                 )
+              ],
+            ),
+          ),
+          //                 Navigator.of(context).pop();
+          //                 final prefs = await SharedPreferences.getInstance();
+          //                 prefs.clear();
+          //                 var route = new MaterialPageRoute(
+          //                   builder: (BuildContext context) => LoginPage(),
+          //                 );
+          //                 Navigator.of(context).pushReplacement(route);
+          //               });
+          Container(
+            decoration: BoxDecoration(
+              boxShadow: kElevationToShadow[4],
+              color: Colors.white,
+            ),
+            margin: EdgeInsets.only(top: 20),
+            padding: EdgeInsets.only(top: 13),
+            height: 100,
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text("Log out"),
+                Spacer(),
+                IconButton(
+                    icon: Icon(Icons.logout),
+                    onPressed: () async {
+                      Navigator.of(context).pop();
+                      final prefs = await SharedPreferences.getInstance();
+                      prefs.clear();
+                      var route = new MaterialPageRoute(
+                        builder: (BuildContext context) => LoginPage(),
+                      );
+                      Navigator.of(context).pushReplacement(route);
+                    })
               ],
             ),
           ),

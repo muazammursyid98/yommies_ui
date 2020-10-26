@@ -72,7 +72,7 @@ class _NavigationBarState extends State<NavigationBar> {
                   : Colors.black38,
             ),
             SizedBox(
-              height: 1,
+              height: 5,
             ),
             Text(
               text[index],
@@ -85,7 +85,7 @@ class _NavigationBarState extends State<NavigationBar> {
               ),
             ),
             SizedBox(
-              height: 8,
+              height: 5,
             ),
           ],
         ),

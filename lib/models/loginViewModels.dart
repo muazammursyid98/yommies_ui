@@ -16,18 +16,25 @@ class LoginViewModels {
       var response = result[1];
       if (statusCode == 200) {
         final map = json.decode(response);
-        final SharedPreferences prefs = await SharedPreferences.getInstance();
-        prefs.setString("userId", map["userId"]);
-        prefs.setString("firstName", map["firstname"]);
-        prefs.setString("email", map["email"]);
-        prefs.setString("token", map["token"]);
-        GetAPI.setupHTTPHeader(map["token"]);
-        Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(
-            builder: (BuildContext context) => NavigationBar(),
-          ),
-        );
+        if (map["user_type"] == "user") {
+          final SharedPreferences prefs = await SharedPreferences.getInstance();
+          prefs.setString("userId", map["userId"]);
+          prefs.setString("firstName", map["firstname"]);
+          prefs.setString("email", map["email"]);
+          prefs.setString("token", map["token"]);
+          GetAPI.setupHTTPHeader(map["token"]);
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(
+              builder: (BuildContext context) => NavigationBar(),
+            ),
+          );
+        } else {
+          DialogAction().alertDialogOneButton(context, "Access Failed !",
+              CoolAlertType.error, "Opss this apps only for user.", "Ok", () {
+            Navigator.of(context).pop();
+          });
+        }
       } else {
         final map = json.decode(response);
         String reason = map['reason'];

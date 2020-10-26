@@ -19,12 +19,19 @@ class _RewardPageState extends State<RewardPage> {
   List<ProductReward> listProductReward = [];
   List<FreegiftReward> listFreegift = [];
 
+  bool loading = false;
+  bool showLoading = false;
+
   @override
   void initState() {
+    setState(() {
+      loading = true;
+    });
     var jsons = {};
     RewardModels().rewardUserPhp(jsons, context).then((value) {
       setState(() {
         listRewards = value;
+        loading = false;
       });
     });
     super.initState();
@@ -62,7 +69,6 @@ class _RewardPageState extends State<RewardPage> {
   addListProductReward() {
     addlistProduct();
     addlistFreegift();
-    print("object");
   }
 
   addlistProduct() {
@@ -181,6 +187,9 @@ class _RewardPageState extends State<RewardPage> {
         ),
       );
     });
+    setState(() {
+      showLoading = false;
+    });
   }
 
   @override
@@ -188,182 +197,195 @@ class _RewardPageState extends State<RewardPage> {
     listRewards.clear();
     itemList.clear();
     listProductReward.clear();
+    itemListFreegift.clear();
+    listFreegift.clear();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: PreferredSize(
-        preferredSize: Size.fromHeight(150.0),
-        child: Container(
-          height: double.infinity,
-          width: double.infinity,
-          padding: EdgeInsets.only(top: 30),
-          color: Theme.of(context).primaryColor,
-          child: Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: [
-              SizedBox(
-                width: 30,
-              ),
-              Expanded(
-                child: Container(
-                  margin: EdgeInsets.symmetric(vertical: 30, horizontal: 40),
-                  width: 80,
-                  height: 100,
-                  decoration: BoxDecoration(
-                    image: DecorationImage(
-                      image: AssetImage("assets/images/yomiesKL.png"),
-                      fit: BoxFit.cover,
+    if (loading) {
+      return Center(child: CircularProgressIndicator());
+    } else {
+      return Scaffold(
+        appBar: PreferredSize(
+          preferredSize: Size.fromHeight(150.0),
+          child: Container(
+            height: double.infinity,
+            width: double.infinity,
+            padding: EdgeInsets.only(top: 30),
+            color: Theme.of(context).primaryColor,
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                SizedBox(
+                  width: 30,
+                ),
+                Expanded(
+                  child: Container(
+                    margin: EdgeInsets.symmetric(vertical: 30, horizontal: 40),
+                    width: 80,
+                    height: 100,
+                    decoration: BoxDecoration(
+                      image: DecorationImage(
+                        image: AssetImage("assets/images/yomiesKL.png"),
+                        fit: BoxFit.cover,
+                      ),
                     ),
                   ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
-      ),
-      backgroundColor: Theme.of(context).primaryColor,
-      body: Container(
-        padding: EdgeInsets.only(left: 20, right: 20),
-        decoration: BoxDecoration(
-          color: Colors.white.withOpacity(0.9),
-          borderRadius: BorderRadius.only(
-            topLeft: Radius.circular(20.0),
-            topRight: Radius.circular(20.0),
+        backgroundColor: Theme.of(context).primaryColor,
+        body: Container(
+          padding: EdgeInsets.only(left: 20, right: 20),
+          decoration: BoxDecoration(
+            color: Colors.white.withOpacity(0.9),
+            borderRadius: BorderRadius.only(
+              topLeft: Radius.circular(20.0),
+              topRight: Radius.circular(20.0),
+            ),
           ),
-        ),
-        height: double.infinity,
-        width: double.infinity,
-        child: ListView.builder(
-          itemCount: listRewards == null ? 0 : listRewards.length,
-          itemBuilder: (BuildContext context, int index) {
-            final item = listRewards[index];
-            return GestureDetector(
-              onTap: () {
-                itemList.clear();
-                listProductReward.clear();
-                var jsons = {};
-                jsons["id"] = "3";
-                RewardDetailModel()
-                    .rewardDetailPhp(jsons, context)
-                    .then((value) {
-                  getMyProduct(value);
-                  _detailsReward(value, context);
-                });
-              },
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  SizedBox(
-                    height: 20,
-                  ),
-                  Text(
-                    "Unlock at ${item.point} Points",
-                    style: TextStyle(
-                        color: Colors.black45,
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold),
-                  ),
-                  SizedBox(height: 8),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Container(
-                        width: 80,
-                        height: 80,
-                        decoration: BoxDecoration(
-                          shape: BoxShape.circle,
-                        ),
-                        child: CachedNetworkImage(
-                          fit: BoxFit.cover,
-                          useOldImageOnUrlChange: false,
-                          imageUrl:
-                              "https://yomies.com.my/pages/reward/photo/${item.photo}",
-                          errorWidget: (context, url, error) {
-                            return Image(
-                              image: AssetImage("assets/images/news1.jpg"),
-                            );
-                          },
-                        ),
-                      ),
-                      SizedBox(
-                        width: 15,
-                      ),
-                      Expanded(
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              "Free 1x drink",
-                              style: TextStyle(
-                                color: Colors.black,
-                                fontSize: 16,
-                              ),
-                            ),
-                            Text(
-                              "Redeem any of smoothies drinks at nearest store in Klang Valley",
-                              style: TextStyle(
-                                color: Colors.black54,
-                                fontSize: 16,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ],
-                  ),
-                  SizedBox(height: 10),
-                  item.status != "LOCK"
-                      ? SizedBox(
-                          height: 40,
-                          width: double.infinity,
-                          child: RaisedButton(
-                            shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(20)),
-                            onPressed: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (BuildContext context) =>
-                                      DetailReward(),
-                                ),
+          height: double.infinity,
+          width: double.infinity,
+          child: ListView.builder(
+            itemCount: listRewards == null ? 0 : listRewards.length,
+            itemBuilder: (BuildContext context, int index) {
+              final item = listRewards[index];
+              return GestureDetector(
+                onTap: () {
+                  if (!showLoading) {
+                    setState(() {
+                      showLoading = true;
+                    });
+                    itemListFreegift.clear();
+                    listFreegift.clear();
+                    itemList.clear();
+                    listProductReward.clear();
+                    var jsons = {};
+                    jsons["id"] = item.id;
+                    RewardDetailModel()
+                        .rewardDetailPhp(jsons, context)
+                        .then((value) {
+                      getMyProduct(value);
+                      _detailsReward(value, context);
+                    });
+                  }
+                },
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    SizedBox(
+                      height: 20,
+                    ),
+                    Text(
+                      "Unlock at ${item.point} Points",
+                      style: TextStyle(
+                          color: Colors.black45,
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold),
+                    ),
+                    SizedBox(height: 8),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Container(
+                          width: 80,
+                          height: 80,
+                          decoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                          ),
+                          child: CachedNetworkImage(
+                            fit: BoxFit.cover,
+                            useOldImageOnUrlChange: false,
+                            imageUrl:
+                                "https://yomies.com.my/pages/reward/photo/${item.photo}",
+                            errorWidget: (context, url, error) {
+                              return Image(
+                                image: AssetImage("assets/images/news1.jpg"),
                               );
                             },
-                            child: Text(
-                              "USED AT COUNTER",
-                              style: TextStyle(fontWeight: FontWeight.bold),
-                            ),
-                          ),
-                        )
-                      : SizedBox(
-                          height: 40,
-                          width: double.infinity,
-                          child: RaisedButton(
-                            color: Colors.grey,
-                            shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(20)),
-                            onPressed: () {},
-                            child: Text(
-                              "USED",
-                              style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.white),
-                            ),
                           ),
                         ),
-                ],
-              ),
-            );
-          },
+                        SizedBox(
+                          width: 15,
+                        ),
+                        Expanded(
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                "Free 1x drink",
+                                style: TextStyle(
+                                  color: Colors.black,
+                                  fontSize: 16,
+                                ),
+                              ),
+                              Text(
+                                "Redeem any of smoothies drinks at nearest store in Klang Valley",
+                                style: TextStyle(
+                                  color: Colors.black54,
+                                  fontSize: 16,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+                    SizedBox(height: 10),
+                    item.status != "LOCK"
+                        ? SizedBox(
+                            height: 40,
+                            width: double.infinity,
+                            child: RaisedButton(
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(20)),
+                              onPressed: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (BuildContext context) =>
+                                        DetailReward(),
+                                  ),
+                                );
+                              },
+                              child: Text(
+                                "USED AT COUNTER",
+                                style: TextStyle(fontWeight: FontWeight.bold),
+                              ),
+                            ),
+                          )
+                        : SizedBox(
+                            height: 40,
+                            width: double.infinity,
+                            child: RaisedButton(
+                              color: Colors.grey,
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(20)),
+                              onPressed: () {},
+                              child: Text(
+                                "USED",
+                                style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.white),
+                              ),
+                            ),
+                          ),
+                  ],
+                ),
+              );
+            },
+          ),
         ),
-      ),
-    );
+      );
+    }
   }
 
   void _detailsReward(response, context) {
@@ -372,7 +394,7 @@ class _RewardPageState extends State<RewardPage> {
       isScrollControlled: true,
       backgroundColor: Colors.transparent,
       builder: (context) => Container(
-        height: MediaQuery.of(context).size.height * 0.75,
+        height: MediaQuery.of(context).size.height * 0.50,
         decoration: new BoxDecoration(
           color: Colors.white,
           borderRadius: new BorderRadius.only(
@@ -451,24 +473,28 @@ class _RewardPageState extends State<RewardPage> {
                 ),
               ),
               SizedBox(height: 20),
-              Text(
-                "Your rewards drinks",
-                style: TextStyle(
-                    fontWeight: FontWeight.w400,
-                    fontSize: 18,
-                    color: Colors.grey),
-              ),
+              itemList.length != 0
+                  ? Text(
+                      "Your rewards drinks",
+                      style: TextStyle(
+                          fontWeight: FontWeight.w400,
+                          fontSize: 18,
+                          color: Colors.grey),
+                    )
+                  : SizedBox(),
               Column(
                 children: itemList,
               ),
               SizedBox(height: 20),
-              Text(
-                "Freegift",
-                style: TextStyle(
-                    fontWeight: FontWeight.w400,
-                    fontSize: 18,
-                    color: Colors.grey),
-              ),
+              itemListFreegift.length != 0
+                  ? Text(
+                      "Freegift",
+                      style: TextStyle(
+                          fontWeight: FontWeight.w400,
+                          fontSize: 18,
+                          color: Colors.grey),
+                    )
+                  : SizedBox(),
               Column(
                 children: itemListFreegift,
               ),
