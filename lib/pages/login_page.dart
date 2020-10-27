@@ -20,7 +20,7 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
-  final username = TextEditingController();
+  final email = TextEditingController();
   final password = TextEditingController();
 
   @override
@@ -47,14 +47,15 @@ class _LoginPageState extends State<LoginPage> {
               ),
               SizedBox(height: ResponsiveFlutter.of(context).verticalScale(20)),
               TextField(
-                controller: username,
+                controller: email,
                 autocorrect: true,
+                keyboardType: TextInputType.emailAddress,
                 decoration: InputDecoration(
                   prefixIcon: Icon(
                     Icons.person,
                     color: Colors.black54,
                   ),
-                  hintText: 'Username',
+                  hintText: 'Email',
                   hintStyle: TextStyle(color: Colors.black54),
                   filled: true,
                   fillColor: HexColor("#FFF5CC"),
@@ -104,7 +105,7 @@ class _LoginPageState extends State<LoginPage> {
                       borderRadius: BorderRadius.circular(20)),
                   onPressed: () {
                     var jsons = {};
-                    jsons["username"] = username.text;
+                    jsons["email"] = email.text;
                     jsons["password"] = password.text;
                     LoginViewModels().loginPhp(jsons, context);
                   },

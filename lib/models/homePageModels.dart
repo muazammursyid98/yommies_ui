@@ -3,8 +3,7 @@ import 'dart:convert';
 import 'package:yommie/provider/rest.dart';
 
 class HomePageModels {
-  var jsons = {};
-  Future homepagePhp(context) async {
+  Future homepagePhp(jsons,context) async {
     try {
       var result = await GetAPI.providers(jsons, "homepage.php");
       var statusCode = result[0];

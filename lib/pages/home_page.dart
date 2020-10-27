@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
@@ -13,7 +15,8 @@ import 'package:yommie/pages/cart_page.dart';
 import 'package:yommie/pages/my_qr.dart';
 
 class HomePage extends StatefulWidget {
-  HomePage({Key key}) : super(key: key);
+  final String userId;
+  HomePage({this.userId});
 
   @override
   _HomePageState createState() => _HomePageState();
@@ -25,18 +28,26 @@ class _HomePageState extends State<HomePage> {
   List<DataProduct> listProduct = [];
   List<DataEvent> listEvent = [];
   bool loading = false;
+  Timer _timer;
 
   @override
   void initState() {
     setState(() {
       loading = true;
     });
-    HomePageModels().homepagePhp(context).then((value) {
+    callApi();
+    super.initState();
+  }
+
+  callApi() {
+    var jsons = {};
+    jsons["userId"] = widget.userId;
+    HomePageModels().homepagePhp(jsons, context).then((value) {
       final dataAds = value["data_ads"];
       final dataLocation = value["data_location"];
       final dataProduct = value["data_product"];
       final dataEvent = value["data_event"];
-
+      print(dataAds);
       for (var u in dataAds) {
         DataAd item = DataAd(u["ads_id"], u["ads_photo"]);
         listAds.add(item);
@@ -63,11 +74,15 @@ class _HomePageState extends State<HomePage> {
         loading = false;
       });
     });
-    super.initState();
   }
 
   @override
   void dispose() {
+    _timer.cancel();
+    listAds.clear();
+    listLocation.clear();
+    listProduct.clear();
+    listEvent.clear();
     super.dispose();
   }
 

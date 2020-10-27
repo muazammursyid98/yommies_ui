@@ -9,7 +9,8 @@ import 'package:yommie/pages/rewards_page.dart';
 import 'package:yommie/pages/userMenu.dart';
 
 class NavigationBar extends StatefulWidget {
-  NavigationBar({Key key}) : super(key: key);
+  final String userId;
+  NavigationBar({this.userId});
 
   @override
   _NavigationBarState createState() => _NavigationBarState();
@@ -101,7 +102,9 @@ class _NavigationBarState extends State<NavigationBar> {
         controller: _pageController,
         onPageChanged: onPageChanged,
         children: [
-          HomePage(),
+          HomePage(
+            userId: widget.userId
+          ),
           NewsPage(),
           DrinksPage(),
           RewardPage(),

@@ -17,6 +17,7 @@ class GetAPI {
     jsons["authKey"] = "key123";
     String jsonBody = json.encode(jsons);
     print("$jsons, $phpFile");
+
     try {
       String url = '$api$phpFile';
       Response response =

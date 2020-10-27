@@ -26,7 +26,8 @@ class LoginViewModels {
           Navigator.pushReplacement(
             context,
             MaterialPageRoute(
-              builder: (BuildContext context) => NavigationBar(),
+              builder: (BuildContext context) =>
+                  NavigationBar(userId: map["userId"]),
             ),
           );
         } else {

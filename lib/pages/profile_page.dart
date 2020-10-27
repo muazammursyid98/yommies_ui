@@ -246,7 +246,6 @@ class _ProfilePageState extends State<ProfilePage> {
                 IconButton(
                     icon: Icon(Icons.logout),
                     onPressed: () async {
-                      Navigator.of(context).pop();
                       final prefs = await SharedPreferences.getInstance();
                       prefs.clear();
                       var route = new MaterialPageRoute(
