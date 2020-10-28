@@ -267,10 +267,10 @@ class _RewardPageState extends State<RewardPage> {
                     listProductReward.clear();
                     var jsons = {};
                     jsons["id"] = item.id;
-                    RewardDetailModel()
+                    RewardDetailModel() 
                         .rewardDetailPhp(jsons, context)
-                        .then((value) {
-                      getMyProduct(value);
+                        .then((value) { 
+                      getMyProduct(value); 
                       _detailsReward(value, context);
                     });
                   }
