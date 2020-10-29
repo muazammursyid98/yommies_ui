@@ -2,9 +2,8 @@ import 'dart:convert';
 
 import 'package:cool_alert/cool_alert.dart';
 import 'package:flutter/material.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:yommie/class/alertDialog.dart';
-import 'package:yommie/pages/changePassword.dart';
+import 'package:yommie/pages/reset_password.dart';
 import 'package:yommie/pages/otp_code.dart';
 import 'package:yommie/provider/rest.dart';
 
@@ -50,7 +49,7 @@ class ForgotPasswordModel {
         Navigator.pushReplacement(
           context,
           MaterialPageRoute(
-            builder: (BuildContext context) => ChangePassword(
+            builder: (BuildContext context) => ResetPassword(
               email: jsons["email"],
             ),
           ),

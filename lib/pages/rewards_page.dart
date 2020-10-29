@@ -1,5 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:page_transition/page_transition.dart';
 import 'package:responsive_flutter/responsive_flutter.dart';
 import 'package:yommie/models/rewardDetail.dart';
 import 'package:yommie/models/rewardModels.dart';
@@ -30,7 +31,7 @@ class _RewardPageState extends State<RewardPage> {
     var jsons = {};
     RewardModels().rewardUserPhp(jsons, context).then((value) {
       setState(() {
-        listRewards = value;
+        listRewards = value == null ? [] : value;
         loading = false;
       });
     });
@@ -251,138 +252,150 @@ class _RewardPageState extends State<RewardPage> {
           ),
           height: double.infinity,
           width: double.infinity,
-          child: ListView.builder(
-            itemCount: listRewards == null ? 0 : listRewards.length,
-            itemBuilder: (BuildContext context, int index) {
-              final item = listRewards[index];
-              return GestureDetector(
-                onTap: () {
-                  if (!showLoading) {
-                    setState(() {
-                      showLoading = true;
-                    });
-                    itemListFreegift.clear();
-                    listFreegift.clear();
-                    itemList.clear();
-                    listProductReward.clear();
-                    var jsons = {};
-                    jsons["id"] = item.id;
-                    RewardDetailModel() 
-                        .rewardDetailPhp(jsons, context)
-                        .then((value) { 
-                      getMyProduct(value); 
-                      _detailsReward(value, context);
-                    });
-                  }
-                },
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    SizedBox(
-                      height: 20,
-                    ),
-                    Text(
-                      "Unlock at ${item.point} Points",
-                      style: TextStyle(
-                          color: Colors.black45,
-                          fontSize: 16,
-                          fontWeight: FontWeight.bold),
-                    ),
-                    SizedBox(height: 8),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Container(
-                          width: 80,
-                          height: 80,
-                          decoration: BoxDecoration(
-                            shape: BoxShape.circle,
+          child: listRewards.length != 0
+              ? ListView.builder(
+                  itemCount: listRewards == null ? 0 : listRewards.length,
+                  itemBuilder: (BuildContext context, int index) {
+                    final item = listRewards[index];
+                    return GestureDetector(
+                      onTap: () {
+                        if (!showLoading) {
+                          setState(() {
+                            showLoading = true;
+                          });
+                          itemListFreegift.clear();
+                          listFreegift.clear();
+                          itemList.clear();
+                          listProductReward.clear();
+                          var jsons = {};
+                          jsons["id"] = item.id;
+                          RewardDetailModel()
+                              .rewardDetailPhp(jsons, context)
+                              .then((value) {
+                            getMyProduct(value);
+                            _detailsReward(value, context);
+                          });
+                        }
+                      },
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          SizedBox(
+                            height: 20,
                           ),
-                          child: CachedNetworkImage(
-                            fit: BoxFit.cover,
-                            useOldImageOnUrlChange: false,
-                            imageUrl:
-                                "https://yomies.com.my/pages/reward/photo/${item.photo}",
-                            errorWidget: (context, url, error) {
-                              return Image(
-                                image: AssetImage("assets/images/news1.jpg"),
-                              );
-                            },
+                          Text(
+                            "Unlock at ${item.point} Points",
+                            style: TextStyle(
+                                color: Colors.black45,
+                                fontSize: 16,
+                                fontWeight: FontWeight.bold),
                           ),
-                        ),
-                        SizedBox(
-                          width: 15,
-                        ),
-                        Expanded(
-                          child: Column(
+                          SizedBox(height: 8),
+                          Row(
                             mainAxisAlignment: MainAxisAlignment.start,
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Text(
-                                "Free 1x drink",
-                                style: TextStyle(
-                                  color: Colors.black,
-                                  fontSize: 16,
+                              Container(
+                                width: 80,
+                                height: 80,
+                                decoration: BoxDecoration(
+                                  shape: BoxShape.circle,
+                                ),
+                                child: CachedNetworkImage(
+                                  fit: BoxFit.cover,
+                                  useOldImageOnUrlChange: false,
+                                  imageUrl:
+                                      "https://yomies.com.my/pages/reward/photo/${item.photo}",
+                                  errorWidget: (context, url, error) {
+                                    return Image(
+                                      image:
+                                          AssetImage("assets/images/news1.jpg"),
+                                    );
+                                  },
                                 ),
                               ),
-                              Text(
-                                "Redeem any of smoothies drinks at nearest store in Klang Valley",
-                                style: TextStyle(
-                                  color: Colors.black54,
-                                  fontSize: 16,
+                              SizedBox(
+                                width: 15,
+                              ),
+                              Expanded(
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      "Free 1x drink",
+                                      style: TextStyle(
+                                        color: Colors.black,
+                                        fontSize: 16,
+                                      ),
+                                    ),
+                                    Text(
+                                      "Redeem any of smoothies drinks at nearest store in Klang Valley",
+                                      style: TextStyle(
+                                        color: Colors.black54,
+                                        fontSize: 16,
+                                      ),
+                                    ),
+                                  ],
                                 ),
                               ),
                             ],
                           ),
-                        ),
-                      ],
-                    ),
-                    SizedBox(height: 10),
-                    item.status != "LOCK"
-                        ? SizedBox(
-                            height: 40,
-                            width: double.infinity,
-                            child: RaisedButton(
-                              shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(20)),
-                              onPressed: () {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (BuildContext context) =>
-                                        DetailReward(),
+                          SizedBox(height: 10),
+                          item.status != "LOCK"
+                              ? SizedBox(
+                                  height: 40,
+                                  width: double.infinity,
+                                  child: RaisedButton(
+                                    shape: RoundedRectangleBorder(
+                                        borderRadius:
+                                            BorderRadius.circular(20)),
+                                    onPressed: () {
+                                      Navigator.push(
+                                        context,
+                                        PageTransition(
+                                          type: PageTransitionType.bottomToTop,
+                                          child: DetailReward(),
+                                        ),
+                                      );
+                                    },
+                                    child: Text(
+                                      "USED AT COUNTER",
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.bold),
+                                    ),
                                   ),
-                                );
-                              },
-                              child: Text(
-                                "USED AT COUNTER",
-                                style: TextStyle(fontWeight: FontWeight.bold),
-                              ),
-                            ),
-                          )
-                        : SizedBox(
-                            height: 40,
-                            width: double.infinity,
-                            child: RaisedButton(
-                              color: Colors.grey,
-                              shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(20)),
-                              onPressed: () {},
-                              child: Text(
-                                "USED",
-                                style: TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                    color: Colors.white),
-                              ),
-                            ),
-                          ),
-                  ],
+                                )
+                              : SizedBox(
+                                  height: 40,
+                                  width: double.infinity,
+                                  child: RaisedButton(
+                                    color: Colors.grey,
+                                    shape: RoundedRectangleBorder(
+                                        borderRadius:
+                                            BorderRadius.circular(20)),
+                                    onPressed: () {},
+                                    child: Text(
+                                      "USED",
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                          color: Colors.white),
+                                    ),
+                                  ),
+                                ),
+                        ],
+                      ),
+                    );
+                  },
+                )
+              : Center(
+                  child: Text(
+                    "Stay tunes upcoming rewards...",
+                    style: TextStyle(
+                        fontWeight: FontWeight.w300, letterSpacing: 3),
+                  ),
                 ),
-              );
-            },
-          ),
         ),
       );
     }

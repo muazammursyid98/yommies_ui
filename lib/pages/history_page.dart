@@ -10,6 +10,13 @@ class HistoryPage extends StatefulWidget {
 }
 
 class _HistoryPageState extends State<HistoryPage> {
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+  }
+  
   @override
   Widget build(BuildContext context) {
     return Scaffold(

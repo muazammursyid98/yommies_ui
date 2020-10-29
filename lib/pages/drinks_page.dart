@@ -1,9 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:yommie/models/detailsMenuModel.dart';
 import 'package:yommie/models/producModels.dart';
-import 'package:yommie/pages/cart_page.dart';
 
 class DrinksPage extends StatefulWidget {
   @override
@@ -21,7 +19,7 @@ class _DrinksPageState extends State<DrinksPage> {
     var jsons = {};
     ProductModels().productPhp(jsons, context).then((value) {
       setState(() {
-        listProduct = value;
+        listProduct = value == null ? [] : value;
         loading = false;
       });
     });
@@ -56,23 +54,23 @@ class _DrinksPageState extends State<DrinksPage> {
                           letterSpacing: 2.0),
                     ),
                   ),
-                  Padding(
-                    padding: const EdgeInsets.only(right: 10),
-                    child: IconButton(
-                      icon: Icon(
-                        FontAwesomeIcons.cartPlus,
-                        color: Colors.black54,
-                      ),
-                      onPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (BuildContext context) => CartPage(),
-                          ),
-                        );
-                      },
-                    ),
-                  )
+                  // Padding(
+                  //   padding: const EdgeInsets.only(right: 10),
+                  //   child: IconButton(
+                  //     icon: Icon(
+                  //       FontAwesomeIcons.cartPlus,
+                  //       color: Colors.black54,
+                  //     ),
+                  //     onPressed: () {
+                  //       Navigator.push(
+                  //         context,
+                  //         MaterialPageRoute(
+                  //           builder: (BuildContext context) => CartPage(),
+                  //         ),
+                  //       );
+                  //     },
+                  //   ),
+                  // )
                 ],
               ),
             ),
@@ -87,89 +85,104 @@ class _DrinksPageState extends State<DrinksPage> {
               topRight: Radius.circular(20.0),
             ),
           ),
-          child: Column(
-            children: [
-              SizedBox(
-                height: 10,
-              ),
-              Expanded(
-                child: GridView.builder(
-                  itemCount: listProduct == null ? 0 : listProduct.length,
-                  gridDelegate: new SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 2,
-                  ),
-                  itemBuilder: (context, index) {
-                    final item = listProduct[index];
-                    return GestureDetector(
-                      onTap: () {
-                        var jsons = {};
-                        jsons["id"] = item.productId;
-                        DetailsMenuModel()
-                            .productDetailPhp(jsons, context)
-                            .then((value) {
-                          _detailsMenu(value, context);
-                        });
-                      },
-                      child: GridTile(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: [
-                            Expanded(
-                              child: Container(
-                                height: 100,
-                                width: double.infinity,
-                                margin: EdgeInsets.only(
-                                    left: 10, top: 15, right: 10, bottom: 2),
-                                child: ClipRRect(
-                                  borderRadius: BorderRadius.circular(5.0),
-                                  child: CachedNetworkImage(
-                                    fit: BoxFit.cover,
-                                    useOldImageOnUrlChange: false,
-                                    imageUrl:
-                                        "https://yomies.com.my/pages/product/photo/${item.photo}",
-                                    errorWidget: (context, url, error) {
-                                      return Image(
-                                        image: AssetImage(
-                                            "assets/images/news1.jpg"),
-                                      );
-                                    },
-                                  ),
-                                ),
-                              ),
-                            ),
-                            Padding(
-                              padding: EdgeInsets.only(left: 10),
-                              child: Text(
-                                item.productName,
-                                style: TextStyle(
-                                    fontWeight: FontWeight.bold, fontSize: 14),
-                              ),
-                            ),
-                            Padding(
-                              padding: EdgeInsets.only(left: 10),
-                              child: Text(
-                                item.point.toString() +
-                                    "pts" +
-                                    " / " +
-                                    "RM " +
-                                    item.priceNormal.toString(),
-                                style: TextStyle(
-                                    fontWeight: FontWeight.w400, fontSize: 16),
-                              ),
-                            ),
-                            SizedBox(
-                              height: 20,
-                            ),
-                          ],
+          child: listProduct.length != 0
+              ? Column(
+                  children: [
+                    SizedBox(
+                      height: 10,
+                    ),
+                    Expanded(
+                      child: GridView.builder(
+                        itemCount: listProduct == null ? 0 : listProduct.length,
+                        gridDelegate:
+                            new SliverGridDelegateWithFixedCrossAxisCount(
+                          crossAxisCount: 2,
                         ),
+                        itemBuilder: (context, index) {
+                          final item = listProduct[index];
+                          return GestureDetector(
+                            onTap: () {
+                              var jsons = {};
+                              jsons["id"] = item.productId;
+                              DetailsMenuModel()
+                                  .productDetailPhp(jsons, context)
+                                  .then((value) {
+                                _detailsMenu(value, context);
+                              });
+                            },
+                            child: GridTile(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: [
+                                  Expanded(
+                                    child: Container(
+                                      height: 100,
+                                      width: double.infinity,
+                                      margin: EdgeInsets.only(
+                                          left: 10,
+                                          top: 15,
+                                          right: 10,
+                                          bottom: 2),
+                                      child: ClipRRect(
+                                        borderRadius:
+                                            BorderRadius.circular(5.0),
+                                        child: CachedNetworkImage(
+                                          fit: BoxFit.cover,
+                                          useOldImageOnUrlChange: false,
+                                          imageUrl:
+                                              "https://yomies.com.my/pages/product/photo/${item.photo}",
+                                          errorWidget: (context, url, error) {
+                                            return Image(
+                                              image: AssetImage(
+                                                  "assets/images/news1.jpg"),
+                                            );
+                                          },
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                  Padding(
+                                    padding: EdgeInsets.only(left: 10),
+                                    child: Text(
+                                      item.productName,
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 14),
+                                    ),
+                                  ),
+                                  Padding(
+                                    padding: EdgeInsets.only(left: 10),
+                                    child: Text(
+                                      item.point.toString() +
+                                          "pts" +
+                                          " / " +
+                                          "RM " +
+                                          item.priceNormal.toString(),
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.w400,
+                                          fontSize: 16),
+                                    ),
+                                  ),
+                                  SizedBox(
+                                    height: 20,
+                                  ),
+                                ],
+                              ),
+                            ),
+                          );
+                        },
                       ),
-                    );
-                  },
+                    ),
+                  ],
+                )
+              : Center(
+                  child: Text(
+                    "Stay tunes upcoming menu...",
+                    style: TextStyle(
+                        fontWeight: FontWeight.w300, letterSpacing: 3),
+                  ),
                 ),
-              ),
-            ],
-          ),
         ),
       );
     }
@@ -319,10 +332,8 @@ class _DrinksPageState extends State<DrinksPage> {
                         border: Border.all(color: Colors.blueAccent)),
                     child: Text(
                       response["product_code"],
-                      style: TextStyle(
-                        fontSize: 38,
-                        fontWeight: FontWeight.bold
-                      ),
+                      style:
+                          TextStyle(fontSize: 38, fontWeight: FontWeight.bold),
                     ),
                   ),
                 ),

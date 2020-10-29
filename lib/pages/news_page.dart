@@ -21,7 +21,7 @@ class _NewsPageState extends State<NewsPage> {
     var jsons = {};
     NewsModel().adsPhp(jsons, context).then((value) {
       setState(() {
-        listAds = value;
+        listAds = value == null ? [] : value;
         loading = false;
       });
     });
@@ -67,75 +67,88 @@ class _NewsPageState extends State<NewsPage> {
         ),
         backgroundColor: Theme.of(context).primaryColor,
         body: Container(
-            decoration: BoxDecoration(
-              color: Colors.white.withOpacity(0.9),
-              borderRadius: BorderRadius.only(
-                topLeft: Radius.circular(20.0),
-                topRight: Radius.circular(20.0),
-              ),
+          decoration: BoxDecoration(
+            color: Colors.white.withOpacity(0.9),
+            borderRadius: BorderRadius.only(
+              topLeft: Radius.circular(20.0),
+              topRight: Radius.circular(20.0),
             ),
-            child: ListView.builder(
-              itemCount: listAds == null ? 0 : listAds.length,
-              itemBuilder: (BuildContext context, int index) {
-                final item = listAds[index];
-                return Column(
-                  children: [
-                    Container(
-                      margin: EdgeInsets.only(top: 20, right: 20, left: 20),
-                      height: 360,
-                      width: double.infinity,
-                      child: ClipRRect(
-                        borderRadius: BorderRadius.circular(5.0),
-                        child: CachedNetworkImage(
-                          fit: BoxFit.contain,
-                          useOldImageOnUrlChange: false,
-                          imageUrl:
-                              "https://yomies.com.my/pages/ads/photo/${item.adsPhoto}",
-                          errorWidget: (context, url, error) {
-                            return Image(
-                              image: AssetImage("assets/images/news1.jpg"),
-                            );
-                          },
-                        ),
+          ),
+          child: listAds.length != 0
+              ? ListView.builder(
+                  itemCount: listAds == null ? 0 : listAds.length,
+                  itemBuilder: (BuildContext context, int index) {
+                    final item = listAds[index];
+                    return Column(
+                      children: [
+                        Container(
+                          margin: EdgeInsets.only(top: 20, right: 20, left: 20),
+                          height: 360,
+                          width: double.infinity,
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.circular(5.0),
+                            child: CachedNetworkImage(
+                              fit: BoxFit.contain,
+                              useOldImageOnUrlChange: false,
+                              imageUrl:
+                                  "https://yomies.com.my/pages/ads/photo/${item.adsPhoto}",
+                              errorWidget: (context, url, error) {
+                                return Image(
+                                  image: AssetImage("assets/images/news1.jpg"),
+                                );
+                              },
+                            ),
 
-                        // Image(
-                        //   image: AssetImage("assets/images/news1.jpg"),
-                        // ),
-                      ),
+                            // Image(
+                            //   image: AssetImage("assets/images/news1.jpg"),
+                            // ),
+                          ),
+                        ),
+                        Container(
+                          margin: EdgeInsets.only(top: 10, right: 20, left: 20),
+                          height: 90,
+                          width: double.infinity,
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                item.description == null
+                                    ? ""
+                                    : item.description,
+                                style: TextStyle(
+                                    color: Colors.black,
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 20),
+                              ),
+                              Text(
+                                item.adsDate,
+                                style: TextStyle(color: Colors.black),
+                              ),
+                              Text(
+                                item.adsTitle,
+                                style: TextStyle(
+                                    color: Colors.red,
+                                    fontSize: 24,
+                                    fontWeight: FontWeight.bold),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
+                    );
+                  },
+                )
+              : Center(
+                  child: Text(
+                    "Stay tunes upcoming news...",
+                    style: TextStyle(
+                      fontWeight: FontWeight.w300,
+                      letterSpacing: 3
                     ),
-                    Container(
-                      margin: EdgeInsets.only(top: 10, right: 20, left: 20),
-                      height: 90,
-                      width: double.infinity,
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            item.description == null ? "" : item.description,
-                            style: TextStyle(
-                                color: Colors.black,
-                                fontWeight: FontWeight.bold,
-                                fontSize: 20),
-                          ),
-                          Text(
-                            item.adsDate,
-                            style: TextStyle(color: Colors.black),
-                          ),
-                          Text(
-                            item.adsTitle,
-                            style: TextStyle(
-                                color: Colors.red,
-                                fontSize: 24,
-                                fontWeight: FontWeight.bold),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ],
-                );
-              },
-            )),
+                  ),
+                ),
+        ),
       );
     }
   }

@@ -17,17 +17,22 @@ class _DetailRewardState extends State<DetailReward> {
           height: double.infinity,
           width: double.infinity,
           padding: EdgeInsets.only(top: 30),
-          color: Colors.pink[100],
+          color: Theme.of(context).primaryColor,
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
-              IconButton(
-                icon: Icon(Icons.arrow_back_ios),
-                color: Colors.black,
-                onPressed: () {
-                  Navigator.of(context).pop();
-                },
+              SafeArea(
+                child: IconButton(
+                  icon: Icon(
+                    Icons.close,
+                    size: 28,
+                  ),
+                  color: Colors.black,
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                ),
               ),
               Expanded(
                 child: Column(
@@ -40,7 +45,7 @@ class _DetailRewardState extends State<DetailReward> {
                         height: double.infinity,
                         decoration: BoxDecoration(
                           image: DecorationImage(
-                            image: AssetImage("assets/images/logoyommie.png"),
+                            image: AssetImage("assets/images/yomiesKL.png"),
                             fit: BoxFit.cover,
                           ),
                         ),

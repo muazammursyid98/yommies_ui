@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:yommie/class/hex_color.dart';
 import 'package:yommie/models/forgotPasswordModel.dart';
-import 'package:yommie/pages/otp_code.dart';
 
 class ForgotPassword extends StatefulWidget {
   @override

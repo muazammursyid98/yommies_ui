@@ -4,7 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:yommie/models/forgotPasswordModel.dart';
-import 'package:yommie/pages/changePassword.dart';
+import 'package:yommie/pages/reset_password.dart';
 
 class Otp extends StatefulWidget {
   final String email;

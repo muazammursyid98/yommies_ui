@@ -9,7 +9,6 @@ import 'package:responsive_flutter/responsive_flutter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:yommie/class/hex_color.dart';
 import 'package:yommie/models/homePageModels.dart';
-import 'package:yommie/pages/cart_page.dart';
 import 'package:yommie/pages/my_qr.dart';
 
 class HomePage extends StatefulWidget {
@@ -28,6 +27,9 @@ class _HomePageState extends State<HomePage> {
   bool loading = false;
   Timer _timer;
 
+  String username;
+  String userpoint;
+
   @override
   void initState() {
     setState(() {
@@ -39,17 +41,21 @@ class _HomePageState extends State<HomePage> {
 
   callApi() {
     var jsons = {};
-    jsons["userId"] = widget.userId;
+    // jsons["userId"] = widget.userId;
     HomePageModels().homepagePhp(jsons, context).then((value) {
-      final dataAds = value["data_ads"];
-      final dataLocation = value["data_location"];
-      final dataProduct = value["data_product"];
-      final dataEvent = value["data_event"];
+      
+      final dataAds = value["data_ads"] == null ? [] : value["data_ads"];
+      final dataLocation =
+          value["data_location"] == null ? [] : value["data_location"];
+      final dataProduct =
+          value["data_product"] == null ? [] : value["data_product"];
+      final dataEvent = value["data_event"] == null ? [] : value["data_event"];
       print(dataAds);
       for (var u in dataAds) {
         DataAd item = DataAd(u["ads_id"], u["ads_photo"]);
         listAds.add(item);
       }
+      print(listAds);
 
       for (var u in dataLocation) {
         DataLocation item =
@@ -69,6 +75,8 @@ class _HomePageState extends State<HomePage> {
       }
 
       setState(() {
+        username = value["data_point"]["user_name"];
+        userpoint = value["data_point"]["user_point"];
         loading = false;
       });
     });
@@ -130,7 +138,7 @@ class _HomePageState extends State<HomePage> {
                               ),
                               SizedBox(width: 5),
                               Text(
-                                "1,203 pts",
+                                "$userpoint",
                                 style: TextStyle(
                                     fontSize: 16,
                                     color: Colors.black,
@@ -144,24 +152,24 @@ class _HomePageState extends State<HomePage> {
                           padding: EdgeInsets.only(top: 15),
                           child: Icon(Icons.arrow_forward_ios)),
                       Expanded(child: SizedBox()),
-                      Padding(
-                        padding: EdgeInsets.only(top: 15),
-                        child: GestureDetector(
-                          onTap: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (BuildContext context) => CartPage(),
-                              ),
-                            );
-                          },
-                          child: Icon(
-                            FontAwesomeIcons.cartPlus,
-                            size: 30.0,
-                            color: Colors.black54,
-                          ),
-                        ),
-                      ),
+                      // Padding(
+                      //   padding: EdgeInsets.only(top: 15),
+                      //   child: GestureDetector(
+                      //     onTap: () {
+                      //       Navigator.push(
+                      //         context,
+                      //         MaterialPageRoute(
+                      //           builder: (BuildContext context) => CartPage(),
+                      //         ),
+                      //       );
+                      //
+                      //     child: Icon(
+                      //       FontAwesomeIcons.cartPlus,
+                      //       size: 30.0,
+                      //       color: Colors.black54,
+                      //     ),
+                      //   ),
+                      // ),
                     ],
                   ),
                 ),
@@ -192,26 +200,32 @@ class _HomePageState extends State<HomePage> {
           ),
           child: ListView(
             children: [
-              SizedBox(height: 10),
-              imageCarousel(),
               SizedBox(height: 20),
-              buildTitle("Location"),
-              SizedBox(height: 20),
-              buildContainerLocation(),
-              SizedBox(height: 20),
-              Divider(height: 0, thickness: 1),
-              SizedBox(height: 20),
-              buildTitle("Product"),
-              SizedBox(height: 20),
-              buildContainerProduct(),
-              SizedBox(height: 20),
-              Divider(height: 0, thickness: 1),
-              SizedBox(
-                height: 20,
-              ),
-              buildTitle("Event"),
-              SizedBox(height: 20),
-              buildContainerEvent(),
+              listAds.length != 0 ? imageCarousel() : SizedBox(),
+              listAds.length != 0 ? SizedBox(height: 20) : SizedBox(),
+              listLocation.length != 0 ? buildTitle("Location") : SizedBox(),
+              listLocation.length != 0 ? SizedBox(height: 20) : SizedBox(),
+              listLocation.length != 0 ? buildContainerLocation() : SizedBox(),
+              listLocation.length != 0 ? SizedBox(height: 20) : SizedBox(),
+              listLocation.length != 0
+                  ? Divider(height: 0, thickness: 1)
+                  : SizedBox(),
+              listProduct.length != 0 ? SizedBox(height: 20) : SizedBox(),
+              listProduct.length != 0 ? buildTitle("Product") : SizedBox(),
+              listProduct.length != 0 ? SizedBox(height: 20) : SizedBox(),
+              listProduct.length != 0 ? buildContainerProduct() : SizedBox(),
+              listProduct.length != 0 ? SizedBox(height: 20) : SizedBox(),
+              listProduct.length != 0
+                  ? Divider(height: 0, thickness: 1)
+                  : SizedBox(),
+              listEvent.length != 0
+                  ? SizedBox(
+                      height: 20,
+                    )
+                  : SizedBox(),
+              listEvent.length != 0 ? buildTitle("Event") : SizedBox(),
+              listEvent.length != 0 ? SizedBox(height: 20) : SizedBox(),
+              listEvent.length != 0 ? buildContainerEvent() : SizedBox(),
               SizedBox(height: 40),
               Center(
                 child: Text(

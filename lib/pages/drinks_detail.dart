@@ -123,10 +123,10 @@ class _DrinksDetailState extends State<DrinksDetail> {
               ),
             ),
             SizedBox(width: 8),
-            Icon(
-              FontAwesomeIcons.cartArrowDown,
-              color: Colors.black45,
-            ),
+            // Icon(
+            //   FontAwesomeIcons.cartArrowDown,
+            //   color: Colors.black45,
+            // ),
             SizedBox(width: 10),
             Flexible(
               child: Container(

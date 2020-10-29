@@ -5,14 +5,14 @@ import 'package:yommie/class/alertDialog.dart';
 import 'package:yommie/class/hex_color.dart';
 import 'package:yommie/models/forgotPasswordModel.dart';
 
-class ChangePassword extends StatefulWidget {
+class ResetPassword extends StatefulWidget {
   final String email;
-  ChangePassword({this.email});
+  ResetPassword({this.email});
   @override
-  _ChangePasswordState createState() => _ChangePasswordState();
+  _ResetPasswordState createState() => _ResetPasswordState();
 }
 
-class _ChangePasswordState extends State<ChangePassword> {
+class _ResetPasswordState extends State<ResetPassword> {
   final password = TextEditingController();
   final confirmPassword = TextEditingController();
 
@@ -131,7 +131,8 @@ class _ChangePasswordState extends State<ChangePassword> {
                           var jsons = {};
                           jsons["email"] = widget.email;
                           jsons["password"] = password.text;
-                          ForgotPasswordModel().forgotPassword3(jsons, _scaffoldKey.currentContext);
+                          ForgotPasswordModel().forgotPassword3(
+                              jsons, _scaffoldKey.currentContext);
                         } else {
                           DialogAction().alertDialogOneButton(
                               context,
