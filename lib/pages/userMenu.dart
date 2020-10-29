@@ -3,6 +3,8 @@ import 'package:yommie/pages/history_page.dart';
 import 'package:yommie/pages/profile_page.dart';
 
 class UserMenuPage extends StatefulWidget {
+  final String userId;
+  UserMenuPage({this.userId});
   @override
   _UserMenuPageState createState() => _UserMenuPageState();
 }
@@ -41,10 +43,8 @@ class _UserMenuPageState extends State<UserMenuPage>
                         BoxDecoration(color: Theme.of(context).primaryColor),
                     child: TabBar(
                       labelColor: Colors.black,
-                      labelStyle: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 18
-                      ),
+                      labelStyle:
+                          TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
                       controller: _controller,
                       tabs: [
                         Tab(
@@ -70,7 +70,9 @@ class _UserMenuPageState extends State<UserMenuPage>
             child: new TabBarView(
               controller: _controller,
               children: <Widget>[
-                ProfilePage(),
+                ProfilePage(
+                  userId: widget.userId,
+                ),
                 HistoryPage(),
               ],
             ),

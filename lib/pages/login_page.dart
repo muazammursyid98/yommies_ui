@@ -1,16 +1,11 @@
-import 'dart:convert';
-import 'dart:io';
-
 import 'package:flutter/material.dart';
-import 'package:http/http.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:responsive_flutter/responsive_flutter.dart';
 import 'package:yommie/Theme/yommie_theme.dart';
 import 'package:yommie/class/hex_color.dart';
 import 'package:yommie/models/loginViewModels.dart';
-import 'package:yommie/pages/home_page.dart';
-import 'package:yommie/pages/navigation_bar.dart';
+import 'package:yommie/pages/forgot_password.dart';
 import 'package:yommie/pages/sing_up.dart';
-import 'package:yommie/provider/rest.dart';
 
 class LoginPage extends StatefulWidget {
   LoginPage({Key key}) : super(key: key);
@@ -52,8 +47,8 @@ class _LoginPageState extends State<LoginPage> {
                 keyboardType: TextInputType.emailAddress,
                 decoration: InputDecoration(
                   prefixIcon: Icon(
-                    Icons.person,
-                    color: Colors.black54,
+                    FontAwesomeIcons.user,
+                    color: Colors.grey,
                   ),
                   hintText: 'Email',
                   hintStyle: TextStyle(color: Colors.black54),
@@ -77,8 +72,8 @@ class _LoginPageState extends State<LoginPage> {
                 obscureText: true,
                 decoration: InputDecoration(
                   prefixIcon: Icon(
-                    Icons.lock,
-                    color: Colors.black54,
+                    FontAwesomeIcons.lock,
+                    color: Colors.grey,
                   ),
                   hintText: 'Password',
                   hintStyle: TextStyle(color: Colors.black54),
@@ -118,7 +113,14 @@ class _LoginPageState extends State<LoginPage> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   GestureDetector(
-                    onTap: () {},
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (BuildContext context) => ForgotPassword(),
+                        ),
+                      );
+                    },
                     child: Text(
                       "Forgot Password",
                       style: YommieTheme.display1,

@@ -102,13 +102,13 @@ class _NavigationBarState extends State<NavigationBar> {
         controller: _pageController,
         onPageChanged: onPageChanged,
         children: [
-          HomePage(
-            userId: widget.userId
-          ),
+          HomePage(userId: widget.userId),
           NewsPage(),
           DrinksPage(),
           RewardPage(),
-          UserMenuPage(),
+          UserMenuPage(
+            userId: widget.userId,
+          ),
         ],
       ),
       bottomNavigationBar: AnimatedContainer(

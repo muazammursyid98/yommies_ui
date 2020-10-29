@@ -102,7 +102,6 @@ class _DrinksPageState extends State<DrinksPage> {
                     final item = listProduct[index];
                     return GestureDetector(
                       onTap: () {
-                        //TODO here
                         var jsons = {};
                         jsons["id"] = item.productId;
                         DetailsMenuModel()

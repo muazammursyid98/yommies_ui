@@ -1,14 +1,25 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:yommie/models/profileModel.dart';
 
 import 'login_page.dart';
 
 class ProfilePage extends StatefulWidget {
+  final String userId;
+  ProfilePage({this.userId});
   @override
   _ProfilePageState createState() => _ProfilePageState();
 }
 
 class _ProfilePageState extends State<ProfilePage> {
+  @override
+  void initState() {
+    var jsons = {};
+    jsons["user_id"] = widget.userId;
+    ProfileModel().userProfile(jsons, context);
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

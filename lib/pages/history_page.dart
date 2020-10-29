@@ -1,9 +1,5 @@
-import 'package:cool_alert/cool_alert.dart';
 import 'package:flutter/material.dart';
 import 'package:responsive_flutter/responsive_flutter.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-import 'package:yommie/class/alertDialog.dart';
-import 'package:yommie/pages/login_page.dart';
 import 'package:yommie/pages/past_order.dart';
 
 class HistoryPage extends StatefulWidget {
