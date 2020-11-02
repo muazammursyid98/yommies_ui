@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:responsive_flutter/responsive_flutter.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:yommie/models/rewardDetail.dart';
 import 'package:yommie/models/rewardModels.dart';
 import 'package:yommie/pages/detail_reward.dart';
@@ -243,7 +244,7 @@ class _RewardPageState extends State<RewardPage> {
         ),
         backgroundColor: Theme.of(context).primaryColor,
         body: Container(
-          padding: EdgeInsets.only(left: 20, right: 20),
+          padding: EdgeInsets.only(left: 8, right: 8, top: 10),
           decoration: BoxDecoration(
             color: Colors.white.withOpacity(0.9),
             borderRadius: BorderRadius.only(
@@ -278,128 +279,154 @@ class _RewardPageState extends State<RewardPage> {
                           });
                         }
                       },
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          SizedBox(
-                            height: 20,
+                      child: Container(
+                        height: 200,
+                        width: double.infinity,
+                        child: Container(
+                          width: double.infinity,
+                          height: double.infinity,
+                          decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(10),
                           ),
-                          Container(
-                            width: double.infinity,
-                            height: 25,
-                            child: Text(
-                              "Unlock at ${item.point} Points",
-                              textAlign: TextAlign.start,
-                              style: TextStyle(
-                                  color: Colors.black,
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.bold),
+                          child: Container(
+                            padding: EdgeInsets.only(left: 20),
+                            margin: EdgeInsets.all(3),
+                            decoration: BoxDecoration(
+                              border: Border.all(color: Colors.grey[300]),
+                              borderRadius: BorderRadius.circular(10),
                             ),
-                          ),
-                          SizedBox(height: 8),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Container(
-                                width: 80,
-                                height: 80,
-                                decoration: BoxDecoration(
-                                  shape: BoxShape.circle,
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                SizedBox(
+                                  height: 20,
                                 ),
-                                child: CachedNetworkImage(
-                                  fit: BoxFit.cover,
-                                  useOldImageOnUrlChange: false,
-                                  imageUrl:
-                                      "https://yomies.com.my/pages/reward/photo/${item.photo}",
-                                  errorWidget: (context, url, error) {
-                                    return Image(
-                                      image:
-                                          AssetImage("assets/images/news1.jpg"),
-                                    );
-                                  },
+                                Container(
+                                  width: double.infinity,
+                                  height: 25,
+                                  child: Text(
+                                    "Unlock at ${item.point} Points",
+                                    textAlign: TextAlign.start,
+                                    style: TextStyle(
+                                        color: Colors.black,
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.bold),
+                                  ),
                                 ),
-                              ),
-                              SizedBox(
-                                width: 15,
-                              ),
-                              Expanded(
-                                child: Column(
+                                SizedBox(height: 8),
+                                Row(
                                   mainAxisAlignment: MainAxisAlignment.start,
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    Text(
-                                      "Free 1x drink",
-                                      style: TextStyle(
-                                        color: Colors.black,
-                                        fontSize: 16,
+                                    Container(
+                                      width: 80,
+                                      height: 80,
+                                      decoration: BoxDecoration(
+                                        shape: BoxShape.circle,
+                                      ),
+                                      child: CachedNetworkImage(
+                                        fit: BoxFit.cover,
+                                        useOldImageOnUrlChange: false,
+                                        imageUrl:
+                                            "https://yomies.com.my/pages/reward/photo/${item.photo}",
+                                        errorWidget: (context, url, error) {
+                                          return Image(
+                                            image: AssetImage(
+                                                "assets/images/news1.jpg"),
+                                          );
+                                        },
                                       ),
                                     ),
-                                    Text(
-                                      "Redeem any of smoothies drinks at nearest store in Klang Valley",
-                                      style: TextStyle(
-                                        color: Colors.black54,
-                                        fontSize: 16,
+                                    SizedBox(
+                                      width: 15,
+                                    ),
+                                    Expanded(
+                                      child: Column(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.start,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Text(
+                                            item.reward,
+                                            style: TextStyle(
+                                              color: Colors.black,
+                                              fontSize: 16,
+                                            ),
+                                          ),
+                                          Text(
+                                            item.tnc,
+                                            style: TextStyle(
+                                              color: Colors.black54,
+                                              fontSize: 16,
+                                            ),
+                                          ),
+                                        ],
                                       ),
                                     ),
                                   ],
                                 ),
-                              ),
-                            ],
-                          ),
-                          SizedBox(height: 10),
-                          item.status != "LOCK"
-                              ? Container(
-                                  height: 40,
-                                  width: 200,
-                                  alignment: Alignment.center,
-                                  child: Center(
-                                    child: RaisedButton(
-                                      shape: RoundedRectangleBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(20)),
-                                      onPressed: () {
-                                        Navigator.push(
-                                          context,
-                                          PageTransition(
-                                            type:
-                                                PageTransitionType.bottomToTop,
-                                            child: DetailReward(
-                                              userId: widget.userId,
-                                              rewardId: item.id,
+                                SizedBox(height: 10),
+                                item.status != "LOCK"
+                                    ? Container(
+                                        height: 40,
+                                        width: 200,
+                                        alignment: Alignment.center,
+                                        child: Center(
+                                          child: RaisedButton(
+                                            shape: RoundedRectangleBorder(
+                                                borderRadius:
+                                                    BorderRadius.circular(20)),
+                                            onPressed: () async {
+                                              SharedPreferences prefs =
+                                                  await SharedPreferences
+                                                      .getInstance();
+                                              var userId =
+                                                  prefs.getString('userId');
+                                              Navigator.push(
+                                                context,
+                                                PageTransition(
+                                                  type: PageTransitionType
+                                                      .bottomToTop,
+                                                  child: DetailReward(
+                                                    userId: userId,
+                                                    rewardId: item.id,
+                                                  ),
+                                                ),
+                                              );
+                                            },
+                                            child: Text(
+                                              "USED AT COUNTER",
+                                              style: TextStyle(
+                                                  color: Colors.white,
+                                                  fontWeight: FontWeight.bold),
                                             ),
                                           ),
-                                        );
-                                      },
-                                      child: Text(
-                                        "USED AT COUNTER",
-                                        style: TextStyle(
-                                            fontWeight: FontWeight.bold),
+                                        ),
+                                      )
+                                    : SizedBox(
+                                        height: 40,
+                                        width: 100,
+                                        child: RaisedButton(
+                                          color: Colors.grey,
+                                          shape: RoundedRectangleBorder(
+                                              borderRadius:
+                                                  BorderRadius.circular(20)),
+                                          onPressed: () {},
+                                          child: Text(
+                                            "USED",
+                                            style: TextStyle(
+                                                fontWeight: FontWeight.bold,
+                                                color: Colors.white),
+                                          ),
+                                        ),
                                       ),
-                                    ),
-                                  ),
-                                )
-                              : SizedBox(
-                                  height: 40,
-                                  width: 200,
-                                  child: RaisedButton(
-                                    color: Colors.grey,
-                                    shape: RoundedRectangleBorder(
-                                        borderRadius:
-                                            BorderRadius.circular(20)),
-                                    onPressed: () {},
-                                    child: Text(
-                                      "USED",
-                                      style: TextStyle(
-                                          fontWeight: FontWeight.bold,
-                                          color: Colors.white),
-                                    ),
-                                  ),
-                                ),
-                          SizedBox(height: 20),
-                          Divider(height: 0, thickness: 1)
-                        ],
+                              ],
+                            ),
+                          ),
+                        ),
                       ),
                     );
                   },

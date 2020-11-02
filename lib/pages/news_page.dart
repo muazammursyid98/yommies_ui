@@ -14,7 +14,7 @@ class _NewsPageState extends State<NewsPage> {
   bool loading = false;
 
   @override
-  void initState() { 
+  void initState() {
     setState(() {
       loading = true;
     });
@@ -137,13 +137,29 @@ class _NewsPageState extends State<NewsPage> {
                                         crossAxisAlignment:
                                             CrossAxisAlignment.start,
                                         children: [
-                                          Text(
-                                            item.adsTitle,
-                                            style: TextStyle(
-                                                color: Colors.pink,
-                                                fontSize: 24,
-                                                fontWeight: FontWeight.bold),
+                                          Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceBetween,
+                                            children: [
+                                              Text(
+                                                item.adsTitle,
+                                                style: TextStyle(
+                                                    color: Colors.pink,
+                                                    fontSize: 24,
+                                                    fontWeight:
+                                                        FontWeight.bold),
+                                              ),
+                                              Text(
+                                                item.adsDate,
+                                                style: TextStyle(
+                                                  fontWeight: FontWeight.w600,
+                                                  fontSize: 18,
+                                                  color: Colors.black,
+                                                ),
+                                              ),
+                                            ],
                                           ),
+                                          SizedBox(height: 10),
                                           Text(
                                             item.description == null
                                                 ? ""
@@ -151,12 +167,6 @@ class _NewsPageState extends State<NewsPage> {
                                             style: TextStyle(
                                               color: Colors.black,
                                             ),
-                                          ),
-                                          Spacer(),
-                                          Text(
-                                            item.adsDate,
-                                            style:
-                                                TextStyle(color: Colors.black),
                                           ),
                                         ],
                                       ),

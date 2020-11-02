@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:intl/intl.dart';
 import 'package:responsive_flutter/responsive_flutter.dart';
 import 'package:yommie/models/historyModel.dart';
 import 'package:yommie/pages/past_order.dart';
+import 'package:date_range_picker/date_range_picker.dart' as DateRagePicker;
 
 class HistoryPage extends StatefulWidget {
   HistoryPage({Key key}) : super(key: key);
@@ -19,6 +22,7 @@ class _HistoryPageState extends State<HistoryPage> {
 
   bool loading = false;
   String dataPick;
+  String dateFormat;
 
   choiceTypeHistory(type) {
     setState(() {
@@ -98,6 +102,7 @@ class _HistoryPageState extends State<HistoryPage> {
                             Text(
                               "-RM" + item.totalPaid,
                               style: TextStyle(
+                                fontSize: 14,
                                 color: Colors.red,
                                 fontWeight: FontWeight.w600,
                               ),
@@ -108,6 +113,7 @@ class _HistoryPageState extends State<HistoryPage> {
                             Text(
                               "+" + item.totalPoint + "pts",
                               style: TextStyle(
+                                fontSize: 14,
                                 color: Colors.green,
                                 fontWeight: FontWeight.w600,
                               ),
@@ -192,8 +198,49 @@ class _HistoryPageState extends State<HistoryPage> {
     }
   }
 
+  var firstDates;
+  var secondDate;
+  DateTime _startDate = DateTime.now();
+  String formattedDate = DateFormat('yyyy').format(DateTime.now());
+  DateTime _endDate = DateTime.now().add(Duration(days: 7));
+  List<DateTime> picked;
+  datePicker() async {
+    picked = await DateRagePicker.showDatePicker(
+        context: context,
+        locale: const Locale('en', 'EN'),
+        initialFirstDate: _startDate,
+        initialLastDate: _endDate,
+        firstDate: new DateTime(int.parse(formattedDate) - 5),
+        lastDate: new DateTime(int.parse(formattedDate) + 1));
+    if (picked != null) {
+      if (picked.length == 1) {
+        setState(() {
+          firstDates = new DateFormat("yyyy-MM-dd").format(picked[0]);
+          secondDate = new DateFormat("yyyy-MM-dd").format(picked[0]);
+        });
+        var jsons = {};
+        jsons["start_date"] = firstDates;
+        jsons["end_date"] = secondDate;
+        jsons["type"] = dataPick.toLowerCase().trim();
+        // PurchasesHistoryModel().merchantHistoryByDate(jsons, context);
+      } else if (picked.length == 2) {
+        setState(() {
+          firstDates = new DateFormat("yyyy-MM-dd").format(picked[0]);
+          secondDate = new DateFormat("yyyy-MM-dd").format(picked[1]);
+        });
+        var jsons = {};
+        jsons["start_date"] = firstDates;
+        jsons["end_date"] = secondDate;
+        jsons["type"] = dataPick.toLowerCase().trim();
+        // PurchasesHistoryModel().merchantHistoryByDate(jsons, context);
+      }
+    }
+  }
+
   @override
   void initState() {
+    dataPick = '  Purchases';
+    dateFormat = DateFormat('dd/MM').format(DateTime.now());
     choiceTypeHistory("purchases");
     super.initState();
   }
@@ -208,47 +255,86 @@ class _HistoryPageState extends State<HistoryPage> {
       return ListView(
         children: [
           SizedBox(height: 20),
-          Container(
-            margin: EdgeInsets.only(left: 20, right: 20),
-            width: double.infinity,
-            height: 50.0,
-            decoration: BoxDecoration(
-              color: Theme.of(context).primaryColor,
-              borderRadius: BorderRadius.circular(7.0),
-              border: Border.all(
-                color: Theme.of(context).primaryColor,
+          Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Container(
+                margin: EdgeInsets.only(left: 20, right: 0),
+                width: 250,
+                height: 50.0,
+                decoration: BoxDecoration(
+                  color: Theme.of(context).primaryColor,
+                  borderRadius: BorderRadius.circular(7.0),
+                  border: Border.all(
+                    color: Theme.of(context).primaryColor,
+                  ),
+                ),
+                child: DropdownButton<String>(
+                  underline: SizedBox(),
+                  value: dataPick,
+                  focusColor: Colors.black,
+                  iconDisabledColor: Colors.black,
+                  iconEnabledColor: Colors.black,
+                  isExpanded: true,
+                  style: TextStyle(color: Colors.black),
+                  dropdownColor: Theme.of(context).primaryColor,
+                  hint: Text(
+                    "  Select type history",
+                    style: TextStyle(color: Colors.black),
+                  ),
+                  items:
+                      <String>['  Redeem', '  Purchases'].map((String value) {
+                    return new DropdownMenuItem<String>(
+                      value: value,
+                      child: new Text(value),
+                    );
+                  }).toList(),
+                  onChanged: (value) {
+                    listWidgetHistory.clear();
+                    listRewardWidgetHistory.clear();
+                    listRewardHistory.clear();
+                    listPurchaseHistory.clear();
+                    setState(() {
+                      dataPick = value;
+                    });
+                    choiceTypeHistory(value.toLowerCase().trim());
+                  },
+                ),
               ),
-            ),
-            child: DropdownButton<String>(
-              underline: SizedBox(),
-              value: dataPick,
-              focusColor: Colors.black,
-              iconDisabledColor: Colors.black,
-              iconEnabledColor: Colors.black,
-              isExpanded: true,
-              style: TextStyle(color: Colors.black),
-              dropdownColor: Theme.of(context).primaryColor,
-              hint: Text(
-                "  Select type history",
-                style: TextStyle(color: Colors.black),
-              ),
-              items: <String>['  Redeem', '  Purchases'].map((String value) {
-                return new DropdownMenuItem<String>(
-                  value: value,
-                  child: new Text(value),
-                );
-              }).toList(),
-              onChanged: (value) {
-                listWidgetHistory.clear();
-                listRewardWidgetHistory.clear();
-                listRewardHistory.clear();
-                listPurchaseHistory.clear();
-                setState(() {
-                  dataPick = value;
-                });
-                choiceTypeHistory(value.toLowerCase().trim());
-              },
-            ),
+              Expanded(
+                child: GestureDetector(
+                  onTap: () {
+                    datePicker();
+                  },
+                  child: Container(
+                    margin: EdgeInsets.only(left: 8, right: 20),
+                    height: 50,
+                    decoration: BoxDecoration(
+                      color: Theme.of(context).primaryColor,
+                      borderRadius: BorderRadius.circular(7.0),
+                      border: Border.all(
+                        color: Theme.of(context).primaryColor,
+                      ),
+                    ),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Text(
+                          dateFormat,
+                          style: TextStyle(color: Colors.black),
+                        ),
+                        Icon(
+                          FontAwesomeIcons.calendarAlt,
+                          color: Colors.black,
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              )
+            ],
           ),
           SizedBox(height: 20),
           Column(

@@ -1,6 +1,8 @@
+import 'package:cool_alert/cool_alert.dart';
 import 'package:flutter/material.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:yommie/class/alertDialog.dart';
 import 'package:yommie/class/hex_color.dart';
 import 'package:yommie/models/profileModel.dart';
 import 'package:yommie/pages/change_password.dart';
@@ -274,12 +276,7 @@ class _ProfilePageState extends State<ProfilePage> {
                     SizedBox(height: 20),
                     GestureDetector(
                       onTap: () async {
-                        final prefs = await SharedPreferences.getInstance();
-                        prefs.clear();
-                        var route = new MaterialPageRoute(
-                          builder: (BuildContext context) => LoginPage(),
-                        );
-                        Navigator.of(context).pushReplacement(route);
+                        _goLogOut();
                       },
                       child: Icon(
                         Icons.logout,
@@ -301,5 +298,19 @@ class _ProfilePageState extends State<ProfilePage> {
         ),
       );
     }
+  }
+
+  _goLogOut() async {
+    DialogAction().alertDialog(context, "Alert !", CoolAlertType.warning,
+        "Are you sure want to logout? ", "Yes", "No", () async {
+      final prefs = await SharedPreferences.getInstance();
+      prefs.clear();
+      var route = new MaterialPageRoute(
+        builder: (BuildContext context) => LoginPage(),
+      );
+      Navigator.of(context).pushReplacement(route);
+    }, () {
+      Navigator.of(context).pop();
+    });
   }
 }
