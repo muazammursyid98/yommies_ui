@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:qr_flutter/qr_flutter.dart';
+import 'package:yommie/provider/globals.dart' as globals;
 
 class DetailReward extends StatefulWidget {
   final String userId;
@@ -61,63 +62,66 @@ class _DetailRewardState extends State<DetailReward> {
           ),
         ),
       ),
-      backgroundColor: Theme.of(context).primaryColor,
-      body: Container(
-        width: double.infinity,
-        height: MediaQuery.of(context).size.height * 1,
-        padding: EdgeInsets.only(left: 20, right: 20),
-        decoration: BoxDecoration(
-          color: Colors.white.withOpacity(0.9),
-          borderRadius: BorderRadius.only(
-            topLeft: Radius.circular(20.0),
-            topRight: Radius.circular(20.0),
+      backgroundColor: Colors.grey[200],
+      body: Column(
+        children: [
+          Container(
+            margin: EdgeInsets.only(top: 20),
+            width: 200,
+            height: 200,
+            decoration: BoxDecoration(
+              color: Colors.white,
+              border: Border.all(color: Colors.white),
+              borderRadius: BorderRadius.circular(10),
+            ),
+            child: Container(
+              width: 100,
+              height: 100,
+              child: Container(
+                margin: EdgeInsets.all(3),
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  border: Border.all(color: Colors.grey[300]),
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(10),
+                  child: QrImage(
+                    foregroundColor: Colors.black87.withOpacity(0.7),
+                    backgroundColor: Colors.white,
+                    data: widget.userId + ":" + widget.rewardId,
+                    version: QrVersions.auto,
+                    size: 250,
+                    gapless: false,
+                  ),
+                ),
+              ),
+            ),
           ),
-        ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: [
-            SizedBox(
-              height: 60,
-            ),
-            QrImage(
-              foregroundColor: Colors.black87.withOpacity(0.7),
-              backgroundColor: Colors.white,
-              data: widget.userId + ":" + widget.rewardId,
-              version: QrVersions.auto,
-              size: 250,
-              gapless: false,
-            ),
-            Text(
-              "MEMBER ID : " + widget.userId,
-              style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  color: Colors.purple[300],
-                  fontSize: 24),
-            ),
-            Divider(
-              color: Colors.black,
-            ),
-            Text(
-              "Show QR Code to cashier during payments\nfor points collection",
-              style: TextStyle(),
-              textAlign: TextAlign.center,
-            ),
-            SizedBox(
-              height: 10,
-            ),
-            Text(
-              "Current Points 1,203",
-              style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  color: Colors.purple[300],
-                  fontSize: 24),
-            ),
-            SizedBox(
-              height: 10,
-            ),
-          ],
-        ),
+          SizedBox(height: 10),
+          Divider(
+            color: Colors.black,
+          ),
+          SizedBox(height: 10),
+          Text(
+            "Show QR Code to cashier during payments\nfor rewards collection",
+            style: TextStyle(),
+            textAlign: TextAlign.center,
+          ),
+          SizedBox(
+            height: 10,
+          ),
+          Text(
+            "My Points ${globals.myPoints}",
+            style: TextStyle(
+                fontWeight: FontWeight.bold,
+                color: Colors.purple[300],
+                fontSize: 24),
+          ),
+          SizedBox(
+            height: 10,
+          ),
+        ],
       ),
     );
   }

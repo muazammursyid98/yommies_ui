@@ -4,13 +4,15 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:percent_indicator/circular_percent_indicator.dart';
 import 'package:responsive_flutter/responsive_flutter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:yommie/class/hex_color.dart';
 import 'package:yommie/models/homePageModels.dart';
+import 'package:yommie/pages/locateUs_page.dart';
 import 'package:yommie/pages/my_qr.dart';
-import 'package:yommie/pages/userMenu.dart';
+import 'package:yommie/provider/globals.dart' as globals;
+
+import 'navigation_bar.dart';
 
 class HomePage extends StatefulWidget {
   final String userId;
@@ -77,6 +79,7 @@ class _HomePageState extends State<HomePage> {
       setState(() {
         username = value["data_point"]["user_name"];
         userpoint = value["data_point"]["user_point"];
+        globals.myPoints = userpoint;
         loading = false;
       });
     });
@@ -144,9 +147,9 @@ class _HomePageState extends State<HomePage> {
                     children: [
                       buildExpandedMenu(),
                       SizedBox(width: 8),
-                      buildExpandedLocateUs(),
-                      SizedBox(width: 8),
                       buildExpandedReward(),
+                      SizedBox(width: 8),
+                      buildExpandedLocateUs(),
                     ],
                   ),
                 ),
@@ -646,12 +649,15 @@ class _HomePageState extends State<HomePage> {
   GestureDetector buildExpandedReward() {
     return GestureDetector(
       onTap: () {
-        // Navigator.push(
-        //   context,
-        //   MaterialPageRoute(
-        //     builder: (BuildContext context) => RewardPage(),
-        //   ),
-        // );
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (BuildContext context) => NavigationBar(
+              userId: widget.userId,
+              page: 3,
+            ),
+          ),
+        );
       },
       child: Container(
         height: 30,
@@ -673,12 +679,12 @@ class _HomePageState extends State<HomePage> {
   GestureDetector buildExpandedLocateUs() {
     return GestureDetector(
       onTap: () {
-        // Navigator.push(
-        //   context,
-        //   MaterialPageRoute(
-        //     builder: (BuildContext context) => DrinksPage(),
-        //   ),
-        // );
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (BuildContext context) => LocateUs(),
+          ),
+        );
       },
       child: Container(
         height: 30,
@@ -700,11 +706,13 @@ class _HomePageState extends State<HomePage> {
   GestureDetector buildExpandedMenu() {
     return GestureDetector(
       onTap: () {
-        Navigator.of(context).pop();
         Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (BuildContext context) => UserMenuPage(),
+            builder: (BuildContext context) => NavigationBar(
+              userId: widget.userId,
+              page: 2,
+            ),
           ),
         );
       },

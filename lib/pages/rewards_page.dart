@@ -382,7 +382,7 @@ class _RewardPageState extends State<RewardPage> {
                                 )
                               : SizedBox(
                                   height: 40,
-                                  width: double.infinity,
+                                  width: 200,
                                   child: RaisedButton(
                                     color: Colors.grey,
                                     shape: RoundedRectangleBorder(

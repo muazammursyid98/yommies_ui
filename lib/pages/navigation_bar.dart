@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:yommie/pages/drinks_page.dart';
-import 'package:yommie/pages/history_page.dart';
 import 'package:yommie/pages/home_page.dart';
 import 'package:yommie/pages/news_page.dart';
-import 'package:yommie/pages/profile_page.dart';
 import 'package:yommie/pages/rewards_page.dart';
 import 'package:yommie/pages/userMenu.dart';
+import 'package:yommie/provider/globals.dart' as globals;
 
 class NavigationBar extends StatefulWidget {
   final String userId;
-  NavigationBar({this.userId});
+  final int page;
+  NavigationBar({this.userId, this.page});
 
   @override
   _NavigationBarState createState() => _NavigationBarState();
@@ -39,8 +39,19 @@ class _NavigationBarState extends State<NavigationBar> {
 
   @override
   void initState() {
+    if (widget.page == null) {
+      _pageController = PageController();
+      setState(() {
+        _page = 0;
+      });
+    } else {
+      setState(() {
+        _page = widget.page;
+      });
+
+      _pageController = PageController(initialPage: widget.page);
+    }
     super.initState();
-    _pageController = PageController();
   }
 
   @override

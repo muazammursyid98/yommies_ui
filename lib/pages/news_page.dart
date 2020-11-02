@@ -14,7 +14,7 @@ class _NewsPageState extends State<NewsPage> {
   bool loading = false;
 
   @override
-  void initState() {
+  void initState() { 
     setState(() {
       loading = true;
     });
@@ -79,63 +79,95 @@ class _NewsPageState extends State<NewsPage> {
                   itemCount: listAds == null ? 0 : listAds.length,
                   itemBuilder: (BuildContext context, int index) {
                     final item = listAds[index];
-                    return Column(
-                      children: [
-                        Container(
-                          margin: EdgeInsets.only(top: 20, right: 20, left: 20),
-                          height: 360,
-                          width: double.infinity,
-                          child: ClipRRect(
-                            borderRadius: BorderRadius.circular(5.0),
-                            child: CachedNetworkImage(
-                              fit: BoxFit.contain,
-                              useOldImageOnUrlChange: false,
-                              imageUrl:
-                                  "https://yomies.com.my/pages/ads/photo/${item.adsPhoto}",
-                              errorWidget: (context, url, error) {
-                                return Image(
-                                  image: AssetImage("assets/images/news1.jpg"),
-                                );
-                              },
+                    return Container(
+                      height: 600,
+                      width: double.infinity,
+                      margin: EdgeInsets.only(right: 7, left: 7, top: 0),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Expanded(
+                            child: Container(
+                              width: double.infinity,
+                              height: double.infinity,
+                              decoration: BoxDecoration(
+                                color: Colors.white,
+                                borderRadius: BorderRadius.circular(10),
+                              ),
+                              child: Container(
+                                margin: EdgeInsets.all(3),
+                                decoration: BoxDecoration(
+                                  border: Border.all(color: Colors.grey[300]),
+                                  borderRadius: BorderRadius.circular(10),
+                                ),
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  children: [
+                                    Container(
+                                      margin: EdgeInsets.only(
+                                          top: 20, right: 20, left: 20),
+                                      height: 360,
+                                      width: double.infinity,
+                                      child: ClipRRect(
+                                        borderRadius:
+                                            BorderRadius.circular(5.0),
+                                        child: CachedNetworkImage(
+                                          fit: BoxFit.contain,
+                                          useOldImageOnUrlChange: false,
+                                          imageUrl:
+                                              "https://yomies.com.my/pages/ads/photo/${item.adsPhoto}",
+                                          errorWidget: (context, url, error) {
+                                            return Image(
+                                              image: AssetImage(
+                                                  "assets/images/news1.jpg"),
+                                            );
+                                          },
+                                        ),
+                                      ),
+                                    ),
+                                    Container(
+                                      margin: EdgeInsets.only(
+                                          top: 10, right: 20, left: 20),
+                                      height: 90,
+                                      width: double.infinity,
+                                      child: Column(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.start,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Text(
+                                            item.adsTitle,
+                                            style: TextStyle(
+                                                color: Colors.pink,
+                                                fontSize: 24,
+                                                fontWeight: FontWeight.bold),
+                                          ),
+                                          Text(
+                                            item.description == null
+                                                ? ""
+                                                : item.description,
+                                            style: TextStyle(
+                                              color: Colors.black,
+                                            ),
+                                          ),
+                                          Spacer(),
+                                          Text(
+                                            item.adsDate,
+                                            style:
+                                                TextStyle(color: Colors.black),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
                             ),
-
-                            // Image(
-                            //   image: AssetImage("assets/images/news1.jpg"),
-                            // ),
                           ),
-                        ),
-                        Container(
-                          margin: EdgeInsets.only(top: 10, right: 20, left: 20),
-                          height: 90,
-                          width: double.infinity,
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                item.description == null
-                                    ? ""
-                                    : item.description,
-                                style: TextStyle(
-                                    color: Colors.black,
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 20),
-                              ),
-                              Text(
-                                item.adsDate,
-                                style: TextStyle(color: Colors.black),
-                              ),
-                              Text(
-                                item.adsTitle,
-                                style: TextStyle(
-                                    color: Colors.red,
-                                    fontSize: 24,
-                                    fontWeight: FontWeight.bold),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ],
+                        ],
+                      ),
                     );
                   },
                 )
@@ -143,9 +175,7 @@ class _NewsPageState extends State<NewsPage> {
                   child: Text(
                     "Stay tunes upcoming news...",
                     style: TextStyle(
-                      fontWeight: FontWeight.w300,
-                      letterSpacing: 3
-                    ),
+                        fontWeight: FontWeight.w300, letterSpacing: 3),
                   ),
                 ),
         ),

@@ -17,7 +17,7 @@ class _SplashScreenState extends State<SplashScreen> {
   Timer _timer;
 
   removeScreen() {
-    return _timer = Timer(Duration(seconds: 3), () {
+    return _timer = Timer(Duration(seconds: 2), () {
       widget.userId == null
           ? Navigator.pushReplacement(
               context,

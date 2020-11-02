@@ -97,6 +97,8 @@ class _DrinksPageState extends State<DrinksPage> {
                         gridDelegate:
                             new SliverGridDelegateWithFixedCrossAxisCount(
                           crossAxisCount: 2,
+                          childAspectRatio: MediaQuery.of(context).size.width /
+                              (MediaQuery.of(context).size.height / 1.5),
                         ),
                         itemBuilder: (context, index) {
                           final item = listProduct[index];
@@ -111,65 +113,149 @@ class _DrinksPageState extends State<DrinksPage> {
                               });
                             },
                             child: GridTile(
+                                child: Container(
+                              height: double.infinity,
+                              width: 189,
+                              margin: EdgeInsets.only(right: 7),
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
-                                mainAxisAlignment: MainAxisAlignment.start,
                                 children: [
                                   Expanded(
                                     child: Container(
-                                      height: 100,
                                       width: double.infinity,
-                                      margin: EdgeInsets.only(
-                                          left: 10,
-                                          top: 15,
-                                          right: 10,
-                                          bottom: 2),
-                                      child: ClipRRect(
-                                        borderRadius:
-                                            BorderRadius.circular(5.0),
-                                        child: CachedNetworkImage(
-                                          fit: BoxFit.cover,
-                                          useOldImageOnUrlChange: false,
-                                          imageUrl:
-                                              "https://yomies.com.my/pages/product/photo/${item.photo}",
-                                          errorWidget: (context, url, error) {
-                                            return Image(
-                                              image: AssetImage(
-                                                  "assets/images/news1.jpg"),
-                                            );
-                                          },
+                                      height: double.infinity,
+                                      decoration: BoxDecoration(
+                                        color: Colors.white,
+                                        borderRadius: BorderRadius.circular(10),
+                                      ),
+                                      child: Container(
+                                        margin: EdgeInsets.all(3),
+                                        decoration: BoxDecoration(
+                                          border: Border.all(
+                                              color: Colors.grey[300]),
+                                          borderRadius:
+                                              BorderRadius.circular(10),
+                                        ),
+                                        child: Column(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.center,
+                                          children: [
+                                            Expanded(
+                                              child: Container(
+                                                height: 100,
+                                                width: double.infinity,
+                                                margin: EdgeInsets.only(
+                                                    left: 10,
+                                                    top: 15,
+                                                    right: 10,
+                                                    bottom: 2),
+                                                child: ClipRRect(
+                                                  borderRadius:
+                                                      BorderRadius.circular(
+                                                          5.0),
+                                                  child: CachedNetworkImage(
+                                                    fit: BoxFit.cover,
+                                                    useOldImageOnUrlChange:
+                                                        false,
+                                                    imageUrl:
+                                                        "https://yomies.com.my/pages/product/photo/${item.photo}",
+                                                    errorWidget:
+                                                        (context, url, error) {
+                                                      return Image(
+                                                        image: AssetImage(
+                                                            "assets/images/news1.jpg"),
+                                                      );
+                                                    },
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
+                                            SizedBox(
+                                              height: 5,
+                                            ),
+                                            Padding(
+                                              padding:
+                                                  EdgeInsets.only(left: 10),
+                                              child: Text(
+                                                item.productName,
+                                                style: TextStyle(
+                                                    fontWeight: FontWeight.bold,
+                                                    fontSize: 20),
+                                              ),
+                                            ),
+                                            SizedBox(
+                                              height: 5,
+                                            ),
+                                            Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.center,
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.center,
+                                              children: [
+                                                Text(
+                                                  "RM" + item.priceNormal,
+                                                  style: TextStyle(
+                                                      fontWeight:
+                                                          FontWeight.w400),
+                                                ),
+                                                Text(
+                                                  " or ",
+                                                  style: TextStyle(
+                                                      color: Colors.grey),
+                                                ),
+                                                Text(
+                                                  item.point + "pts",
+                                                  style: TextStyle(
+                                                      fontWeight:
+                                                          FontWeight.w400),
+                                                )
+                                              ],
+                                            ),
+                                            SizedBox(
+                                              height: 8,
+                                            ),
+                                            Container(
+                                              height: 25,
+                                              width: 100,
+                                              margin: EdgeInsets.only(
+                                                  left: 10, right: 10),
+                                              alignment: Alignment.center,
+                                              decoration: BoxDecoration(
+                                                color: Theme.of(context)
+                                                    .primaryColor,
+                                                shape: BoxShape.rectangle,
+                                                borderRadius: BorderRadius.all(
+                                                    Radius.circular(30.0)),
+                                              ),
+                                              child: Text(
+                                                "View Details",
+                                                style: TextStyle(
+                                                  fontWeight: FontWeight.bold,
+                                                  color: Colors.white,
+                                                  shadows: <Shadow>[
+                                                    Shadow(
+                                                        offset:
+                                                            Offset(1.0, 1.0),
+                                                        blurRadius: 1.0,
+                                                        color: Colors.black
+                                                            .withOpacity(0.2)),
+                                                  ],
+                                                ),
+                                              ),
+                                            ),
+                                            SizedBox(
+                                              height: 5,
+                                            ),
+                                          ],
                                         ),
                                       ),
                                     ),
                                   ),
-                                  Padding(
-                                    padding: EdgeInsets.only(left: 10),
-                                    child: Text(
-                                      item.productName,
-                                      style: TextStyle(
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 14),
-                                    ),
-                                  ),
-                                  Padding(
-                                    padding: EdgeInsets.only(left: 10),
-                                    child: Text(
-                                      item.point.toString() +
-                                          "pts" +
-                                          " / " +
-                                          "RM " +
-                                          item.priceNormal.toString(),
-                                      style: TextStyle(
-                                          fontWeight: FontWeight.w400,
-                                          fontSize: 16),
-                                    ),
-                                  ),
-                                  SizedBox(
-                                    height: 20,
-                                  ),
                                 ],
                               ),
-                            ),
+                            )),
                           );
                         },
                       ),
@@ -244,18 +330,18 @@ class _DrinksPageState extends State<DrinksPage> {
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             Text(
-                              "Details ",
-                              style: TextStyle(
-                                  color: Colors.grey,
-                                  fontWeight: FontWeight.bold),
-                            ),
-                            SizedBox(height: 8),
-                            Text(
                               response["product_name"],
                               style: TextStyle(
                                 fontWeight: FontWeight.w500,
-                                fontSize: 15,
+                                fontSize: 22,
                               ),
+                            ),
+                            SizedBox(height: 8),
+                            Text(
+                              "Price ",
+                              style: TextStyle(
+                                  color: Colors.grey,
+                                  fontWeight: FontWeight.bold),
                             ),
                             Row(
                               crossAxisAlignment: CrossAxisAlignment.start,
@@ -275,6 +361,17 @@ class _DrinksPageState extends State<DrinksPage> {
                                     fontSize: 16,
                                   ),
                                 ),
+                                Text(
+                                  " or ",
+                                  style: TextStyle(color: Colors.grey),
+                                ),
+                                Text(
+                                  response["point"].toString() + "pts",
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 16,
+                                  ),
+                                ),
                               ],
                             ),
                             SizedBox(height: 30),
@@ -284,7 +381,6 @@ class _DrinksPageState extends State<DrinksPage> {
                                   color: Colors.grey,
                                   fontWeight: FontWeight.bold),
                             ),
-                            SizedBox(height: 8),
                             Row(
                               children: [
                                 Text(
@@ -329,7 +425,8 @@ class _DrinksPageState extends State<DrinksPage> {
                     margin: const EdgeInsets.all(15.0),
                     padding: const EdgeInsets.all(10.0),
                     decoration: BoxDecoration(
-                        border: Border.all(color: Theme.of(context).primaryColor)),
+                        border:
+                            Border.all(color: Theme.of(context).primaryColor)),
                     child: Text(
                       response["product_code"],
                       style:
