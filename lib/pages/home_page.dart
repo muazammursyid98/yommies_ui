@@ -10,6 +10,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:yommie/class/hex_color.dart';
 import 'package:yommie/models/homePageModels.dart';
 import 'package:yommie/pages/my_qr.dart';
+import 'package:yommie/pages/userMenu.dart';
 
 class HomePage extends StatefulWidget {
   final String userId;
@@ -43,7 +44,6 @@ class _HomePageState extends State<HomePage> {
     var jsons = {};
     // jsons["userId"] = widget.userId;
     HomePageModels().homepagePhp(jsons, context).then((value) {
-      
       final dataAds = value["data_ads"] == null ? [] : value["data_ads"];
       final dataLocation =
           value["data_location"] == null ? [] : value["data_location"];
@@ -102,75 +102,36 @@ class _HomePageState extends State<HomePage> {
         appBar: PreferredSize(
           preferredSize: Size.fromHeight(180.0), // here the desired height
           child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              SafeArea(
-                child: Container(
-                  height: 100,
-                  width: double.infinity,
-                  padding: EdgeInsets.only(top: 30, left: 10, right: 20),
-                  color: HexColor('#FFC5C5'),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Column(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            "Total Loyalty Point",
-                            style: TextStyle(
-                                fontSize: 16, fontWeight: FontWeight.w500),
+              Container(
+                height: 140,
+                width: double.infinity,
+                child: SafeArea(
+                  child: Container(
+                    width: double.infinity,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Spacer(),
+                        Text(
+                          "Total Loyalty",
+                          style: TextStyle(
+                              fontSize: 16, fontWeight: FontWeight.w500),
+                        ),
+                        SizedBox(height: 10),
+                        Text(
+                          "$userpoint" + " pts",
+                          style: TextStyle(
+                            fontSize: 20,
+                            color: Colors.black,
+                            fontWeight: FontWeight.w900,
                           ),
-                          Row(
-                            children: [
-                              CircularPercentIndicator(
-                                radius: 40.0,
-                                lineWidth: 6.0,
-                                percent: 0.40,
-                                center: new Icon(
-                                  FontAwesomeIcons.chessQueen,
-                                  size: 18.0,
-                                  color: Colors.redAccent,
-                                ),
-                                backgroundColor: Colors.grey,
-                                progressColor: Colors.redAccent,
-                              ),
-                              SizedBox(width: 5),
-                              Text(
-                                "$userpoint",
-                                style: TextStyle(
-                                    fontSize: 16,
-                                    color: Colors.black,
-                                    fontWeight: FontWeight.bold),
-                              ),
-                            ],
-                          ),
-                        ],
-                      ),
-                      Padding(
-                          padding: EdgeInsets.only(top: 15),
-                          child: Icon(Icons.arrow_forward_ios)),
-                      Expanded(child: SizedBox()),
-                      // Padding(
-                      //   padding: EdgeInsets.only(top: 15),
-                      //   child: GestureDetector(
-                      //     onTap: () {
-                      //       Navigator.push(
-                      //         context,
-                      //         MaterialPageRoute(
-                      //           builder: (BuildContext context) => CartPage(),
-                      //         ),
-                      //       );
-                      //
-                      //     child: Icon(
-                      //       FontAwesomeIcons.cartPlus,
-                      //       size: 30.0,
-                      //       color: Colors.black54,
-                      //     ),
-                      //   ),
-                      // ),
-                    ],
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               ),
@@ -178,15 +139,19 @@ class _HomePageState extends State<HomePage> {
                 child: Container(
                   color: HexColor('#FFC5C5'),
                   child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    crossAxisAlignment: CrossAxisAlignment.end,
+                    mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       buildExpandedMenu(),
+                      SizedBox(width: 8),
                       buildExpandedLocateUs(),
+                      SizedBox(width: 8),
                       buildExpandedReward(),
                     ],
                   ),
                 ),
-              )
+              ),
+              SizedBox(height: 10),
             ],
           ),
         ),
@@ -268,39 +233,35 @@ class _HomePageState extends State<HomePage> {
           padding: EdgeInsets.only(left: 20),
           child: Text(
             title,
-            style: TextStyle(
-                color: Colors.black54,
-                fontWeight: FontWeight.bold,
-                fontSize: 22,
-                letterSpacing: 0.5),
+            style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
           ),
         ),
         Spacer(),
-        Text(
-          "Show more",
-          style: TextStyle(
-            color: Colors.grey,
-            fontWeight: FontWeight.bold,
-            fontSize: 15,
-          ),
-        ),
-        Padding(
-          padding: const EdgeInsets.only(right: 8),
-          child: Icon(
-            Icons.arrow_forward_ios,
-            color: Colors.grey,
-            size: 20,
-          ),
-        ),
+        // Text(
+        //   "Show more",
+        //   style: TextStyle(
+        //     color: Colors.grey,
+        //     fontWeight: FontWeight.bold,
+        //     fontSize: 15,
+        //   ),
+        // ),
+        // Padding(
+        //   padding: const EdgeInsets.only(right: 8),
+        //   child: Icon(
+        //     Icons.arrow_forward_ios,
+        //     color: Colors.grey,
+        //     size: 20,
+        //   ),
+        // ),
       ],
     );
   }
 
   Container buildContainerEvent() {
     return Container(
-      padding: EdgeInsets.only(left: 20),
+      padding: EdgeInsets.only(left: 11),
       width: double.infinity,
-      height: 140,
+      height: 210,
       child: Row(
         children: [
           Expanded(
@@ -311,35 +272,83 @@ class _HomePageState extends State<HomePage> {
                 final item = listEvent[index];
                 return Container(
                   height: double.infinity,
-                  width: 160,
-                  margin: EdgeInsets.only(right: 20),
+                  width: 189,
+                  margin: EdgeInsets.only(right: 7),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Expanded(
                         child: Container(
                           width: double.infinity,
-                          height: 120,
-                          child: CachedNetworkImage(
-                            fit: BoxFit.cover,
-                            useOldImageOnUrlChange: false,
-                            imageUrl:
-                                "https://yomies.com.my/pages/event/photo_event/${item.eventPhoto}",
-                            errorWidget: (context, url, error) {
-                              return Image(
-                                image: AssetImage("assets/images/news1.jpg"),
-                              );
-                            },
+                          height: double.infinity,
+                          decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                          child: Container(
+                            margin: EdgeInsets.all(3),
+                            decoration: BoxDecoration(
+                              border: Border.all(color: Colors.grey[300]),
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                Container(
+                                  margin: EdgeInsets.all(0),
+                                  width: double.infinity,
+                                  height: 110,
+                                  child: ClipRRect(
+                                    borderRadius: BorderRadius.only(
+                                      topLeft: Radius.circular(10.0),
+                                      topRight: Radius.circular(10.0),
+                                    ),
+                                    child: Image(
+                                      fit: BoxFit.cover,
+                                      image: AssetImage(
+                                          "assets/images/subang.jpg"),
+                                    ),
+                                  ),
+                                ),
+                                SizedBox(height: 10),
+                                Text(
+                                  item.eventName,
+                                  textAlign: TextAlign.center,
+                                ),
+                                Spacer(),
+                                Container(
+                                  height: 25,
+                                  width: 100,
+                                  margin: EdgeInsets.only(left: 10, right: 10),
+                                  alignment: Alignment.center,
+                                  decoration: BoxDecoration(
+                                    color: Theme.of(context).primaryColor,
+                                    shape: BoxShape.rectangle,
+                                    borderRadius:
+                                        BorderRadius.all(Radius.circular(30.0)),
+                                  ),
+                                  child: Text(
+                                    "See More",
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.white,
+                                      shadows: <Shadow>[
+                                        Shadow(
+                                            offset: Offset(1.0, 1.0),
+                                            blurRadius: 1.0,
+                                            color:
+                                                Colors.black.withOpacity(0.2)),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                                SizedBox(height: 6)
+                              ],
+                            ),
                           ),
                         ),
                       ),
-                      SizedBox(height: 8),
-                      Text(
-                        item.eventName,
-                        maxLines: 1,
-                        style: TextStyle(
-                            fontWeight: FontWeight.bold, fontSize: 13),
-                      )
                     ],
                   ),
                 );
@@ -429,9 +438,9 @@ class _HomePageState extends State<HomePage> {
 
   Container buildContainerProduct() {
     return Container(
-      padding: EdgeInsets.only(left: 20),
+      padding: EdgeInsets.only(left: 11),
       width: double.infinity,
-      height: 140,
+      height: 210,
       child: Row(
         children: [
           Expanded(
@@ -442,35 +451,83 @@ class _HomePageState extends State<HomePage> {
                 final item = listProduct[index];
                 return Container(
                   height: double.infinity,
-                  width: 160,
-                  margin: EdgeInsets.only(right: 20),
+                  width: 189,
+                  margin: EdgeInsets.only(right: 7),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Expanded(
                         child: Container(
                           width: double.infinity,
-                          height: 120,
-                          child: CachedNetworkImage(
-                            fit: BoxFit.cover,
-                            useOldImageOnUrlChange: false,
-                            imageUrl:
-                                "https://yomies.com.my/pages/product/photo/${item.photo}",
-                            errorWidget: (context, url, error) {
-                              return Image(
-                                image: AssetImage("assets/images/news1.jpg"),
-                              );
-                            },
+                          height: double.infinity,
+                          decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                          child: Container(
+                            margin: EdgeInsets.all(3),
+                            decoration: BoxDecoration(
+                              border: Border.all(color: Colors.grey[300]),
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                Container(
+                                  margin: EdgeInsets.all(0),
+                                  width: double.infinity,
+                                  height: 110,
+                                  child: ClipRRect(
+                                    borderRadius: BorderRadius.only(
+                                      topLeft: Radius.circular(10.0),
+                                      topRight: Radius.circular(10.0),
+                                    ),
+                                    child: Image(
+                                      fit: BoxFit.cover,
+                                      image: AssetImage(
+                                          "assets/images/subang.jpg"),
+                                    ),
+                                  ),
+                                ),
+                                SizedBox(height: 10),
+                                Text(
+                                  item.productName,
+                                  textAlign: TextAlign.center,
+                                ),
+                                Spacer(),
+                                Container(
+                                  height: 25,
+                                  width: 100,
+                                  margin: EdgeInsets.only(left: 10, right: 10),
+                                  alignment: Alignment.center,
+                                  decoration: BoxDecoration(
+                                    color: Theme.of(context).primaryColor,
+                                    shape: BoxShape.rectangle,
+                                    borderRadius:
+                                        BorderRadius.all(Radius.circular(30.0)),
+                                  ),
+                                  child: Text(
+                                    "See More",
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.white,
+                                      shadows: <Shadow>[
+                                        Shadow(
+                                            offset: Offset(1.0, 1.0),
+                                            blurRadius: 1.0,
+                                            color:
+                                                Colors.black.withOpacity(0.2)),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                                SizedBox(height: 6)
+                              ],
+                            ),
                           ),
                         ),
                       ),
-                      SizedBox(height: 8),
-                      Text(
-                        item.productName,
-                        maxLines: 1,
-                        style: TextStyle(
-                            fontWeight: FontWeight.bold, fontSize: 13),
-                      )
                     ],
                   ),
                 );
@@ -484,48 +541,97 @@ class _HomePageState extends State<HomePage> {
 
   Container buildContainerLocation() {
     return Container(
-      padding: EdgeInsets.only(left: 20),
+      padding: EdgeInsets.only(left: 11),
       width: double.infinity,
-      height: 140,
+      height: 210,
       child: Row(
         children: [
           Expanded(
             child: ListView.builder(
+              physics: ClampingScrollPhysics(),
               scrollDirection: Axis.horizontal,
               itemCount: listLocation.length,
               itemBuilder: (context, index) {
                 final item = listLocation[index];
                 return Container(
                   height: double.infinity,
-                  width: 160,
-                  margin: EdgeInsets.only(right: 20),
+                  width: 189,
+                  margin: EdgeInsets.only(right: 7),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Expanded(
                         child: Container(
                           width: double.infinity,
-                          height: 120,
-                          child: CachedNetworkImage(
-                            fit: BoxFit.cover,
-                            useOldImageOnUrlChange: false,
-                            imageUrl:
-                                "https://yomies.com.my/pages/location/photo/${item.photo}",
-                            errorWidget: (context, url, error) {
-                              return Image(
-                                image: AssetImage("assets/images/news1.jpg"),
-                              );
-                            },
+                          height: double.infinity,
+                          decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                          child: Container(
+                            margin: EdgeInsets.all(3),
+                            decoration: BoxDecoration(
+                              border: Border.all(color: Colors.grey[300]),
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                Container(
+                                  margin: EdgeInsets.all(0),
+                                  width: double.infinity,
+                                  height: 110,
+                                  child: ClipRRect(
+                                    borderRadius: BorderRadius.only(
+                                      topLeft: Radius.circular(10.0),
+                                      topRight: Radius.circular(10.0),
+                                    ),
+                                    child: Image(
+                                      fit: BoxFit.cover,
+                                      image: AssetImage(
+                                          "assets/images/subang.jpg"),
+                                    ),
+                                  ),
+                                ),
+                                SizedBox(height: 10),
+                                Text(
+                                  item.branchName,
+                                  textAlign: TextAlign.center,
+                                ),
+                                Spacer(),
+                                Container(
+                                  height: 25,
+                                  width: 100,
+                                  margin: EdgeInsets.only(left: 10, right: 10),
+                                  alignment: Alignment.center,
+                                  decoration: BoxDecoration(
+                                    color: Theme.of(context).primaryColor,
+                                    shape: BoxShape.rectangle,
+                                    borderRadius:
+                                        BorderRadius.all(Radius.circular(30.0)),
+                                  ),
+                                  child: Text(
+                                    "Go Now",
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.white,
+                                      shadows: <Shadow>[
+                                        Shadow(
+                                            offset: Offset(1.0, 1.0),
+                                            blurRadius: 1.0,
+                                            color:
+                                                Colors.black.withOpacity(0.2)),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                                SizedBox(height: 6)
+                              ],
+                            ),
                           ),
                         ),
                       ),
-                      SizedBox(height: 8),
-                      Text(
-                        item.branchName.toUpperCase(),
-                        maxLines: 1,
-                        style: TextStyle(
-                            fontWeight: FontWeight.bold, fontSize: 13),
-                      )
                     ],
                   ),
                 );
@@ -537,88 +643,83 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  Expanded buildExpandedReward() {
-    return Expanded(
-      child: GestureDetector(
-        onTap: () {
-          // Navigator.push(
-          //   context,
-          //   MaterialPageRoute(
-          //     builder: (BuildContext context) => RewardPage(),
-          //   ),
-          // );
-        },
-        child: Container(
-          height: 30,
-          margin: EdgeInsets.only(left: 10, right: 10),
-          alignment: Alignment.center,
-          decoration: BoxDecoration(
-            color: Colors.white,
-            shape: BoxShape.rectangle,
-            borderRadius: BorderRadius.all(Radius.circular(30.0)),
-          ),
-          child: Text(
-            "Reward",
-            style: TextStyle(fontWeight: FontWeight.w500),
-          ),
+  GestureDetector buildExpandedReward() {
+    return GestureDetector(
+      onTap: () {
+        // Navigator.push(
+        //   context,
+        //   MaterialPageRoute(
+        //     builder: (BuildContext context) => RewardPage(),
+        //   ),
+        // );
+      },
+      child: Container(
+        height: 30,
+        width: 100,
+        alignment: Alignment.center,
+        decoration: BoxDecoration(
+          color: Colors.white,
+          shape: BoxShape.rectangle,
+          borderRadius: BorderRadius.all(Radius.circular(30.0)),
+        ),
+        child: Text(
+          "Reward",
+          style: TextStyle(fontWeight: FontWeight.w500),
         ),
       ),
     );
   }
 
-  Expanded buildExpandedLocateUs() {
-    return Expanded(
-      child: GestureDetector(
-        onTap: () {
-          // Navigator.push(
-          //   context,
-          //   MaterialPageRoute(
-          //     builder: (BuildContext context) => DrinksPage(),
-          //   ),
-          // );
-        },
-        child: Container(
-          height: 30,
-          margin: EdgeInsets.only(left: 10, right: 10),
-          alignment: Alignment.center,
-          decoration: BoxDecoration(
-            color: Colors.white,
-            shape: BoxShape.rectangle,
-            borderRadius: BorderRadius.all(Radius.circular(30.0)),
-          ),
-          child: Text(
-            "Locate Us",
-            style: TextStyle(fontWeight: FontWeight.w500),
-          ),
+  GestureDetector buildExpandedLocateUs() {
+    return GestureDetector(
+      onTap: () {
+        // Navigator.push(
+        //   context,
+        //   MaterialPageRoute(
+        //     builder: (BuildContext context) => DrinksPage(),
+        //   ),
+        // );
+      },
+      child: Container(
+        height: 30,
+        width: 100,
+        alignment: Alignment.center,
+        decoration: BoxDecoration(
+          color: Colors.white,
+          shape: BoxShape.rectangle,
+          borderRadius: BorderRadius.all(Radius.circular(30.0)),
+        ),
+        child: Text(
+          "Locate Us",
+          style: TextStyle(fontWeight: FontWeight.w500),
         ),
       ),
     );
   }
 
-  Expanded buildExpandedMenu() {
-    return Expanded(
-      child: GestureDetector(
-        onTap: () {
-          // Navigator.push(
-          //   context,
-          //   MaterialPageRoute(
-          //     builder: (BuildContext context) => NewsPage(),
-          //   ),
-          // );
-        },
-        child: Container(
-          height: 30,
-          margin: EdgeInsets.only(left: 10, right: 10),
-          alignment: Alignment.center,
-          decoration: BoxDecoration(
-            color: Colors.white,
-            shape: BoxShape.rectangle,
-            borderRadius: BorderRadius.all(Radius.circular(30.0)),
+  GestureDetector buildExpandedMenu() {
+    return GestureDetector(
+      onTap: () {
+        Navigator.of(context).pop();
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (BuildContext context) => UserMenuPage(),
           ),
-          child: Text(
-            "Menu",
-            style: TextStyle(fontWeight: FontWeight.w500),
-          ),
+        );
+      },
+      child: Container(
+        height: 30,
+        width: 100,
+        alignment: Alignment.center,
+        decoration: BoxDecoration(
+          color: Colors.white,
+          shape: BoxShape.rectangle,
+          borderRadius: BorderRadius.all(Radius.circular(30.0)),
+        ),
+        child: Text(
+          "Menu",
+          style: TextStyle(fontWeight: FontWeight.w500),
         ),
       ),
     );

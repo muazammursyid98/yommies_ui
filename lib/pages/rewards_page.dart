@@ -7,7 +7,8 @@ import 'package:yommie/models/rewardModels.dart';
 import 'package:yommie/pages/detail_reward.dart';
 
 class RewardPage extends StatefulWidget {
-  RewardPage({Key key}) : super(key: key);
+  final String userId;
+  RewardPage({this.userId});
 
   @override
   _RewardPageState createState() => _RewardPageState();
@@ -279,17 +280,22 @@ class _RewardPageState extends State<RewardPage> {
                       },
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.start,
-                        crossAxisAlignment: CrossAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
                           SizedBox(
                             height: 20,
                           ),
-                          Text(
-                            "Unlock at ${item.point} Points",
-                            style: TextStyle(
-                                color: Colors.black45,
-                                fontSize: 16,
-                                fontWeight: FontWeight.bold),
+                          Container(
+                            width: double.infinity,
+                            height: 25,
+                            child: Text(
+                              "Unlock at ${item.point} Points",
+                              textAlign: TextAlign.start,
+                              style: TextStyle(
+                                  color: Colors.black,
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.bold),
+                            ),
                           ),
                           SizedBox(height: 8),
                           Row(
@@ -344,26 +350,33 @@ class _RewardPageState extends State<RewardPage> {
                           ),
                           SizedBox(height: 10),
                           item.status != "LOCK"
-                              ? SizedBox(
+                              ? Container(
                                   height: 40,
-                                  width: double.infinity,
-                                  child: RaisedButton(
-                                    shape: RoundedRectangleBorder(
-                                        borderRadius:
-                                            BorderRadius.circular(20)),
-                                    onPressed: () {
-                                      Navigator.push(
-                                        context,
-                                        PageTransition(
-                                          type: PageTransitionType.bottomToTop,
-                                          child: DetailReward(),
-                                        ),
-                                      );
-                                    },
-                                    child: Text(
-                                      "USED AT COUNTER",
-                                      style: TextStyle(
-                                          fontWeight: FontWeight.bold),
+                                  width: 200,
+                                  alignment: Alignment.center,
+                                  child: Center(
+                                    child: RaisedButton(
+                                      shape: RoundedRectangleBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(20)),
+                                      onPressed: () {
+                                        Navigator.push(
+                                          context,
+                                          PageTransition(
+                                            type:
+                                                PageTransitionType.bottomToTop,
+                                            child: DetailReward(
+                                              userId: widget.userId,
+                                              rewardId: item.id,
+                                            ),
+                                          ),
+                                        );
+                                      },
+                                      child: Text(
+                                        "USED AT COUNTER",
+                                        style: TextStyle(
+                                            fontWeight: FontWeight.bold),
+                                      ),
                                     ),
                                   ),
                                 )
@@ -384,6 +397,8 @@ class _RewardPageState extends State<RewardPage> {
                                     ),
                                   ),
                                 ),
+                          SizedBox(height: 20),
+                          Divider(height: 0, thickness: 1)
                         ],
                       ),
                     );

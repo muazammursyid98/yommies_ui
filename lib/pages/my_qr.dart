@@ -91,72 +91,61 @@ class _MyQRPageState extends State<MyQRPage> {
         ),
       ),
       backgroundColor: Colors.grey[200],
-      body: ListView(
+      body: Column(
         children: [
           Container(
-            color: Colors.white,
-            alignment: Alignment.center,
-            child: Column(
-              children: [
-                QrImage(
-                  foregroundColor: Colors.black87.withOpacity(0.7),
-                  backgroundColor: Colors.white,
-                  data: widget.userId,
-                  version: QrVersions.auto,
-                  size: 250,
-                  gapless: false,
+            margin: EdgeInsets.only(top: 20),
+            width: 200,
+            height: 200,
+            decoration: BoxDecoration(
+              color: Colors.white,
+              border: Border.all(color: Colors.white),
+              borderRadius: BorderRadius.circular(10),
+            ),
+            child: Container(
+              width: 100,
+              height: 100,
+              child: Container(
+                margin: EdgeInsets.all(3),
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  border: Border.all(color: Colors.grey[300]),
+                  borderRadius: BorderRadius.circular(10),
                 ),
-                Text(
-                  widget.userId,
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                    color: Colors.grey,
-                    fontSize: 18,
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(10),
+                  child: QrImage(
+                    foregroundColor: Colors.black87.withOpacity(0.7),
+                    backgroundColor: Colors.white,
+                    data: widget.userId,
+                    version: QrVersions.auto,
+                    size: 250,
+                    gapless: false,
                   ),
                 ),
-                SizedBox(height: 8),
-                Divider(
-                  height: 1,
-                  thickness: 2,
-                ),
-                SizedBox(height: 8),
-                Text(
-                  "Show QR Code to cashier during payments for points collection",
-                  style: TextStyle(fontWeight: FontWeight.w400),
-                  textAlign: TextAlign.center,
-                ),
-                SizedBox(height: 8),
-                Divider(
-                  height: 1,
-                  thickness: 2,
-                ),
-              ],
+              ),
             ),
           ),
           Container(
             color: Colors.grey[200],
             width: double.infinity,
-            padding: EdgeInsets.only(
-              left: 20,
-              right: 20,
-              top: 13,
-            ),
+            padding: EdgeInsets.only(left: 20, right: 20, top: 13),
             height: 400,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
+                SizedBox(height: 10),
                 Text(
                   "MY REWARDS",
                   style: TextStyle(
-                    color: Colors.blue[300],
+                    color: HexColor('#E8A2A2'),
                     fontWeight: FontWeight.bold,
                     fontSize: 18,
                   ),
                 ),
                 myRewards(),
                 myRewards(),
-                myRewards()
               ],
             ),
           )
@@ -167,72 +156,86 @@ class _MyQRPageState extends State<MyQRPage> {
 
   Container myRewards() {
     return Container(
-      margin: EdgeInsets.only(top: 20),
-      height: 100,
+      margin: EdgeInsets.only(top: 10),
       width: double.infinity,
-      child: Card(
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(10.0),
-        ),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Container(
-              width: 140,
-              height: double.infinity,
-              child: ClipRRect(
-                borderRadius: BorderRadius.only(
-                  topLeft: Radius.circular(10.0),
-                  bottomLeft: Radius.circular(10.0),
-                ),
-                child: CachedNetworkImage(
-                  fit: BoxFit.cover,
-                  useOldImageOnUrlChange: false,
-                  imageUrl:
-                      "https://yomies.com.my/pages/product/photo/yomie-bg-1-3090189656.jpg",
-                  errorWidget: (context, url, error) {
-                    return Image(
-                      image: AssetImage("assets/images/news1.jpg"),
-                    );
-                  },
-                ),
-              ),
-            ),
-            SizedBox(width: 8),
-            Expanded(
-              child: Container(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(
-                      "Birthday Reward",
-                      style: TextStyle(
-                        fontWeight: FontWeight.w600,
-                        color: Colors.blue[300],
+      height: 140,
+      decoration: BoxDecoration(
+        color: Colors.white,
+        border: Border.all(color: Colors.white),
+        borderRadius: BorderRadius.circular(10),
+      ),
+      child: Container(
+        width: 100,
+        height: 100,
+        child: Container(
+          margin: EdgeInsets.all(3),
+          decoration: BoxDecoration(
+            color: Colors.white,
+            border: Border.all(color: Colors.grey[300]),
+            borderRadius: BorderRadius.circular(10),
+          ),
+          child: ClipRRect(
+              borderRadius: BorderRadius.circular(10),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Container(
+                    width: 140,
+                    height: double.infinity,
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.only(
+                        topLeft: Radius.circular(10.0),
+                        bottomLeft: Radius.circular(10.0),
+                      ),
+                      child: CachedNetworkImage(
+                        fit: BoxFit.cover,
+                        useOldImageOnUrlChange: false,
+                        imageUrl:
+                            "https://yomies.com.my/pages/product/photo/yomie-bg-1-3090189656.jpg",
+                        errorWidget: (context, url, error) {
+                          return Image(
+                            image: AssetImage("assets/images/news1.jpg"),
+                          );
+                        },
                       ),
                     ),
-                    Text(
-                      "Redeem any of smoothies drinks at nearest store in Klang Valley",
-                      style: TextStyle(
-                        color: Colors.black54,
-                        fontSize: 12,
+                  ),
+                  SizedBox(width: 20),
+                  Expanded(
+                    child: Container(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            "Birthday Reward",
+                            style: TextStyle(
+                              fontWeight: FontWeight.w600,
+                              color: HexColor('#E8A2A2'),
+                            ),
+                          ),
+                          Text(
+                            "Redeem any of smoothies drinks at nearest store in Klang Valley",
+                            style: TextStyle(
+                              color: Colors.black54,
+                              fontSize: 12,
+                            ),
+                          ),
+                        ],
                       ),
                     ),
-                  ],
-                ),
-              ),
-            ),
-            SizedBox(width: 8),
-            Center(
-              child: Icon(
-                Icons.arrow_forward_ios,
-                size: 16,
-              ),
-            ),
-            SizedBox(width: 8),
-          ],
+                  ),
+                  SizedBox(width: 8),
+                  Center(
+                    child: Icon(
+                      Icons.arrow_forward_ios,
+                      size: 16,
+                    ),
+                  ),
+                  SizedBox(width: 8),
+                ],
+              )),
         ),
       ),
     );

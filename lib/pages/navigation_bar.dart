@@ -67,7 +67,7 @@ class _NavigationBarState extends State<NavigationBar> {
             ),
             Icon(
               icons[index],
-              size: 28.0,
+              size: 23.0,
               color: _page == index
                   ? Theme.of(context).primaryColor
                   : Colors.black38,
@@ -105,7 +105,9 @@ class _NavigationBarState extends State<NavigationBar> {
           HomePage(userId: widget.userId),
           NewsPage(),
           DrinksPage(),
-          RewardPage(),
+          RewardPage(
+            userId: widget.userId,
+          ),
           UserMenuPage(
             userId: widget.userId,
           ),

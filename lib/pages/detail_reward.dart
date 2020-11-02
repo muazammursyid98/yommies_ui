@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:qr_flutter/qr_flutter.dart';
 
 class DetailReward extends StatefulWidget {
-  DetailReward({Key key}) : super(key: key);
+  final String userId;
+  final String rewardId;
+  DetailReward({this.userId, this.rewardId});
 
   @override
   _DetailRewardState createState() => _DetailRewardState();
@@ -51,16 +54,6 @@ class _DetailRewardState extends State<DetailReward> {
                         ),
                       ),
                     ),
-                    Text(
-                      "Hi, Wanie",
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 23,
-                      ),
-                    ),
-                    SizedBox(
-                      height: 10,
-                    ),
                   ],
                 ),
               ),
@@ -69,159 +62,62 @@ class _DetailRewardState extends State<DetailReward> {
         ),
       ),
       backgroundColor: Theme.of(context).primaryColor,
-      body: ListView(
-        children: [
-          Container(
-            width: double.infinity,
-            height: 490,
-            padding: EdgeInsets.only(left: 20, right: 20),
-            decoration: BoxDecoration(
-              color: Colors.white.withOpacity(0.9),
-              borderRadius: BorderRadius.only(
-                topLeft: Radius.circular(20.0),
-                topRight: Radius.circular(20.0),
-              ),
-            ),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                SizedBox(
-                  height: 10,
-                ),
-                Container(
-                  width: 350,
-                  height: 350,
-                  child: Image.asset('assets/images/qrcode.png'),
-                ),
-                Text(
-                  "MEMBER ID : 12031992",
-                  style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      color: Colors.purple[300],
-                      fontSize: 24),
-                ),
-                Divider(
-                  color: Colors.black,
-                ),
-                Expanded(
-                  child: Text(
-                    "Show QR Code to cashier during payments\nfor points collection",
-                    style: TextStyle(),
-                    textAlign: TextAlign.center,
-                  ),
-                ),
-                Text(
-                  "1,203 Points",
-                  style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      color: Colors.purple[300],
-                      fontSize: 24),
-                ),
-                SizedBox(
-                  height: 10,
-                ),
-              ],
-            ),
+      body: Container(
+        width: double.infinity,
+        height: MediaQuery.of(context).size.height * 1,
+        padding: EdgeInsets.only(left: 20, right: 20),
+        decoration: BoxDecoration(
+          color: Colors.white.withOpacity(0.9),
+          borderRadius: BorderRadius.only(
+            topLeft: Radius.circular(20.0),
+            topRight: Radius.circular(20.0),
           ),
-          Divider(
-            thickness: 3,
-            height: 1,
-            color: Colors.grey,
-          ),
-          Container(
-            width: double.infinity,
-            height: 50,
-            alignment: Alignment.centerLeft,
-            padding: EdgeInsets.only(left: 30),
-            child: Text(
-              "View Benefits",
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: [
+            SizedBox(
+              height: 60,
+            ),
+            QrImage(
+              foregroundColor: Colors.black87.withOpacity(0.7),
+              backgroundColor: Colors.white,
+              data: widget.userId + ":" + widget.rewardId,
+              version: QrVersions.auto,
+              size: 250,
+              gapless: false,
+            ),
+            Text(
+              "MEMBER ID : " + widget.userId,
               style: TextStyle(
                   fontWeight: FontWeight.bold,
-                  color: Colors.black54,
-                  fontSize: 18),
+                  color: Colors.purple[300],
+                  fontSize: 24),
             ),
-          ),
-          Divider(
-            thickness: 1,
-            height: 1,
-            color: Colors.grey,
-          ),
-          Container(
-            width: double.infinity,
-            height: 200,
-            color: Colors.grey[300],
-            child: Column(
-              children: [
-                SizedBox(
-                  height: 20,
-                ),
-                Container(
-                  width: double.infinity,
-                  margin: EdgeInsets.only(left: 30, right: 30),
-                  height: 120,
-                  decoration: BoxDecoration(
-                    border: Border.all(color: Colors.white, width: 3),
-                    color: Colors.grey[200],
-                    borderRadius: BorderRadius.all(
-                      Radius.circular(200.0),
-                    ),
-                  ),
-                  child: Row(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Container(
-                        margin: EdgeInsets.only(left: 4, top: 6),
-                        width: 100,
-                        height: 100,
-                        decoration: BoxDecoration(
-                          color: Colors.pink[100],
-                          shape: BoxShape.circle,
-                          image: DecorationImage(
-                              image: AssetImage('assets/images/qrcode.png'),
-                              fit: BoxFit.fill),
-                        ),
-                      ),
-                      Expanded(
-                        child: Padding(
-                          padding: const EdgeInsets.only(left: 10, right: 8),
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              SizedBox(
-                                height: 10,
-                              ),
-                              Text(
-                                "Redeem Your Point",
-                                style: TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                    color: Colors.purple[300],
-                                    fontSize: 18),
-                              ),
-                              SizedBox(
-                                height: 20,
-                              ),
-                              Expanded(
-                                child: Text(
-                                  "Redeem your point at neares Yomie's, and get a chance to get our special menu",
-                                  style: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      color: Colors.black54,
-                                      fontSize: 16),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                )
-              ],
+            Divider(
+              color: Colors.black,
             ),
-          )
-        ],
+            Text(
+              "Show QR Code to cashier during payments\nfor points collection",
+              style: TextStyle(),
+              textAlign: TextAlign.center,
+            ),
+            SizedBox(
+              height: 10,
+            ),
+            Text(
+              "Current Points 1,203",
+              style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  color: Colors.purple[300],
+                  fontSize: 24),
+            ),
+            SizedBox(
+              height: 10,
+            ),
+          ],
+        ),
       ),
     );
   }

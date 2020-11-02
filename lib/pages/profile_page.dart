@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:yommie/class/hex_color.dart';
 import 'package:yommie/models/profileModel.dart';
 import 'package:yommie/pages/change_password.dart';
 import 'package:yommie/pages/reset_password.dart';
@@ -46,11 +47,11 @@ class _ProfilePageState extends State<ProfilePage> {
               ),
               padding: EdgeInsets.only(left: 10, right: 10),
               width: double.infinity,
-              height: 340,
+              height: 410,
               child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  SizedBox(height: 10),
+                  SizedBox(height: 30),
                   Text(
                     "Personal Info",
                     style: TextStyle(
@@ -66,23 +67,24 @@ class _ProfilePageState extends State<ProfilePage> {
                   ),
                   SizedBox(height: 10),
                   Row(
-                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       Container(
-                        width: 70,
-                        height: 70,
+                        width: 120,
+                        height: 120,
                         decoration: BoxDecoration(
+                          border: Border.all(color: Colors.grey[300]),
                           shape: BoxShape.circle,
-                          image: DecorationImage(
-                            image: AssetImage('assets/images/user1.jpg'),
-                          ),
-                          boxShadow: [
-                            BoxShadow(
-                              color: Color(0xffd6a5c0),
-                              blurRadius: 40,
-                              offset: Offset(0, 10),
+                        ),
+                        child: Container(
+                          margin: EdgeInsets.all(2),
+                          decoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                            image: DecorationImage(
+                              image: AssetImage('assets/images/user1.jpg'),
                             ),
-                          ],
+                          ),
                         ),
                       ),
                       SizedBox(width: 20),
@@ -175,30 +177,23 @@ class _ProfilePageState extends State<ProfilePage> {
                       ),
                     ],
                   ),
-                  Padding(
-                    padding: const EdgeInsets.only(left: 10, top: 20),
-                    child: Text(
-                      "Email",
-                      style: TextStyle(
-                          color: Colors.black,
-                          fontSize: 15.0,
-                          fontFamily: 'Karla',
-                          fontWeight: FontWeight.bold),
-                    ),
+                  SizedBox(height: 30),
+                  Divider(
+                    color: Colors.grey,
+                    thickness: 0,
                   ),
-                  Expanded(
-                    child: Container(
-                      margin: const EdgeInsets.only(left: 10, top: 5),
-                      width: 300,
-                      child: Text(response["email"]),
-                    ),
-                  ),
+                  Spacer(),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
                       ButtonTheme(
                         minWidth: 150.0,
                         height: 50.0,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(30.0),
+                          side:
+                              BorderSide(color: Theme.of(context).primaryColor),
+                        ),
                         child: OutlineButton(
                           child: Text('CHANGE PASSWORD',
                               style: TextStyle(color: Colors.pink)),
@@ -220,9 +215,16 @@ class _ProfilePageState extends State<ProfilePage> {
                       ButtonTheme(
                         minWidth: 150.0,
                         height: 50.0,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(30.0),
+                          side:
+                              BorderSide(color: Theme.of(context).primaryColor),
+                        ),
                         child: OutlineButton(
-                          child: Text('EDIT PROFILE ',
-                              style: TextStyle(color: Colors.pink)),
+                          child: Text(
+                            'EDIT PROFILE ',
+                            style: TextStyle(color: Colors.pink),
+                          ),
                           borderSide: BorderSide(
                             color: Theme.of(context).primaryColor,
                             width: 1.8,
@@ -245,6 +247,18 @@ class _ProfilePageState extends State<ProfilePage> {
                       ),
                     ],
                   ),
+                  Padding(
+                    padding: const EdgeInsets.only(left: 10, top: 20),
+                    child: Text(
+                      "Email",
+                      style: TextStyle(
+                          color: Colors.black,
+                          fontSize: 15.0,
+                          fontFamily: 'Karla',
+                          fontWeight: FontWeight.bold),
+                    ),
+                  ),
+                  Text(response["email"]),
                   SizedBox(
                     height: 40,
                   )
@@ -252,31 +266,37 @@ class _ProfilePageState extends State<ProfilePage> {
               ),
             ),
             Container(
-              decoration: BoxDecoration(
-                boxShadow: kElevationToShadow[4],
-                color: Colors.white,
-              ),
-              margin: EdgeInsets.only(top: 20),
-              padding: EdgeInsets.only(left: 20),
-              height: 60,
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Text("Log out"),
-                  Spacer(),
-                  IconButton(
-                      icon: Icon(Icons.logout),
-                      onPressed: () async {
+              width: double.infinity,
+              height: 100,
+              child: Center(
+                child: Column(
+                  children: [
+                    SizedBox(height: 20),
+                    GestureDetector(
+                      onTap: () async {
                         final prefs = await SharedPreferences.getInstance();
                         prefs.clear();
                         var route = new MaterialPageRoute(
                           builder: (BuildContext context) => LoginPage(),
                         );
                         Navigator.of(context).pushReplacement(route);
-                      })
-                ],
+                      },
+                      child: Icon(
+                        Icons.logout,
+                        color: Colors.grey,
+                        size: 30,
+                      ),
+                    ),
+                    Text(
+                      "Log out",
+                      style: TextStyle(
+                        color: Colors.grey,
+                      ),
+                    )
+                  ],
+                ),
               ),
-            ),
+            )
           ],
         ),
       );

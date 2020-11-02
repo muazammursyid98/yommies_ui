@@ -329,7 +329,7 @@ class _DrinksPageState extends State<DrinksPage> {
                     margin: const EdgeInsets.all(15.0),
                     padding: const EdgeInsets.all(10.0),
                     decoration: BoxDecoration(
-                        border: Border.all(color: Colors.blueAccent)),
+                        border: Border.all(color: Theme.of(context).primaryColor)),
                     child: Text(
                       response["product_code"],
                       style:
