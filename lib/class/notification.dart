@@ -42,21 +42,21 @@ class MyNotification {
     // this token to send push notifications
   }
 
-  showNotification() async {
+  showNotification(Map<String, dynamic> msg) async {
+    final notification = msg['notification'];
     var android = new AndroidNotificationDetails(
         'id', 'channel ', 'description',
         priority: Priority.high, importance: Importance.max);
     var iOS = new IOSNotificationDetails();
     var platform = new NotificationDetails(android: android, iOS: iOS);
     await flutterLocalNotificationsPlugin.show(
-        0, 'Flutter devs', 'Flutter Local Notification Demo', platform,
-        payload: 'Welcome to the Local Notification demo ');
+        0, notification['title'], notification['body'], platform);
   }
 
   subcribeMessage(userId, BuildContext context) {
     contextx = context;
     userIdx = userId;
-    var android = new AndroidInitializationSettings('yomiesLogo');
+    var android = new AndroidInitializationSettings('yomieslogo');
     var ios = new IOSInitializationSettings();
     // var macOS = new MacOSInitializationSettings();
     var platform = new InitializationSettings(android: android, iOS: ios);
@@ -67,6 +67,7 @@ class MyNotification {
     _firebaseMessaging.subscribeToTopic('$userId');
     _firebaseMessaging.configure(
         onMessage: (Map<String, dynamic> message) async {
+      showNotification(message);
       handleRouting(messages, context, userId);
     }, onLaunch: (Map<String, dynamic> message) async {
       handleRouting(messages, context, userId);
