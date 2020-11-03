@@ -4,6 +4,7 @@ import 'package:cool_alert/cool_alert.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:yommie/class/alertDialog.dart';
+import 'package:yommie/class/notification.dart';
 import 'package:yommie/pages/navigation_bar.dart';
 import 'package:yommie/provider/rest.dart';
 
@@ -18,6 +19,7 @@ class LoginViewModels {
         final map = json.decode(response);
         if (map["user_type"] == "user") {
           final SharedPreferences prefs = await SharedPreferences.getInstance();
+          MyNotification().subcribeMessage(map["userId"], context);
           prefs.setString("userId", map["userId"]);
           prefs.setString("firstName", map["firstname"]);
           prefs.setString("email", map["email"]);

@@ -4,6 +4,7 @@ import 'package:page_transition/page_transition.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:yommie/class/alertDialog.dart';
 import 'package:yommie/class/hex_color.dart';
+import 'package:yommie/class/notification.dart';
 import 'package:yommie/models/profileModel.dart';
 import 'package:yommie/pages/change_password.dart';
 import 'package:yommie/pages/reset_password.dart';
@@ -303,6 +304,7 @@ class _ProfilePageState extends State<ProfilePage> {
   _goLogOut() async {
     DialogAction().alertDialog(context, "Alert !", CoolAlertType.warning,
         "Are you sure want to logout? ", "Yes", "No", () async {
+      MyNotification().unsubscribeMessage(widget.userId);
       final prefs = await SharedPreferences.getInstance();
       prefs.clear();
       var route = new MaterialPageRoute(
