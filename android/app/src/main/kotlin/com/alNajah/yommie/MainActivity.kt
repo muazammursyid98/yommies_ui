@@ -1,4 +1,4 @@
-package com.example.yommie
+package com.alNajah.yommie
 
 import io.flutter.embedding.android.FlutterActivity
 

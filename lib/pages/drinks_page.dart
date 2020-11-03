@@ -407,9 +407,9 @@ class _DrinksPageState extends State<DrinksPage> {
                   ],
                 ),
               ),
-              SizedBox(height: 15),
+              SizedBox(height: 10),
               Divider(height: 0, thickness: 1),
-              SizedBox(height: 15),
+              SizedBox(height: 10),
               Text(
                 "PRODUCT CODE",
                 style: TextStyle(

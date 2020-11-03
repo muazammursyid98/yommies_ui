@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "886957745013",
+    "firebase_url": "https://yomies-eedf5.firebaseio.com",
+    "project_id": "yomies-eedf5",
+    "storage_bucket": "yomies-eedf5.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:886957745013:android:a882130c730a9450f3693c",
+        "android_client_info": {
+          "package_name": "com.alNajah.yommie"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "886957745013-m5n9dpv68vdiircitroh84ohuffv5sea.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAdgxFdIysxuAf5JxiSUwvl9N9aJf3H9Tc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "886957745013-m5n9dpv68vdiircitroh84ohuffv5sea.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

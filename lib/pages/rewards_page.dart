@@ -463,7 +463,7 @@ class _RewardPageState extends State<RewardPage> {
             children: [
               Container(
                 margin: EdgeInsets.only(top: 20),
-                height: ResponsiveFlutter.of(context).verticalScale(100),
+                height: ResponsiveFlutter.of(context).verticalScale(120),
                 width: double.infinity,
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.start,

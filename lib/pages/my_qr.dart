@@ -130,7 +130,7 @@ class _MyQRPageState extends State<MyQRPage> {
             color: Colors.grey[200],
             width: double.infinity,
             padding: EdgeInsets.only(left: 20, right: 20, top: 13),
-            height: 400,
+            height: MediaQuery.of(context).size.height * 0.35,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisAlignment: MainAxisAlignment.start,
@@ -145,7 +145,7 @@ class _MyQRPageState extends State<MyQRPage> {
                   ),
                 ),
                 myRewards(),
-                myRewards(),
+                // myRewards(),
               ],
             ),
           )
