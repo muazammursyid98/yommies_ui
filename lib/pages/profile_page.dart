@@ -305,6 +305,7 @@ class _ProfilePageState extends State<ProfilePage> {
     DialogAction().alertDialog(context, "Alert !", CoolAlertType.warning,
         "Are you sure want to logout? ", "Yes", "No", () async {
       MyNotification().unsubscribeMessage(widget.userId);
+      MyNotification().unsubscribeMessage(widget.userId);
       final prefs = await SharedPreferences.getInstance();
       prefs.clear();
       var route = new MaterialPageRoute(

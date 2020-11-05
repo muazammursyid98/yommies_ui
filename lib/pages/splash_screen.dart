@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:responsive_flutter/responsive_flutter.dart';
+import 'package:yommie/class/notification.dart';
 import 'package:yommie/pages/login_page.dart';
 import 'package:yommie/pages/navigation_bar.dart';
 
@@ -31,7 +32,6 @@ class _SplashScreenState extends State<SplashScreen> {
                 builder: (BuildContext context) => NavigationBar(),
               ),
             );
-      ;
     });
   }
 

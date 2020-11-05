@@ -12,8 +12,7 @@ class HistoryModel {
         final jsonResponse = json.decode(response);
         return jsonResponse;
       } else {
-        final jsonResponse = json.decode(response);
-        return jsonResponse;
+        return [];
       }
     } catch (e) {}
   }
@@ -27,8 +26,25 @@ class HistoryModel {
         final jsonResponse = json.decode(response);
         return jsonResponse;
       } else {
+        return [];
+      }
+    } catch (e) {
+      print(e);
+    }
+  }
+
+  Future userHistoryByDate(jsons, context) async {
+    try {
+      var result = await GetAPI.providers(jsons, "user-history-filter.php");
+      var statusCode = result[0];
+      var response = result[1];
+      print(response);
+
+      if (statusCode == 200) {
         final jsonResponse = json.decode(response);
         return jsonResponse;
+      } else {
+        return [];
       }
     } catch (e) {
       print(e);

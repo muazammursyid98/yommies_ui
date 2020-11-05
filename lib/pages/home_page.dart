@@ -7,6 +7,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:responsive_flutter/responsive_flutter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:yommie/class/hex_color.dart';
+import 'package:yommie/class/notification.dart';
 import 'package:yommie/models/homePageModels.dart';
 import 'package:yommie/pages/locateUs_page.dart';
 import 'package:yommie/pages/my_qr.dart';
@@ -269,6 +270,7 @@ class _HomePageState extends State<HomePage> {
         children: [
           Expanded(
             child: ListView.builder(
+              physics: ClampingScrollPhysics(),
               scrollDirection: Axis.horizontal,
               itemCount: listEvent.length,
               itemBuilder: (context, index) {
@@ -307,10 +309,17 @@ class _HomePageState extends State<HomePage> {
                                       topLeft: Radius.circular(10.0),
                                       topRight: Radius.circular(10.0),
                                     ),
-                                    child: Image(
+                                    child: CachedNetworkImage(
                                       fit: BoxFit.cover,
-                                      image: AssetImage(
-                                          "assets/images/subang.jpg"),
+                                      useOldImageOnUrlChange: false,
+                                      imageUrl:
+                                          "https://yomies.com.my/pages/event/photo_event/${item.eventPhoto}",
+                                      errorWidget: (context, url, error) {
+                                        return Image(
+                                          image: AssetImage(
+                                              "assets/images/news1.jpg"),
+                                        );
+                                      },
                                     ),
                                   ),
                                 ),
@@ -318,6 +327,8 @@ class _HomePageState extends State<HomePage> {
                                 Text(
                                   item.eventName,
                                   textAlign: TextAlign.center,
+                                  overflow: TextOverflow.ellipsis,
+                                  maxLines: 2,
                                 ),
                                 Spacer(),
                                 Container(
@@ -448,6 +459,7 @@ class _HomePageState extends State<HomePage> {
         children: [
           Expanded(
             child: ListView.builder(
+              physics: ClampingScrollPhysics(),
               scrollDirection: Axis.horizontal,
               itemCount: listProduct.length,
               itemBuilder: (context, index) {
@@ -486,10 +498,17 @@ class _HomePageState extends State<HomePage> {
                                       topLeft: Radius.circular(10.0),
                                       topRight: Radius.circular(10.0),
                                     ),
-                                    child: Image(
+                                    child: CachedNetworkImage(
                                       fit: BoxFit.cover,
-                                      image: AssetImage(
-                                          "assets/images/subang.jpg"),
+                                      useOldImageOnUrlChange: false,
+                                      imageUrl:
+                                          "https://yomies.com.my/pages/product/photo/${item.photo}",
+                                      errorWidget: (context, url, error) {
+                                        return Image(
+                                          image: AssetImage(
+                                              "assets/images/news1.jpg"),
+                                        );
+                                      },
                                     ),
                                   ),
                                 ),
@@ -497,6 +516,8 @@ class _HomePageState extends State<HomePage> {
                                 Text(
                                   item.productName,
                                   textAlign: TextAlign.center,
+                                  overflow: TextOverflow.ellipsis,
+                                  maxLines: 2,
                                 ),
                                 Spacer(),
                                 Container(
@@ -559,7 +580,7 @@ class _HomePageState extends State<HomePage> {
                 return Container(
                   height: double.infinity,
                   width: 189,
-                  margin: EdgeInsets.only(right: 7),
+                  margin: EdgeInsets.only(right: 7, left: 7),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -590,10 +611,17 @@ class _HomePageState extends State<HomePage> {
                                       topLeft: Radius.circular(10.0),
                                       topRight: Radius.circular(10.0),
                                     ),
-                                    child: Image(
+                                    child: CachedNetworkImage(
                                       fit: BoxFit.cover,
-                                      image: AssetImage(
-                                          "assets/images/subang.jpg"),
+                                      useOldImageOnUrlChange: false,
+                                      imageUrl:
+                                          "https://yomies.com.my/pages/location/photo/${item.photo}",
+                                      errorWidget: (context, url, error) {
+                                        return Image(
+                                          image: AssetImage(
+                                              "assets/images/news1.jpg"),
+                                        );
+                                      },
                                     ),
                                   ),
                                 ),
@@ -601,6 +629,8 @@ class _HomePageState extends State<HomePage> {
                                 Text(
                                   item.branchName,
                                   textAlign: TextAlign.center,
+                                  maxLines: 2,
+                                  overflow: TextOverflow.ellipsis,
                                 ),
                                 Spacer(),
                                 Container(

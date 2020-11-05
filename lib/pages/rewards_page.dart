@@ -30,6 +30,11 @@ class _RewardPageState extends State<RewardPage> {
     setState(() {
       loading = true;
     });
+    callApi();
+    super.initState();
+  }
+
+  callApi() {
     var jsons = {};
     RewardModels().rewardUserPhp(jsons, context).then((value) {
       setState(() {
@@ -37,7 +42,6 @@ class _RewardPageState extends State<RewardPage> {
         loading = false;
       });
     });
-    super.initState();
   }
 
   getMyProduct(response) {
@@ -395,7 +399,9 @@ class _RewardPageState extends State<RewardPage> {
                                                     rewardId: item.id,
                                                   ),
                                                 ),
-                                              );
+                                              ).then((value) {
+                                                callApi();
+                                              });
                                             },
                                             child: Text(
                                               "USED AT COUNTER",

@@ -26,15 +26,19 @@ class MyNotification {
 
   void handleRouting(message, BuildContext context, userId) {
     //! push page
-    Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (BuildContext context) => NavigationBar(
-          userId: userId,
-          page: null,
+
+    if (message.containsKey('notification')) {
+      // Handle notification message
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (BuildContext context) => NavigationBar(
+            userId: userId,
+            page: null,
+          ),
         ),
-      ),
-    );
+      );
+    }
   }
 
   void sendTokenToServer(String fcmToken) {
@@ -53,6 +57,17 @@ class MyNotification {
         0, notification['title'], notification['body'], platform);
   }
 
+  callNotification(userId, BuildContext context) {
+    _firebaseMessaging.configure(
+        onMessage: (Map<String, dynamic> message) async {
+      showNotification(message);
+    }, onLaunch: (Map<String, dynamic> message) async {
+      handleRouting(messages, context, userId);
+    }, onResume: (Map<String, dynamic> message) async {
+      handleRouting(messages, context, userId);
+    });
+  }
+
   subcribeMessage(userId, BuildContext context) {
     contextx = context;
     userIdx = userId;
@@ -65,15 +80,15 @@ class MyNotification {
     _firebaseMessaging.onTokenRefresh.listen(sendTokenToServer);
     _firebaseMessaging.getToken();
     _firebaseMessaging.subscribeToTopic('$userId');
-    _firebaseMessaging.configure(
-        onMessage: (Map<String, dynamic> message) async {
-      showNotification(message);
-      handleRouting(messages, context, userId);
-    }, onLaunch: (Map<String, dynamic> message) async {
-      handleRouting(messages, context, userId);
-    }, onResume: (Map<String, dynamic> message) async {
-      handleRouting(messages, context, userId);
-    });
+    callNotification(userId, context);
+    // _firebaseMessaging.configure(
+    //     onMessage: (Map<String, dynamic> message) async {
+    //   showNotification(message);
+    // }, onLaunch: (Map<String, dynamic> message) async {
+    //   handleRouting(messages, context, userId);
+    // }, onResume: (Map<String, dynamic> message) async {
+    //   handleRouting(messages, context, userId);
+    // });
     //Needed by iOS only
     _firebaseMessaging.requestNotificationPermissions(
         const IosNotificationSettings(sound: true, badge: true, alert: true));
@@ -89,3 +104,4 @@ class MyNotification {
     _firebaseMessaging.unsubscribeFromTopic("$userId");
   }
 }
+

@@ -24,6 +24,15 @@ class _HistoryPageState extends State<HistoryPage> {
   String dataPick;
   String dateFormat;
 
+  var showFirstDate;
+  var showSecondDate;
+  var firstDates;
+  var secondDate;
+  DateTime _startDate = DateTime.now();
+  String formattedDate = DateFormat('yyyy').format(DateTime.now());
+  DateTime _endDate = DateTime.now().add(Duration(days: 7));
+  List<DateTime> picked;
+
   choiceTypeHistory(type) {
     setState(() {
       loading = true;
@@ -31,179 +40,205 @@ class _HistoryPageState extends State<HistoryPage> {
     if (type == "purchases") {
       var jsons = {};
       HistoryModel().purchaseHistory(jsons, context).then((value) {
-        for (var u in value) {
-          PurchasesHistory item = PurchasesHistory(u["id"], u["total_paid"],
-              u["total_point"], u["date_added"], u["branch_name"], u["photo"]);
-          listPurchaseHistory.add(item);
-        }
-        addToWidget("purchases");
+        loopListJson(type, value);
       });
     } else {
       var jsons = {};
       HistoryModel().rewardHistory(jsons, context).then((value) {
-        for (var u in value) {
-          RewardHistory item = RewardHistory(
-              u["redeem_id"],
-              u["reward_id"],
-              u["reward_reward"],
-              u["reward_point"],
-              u["reward_photo"],
-              u["redeem_date"],
-              u["branch_name"],
-              u["branch_photo"],
-              u["status"]);
-          listRewardHistory.add(item);
-        }
-        addToWidget("reward");
+        loopListJson(type, value);
       });
+    }
+  }
+
+  loopListJson(type, value) {
+    if (type == "purchases") {
+      for (var u in value) {
+        PurchasesHistory item = PurchasesHistory(u["id"], u["total_paid"],
+            u["total_point"], u["date_added"], u["branch_name"], u["photo"]);
+        listPurchaseHistory.add(item);
+      }
+      addToWidget("purchases");
+    } else {
+      for (var u in value) {
+        RewardHistory item = RewardHistory(
+            u["redeem_id"],
+            u["reward_id"],
+            u["reward_reward"],
+            u["reward_point"],
+            u["reward_photo"],
+            u["redeem_date"],
+            u["branch_name"],
+            u["branch_photo"],
+            u["status"]);
+        listRewardHistory.add(item);
+      }
+      addToWidget("reward");
     }
   }
 
   addToWidget(type) {
     if (type == "purchases") {
-      listPurchaseHistory.forEach((PurchasesHistory item) {
-        listWidgetHistory.add(Column(
-          children: [
-            Container(
-              margin: EdgeInsets.only(left: 20, right: 20),
-              height: 100,
-              width: double.infinity,
-              child: Card(
-                elevation: 1,
-                child: Padding(
-                  padding: const EdgeInsets.only(left: 20),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Container(
-                        height: double.infinity,
-                        width: ResponsiveFlutter.of(context).scale(200),
-                        child: Column(
+      listPurchaseHistory.length != 0
+          ? listPurchaseHistory.forEach((PurchasesHistory item) {
+              listWidgetHistory.add(Column(
+                children: [
+                  Container(
+                    margin: EdgeInsets.only(left: 20, right: 20),
+                    height: 100,
+                    width: double.infinity,
+                    child: Card(
+                      elevation: 1,
+                      child: Padding(
+                        padding: const EdgeInsets.only(left: 20),
+                        child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
-                          crossAxisAlignment: CrossAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
-                            Text(
-                              "Branch " + item.branchName,
-                              style: TextStyle(fontWeight: FontWeight.bold),
+                            Container(
+                              height: double.infinity,
+                              width: ResponsiveFlutter.of(context).scale(200),
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    "Branch " + item.branchName,
+                                    style:
+                                        TextStyle(fontWeight: FontWeight.bold),
+                                  ),
+                                  SizedBox(
+                                    height: 8,
+                                  ),
+                                  Text("Payment"),
+                                  Text(item.dateAdded),
+                                ],
+                              ),
                             ),
-                            SizedBox(
-                              height: 8,
-                            ),
-                            Text("Payment"),
-                            Text(item.dateAdded),
+                            Expanded(
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Text(
+                                    "-RM" + item.totalPaid,
+                                    style: TextStyle(
+                                      fontSize: 14,
+                                      color: Colors.red,
+                                      fontWeight: FontWeight.w600,
+                                    ),
+                                  ),
+                                  SizedBox(
+                                    height: 10,
+                                  ),
+                                  Text(
+                                    "+" + item.totalPoint + "pts",
+                                    style: TextStyle(
+                                      fontSize: 14,
+                                      color: Colors.green,
+                                      fontWeight: FontWeight.w600,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            )
                           ],
                         ),
                       ),
-                      Expanded(
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Text(
-                              "-RM" + item.totalPaid,
-                              style: TextStyle(
-                                fontSize: 14,
-                                color: Colors.red,
-                                fontWeight: FontWeight.w600,
-                              ),
-                            ),
-                            SizedBox(
-                              height: 10,
-                            ),
-                            Text(
-                              "+" + item.totalPoint + "pts",
-                              style: TextStyle(
-                                fontSize: 14,
-                                color: Colors.green,
-                                fontWeight: FontWeight.w600,
-                              ),
-                            ),
-                          ],
-                        ),
-                      )
-                    ],
+                    ),
                   ),
+                ],
+              ));
+            })
+          : listWidgetHistory.add(Column(
+              children: [
+                SizedBox(height: 30),
+                Text(
+                  "No history today...",
+                  style:
+                      TextStyle(fontWeight: FontWeight.w300, letterSpacing: 3),
                 ),
-              ),
-            ),
-          ],
-        ));
-      });
+              ],
+            ));
       setState(() {
         loading = false;
       });
     } else {
-      listRewardHistory.forEach((RewardHistory item) {
-        listWidgetHistory.add(Column(
-          children: [
-            Container(
-              margin: EdgeInsets.only(left: 20, right: 20),
-              height: 100,
-              width: double.infinity,
-              child: Card(
-                elevation: 1,
-                child: Padding(
-                  padding: const EdgeInsets.only(left: 20),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Container(
-                        height: double.infinity,
-                        width: ResponsiveFlutter.of(context).scale(200),
-                        child: Column(
+      listRewardHistory.length != 0
+          ? listRewardHistory.forEach((RewardHistory item) {
+              listWidgetHistory.add(Column(
+                children: [
+                  Container(
+                    margin: EdgeInsets.only(left: 20, right: 20),
+                    height: 100,
+                    width: double.infinity,
+                    child: Card(
+                      elevation: 1,
+                      child: Padding(
+                        padding: const EdgeInsets.only(left: 20),
+                        child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
-                          crossAxisAlignment: CrossAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
-                            Text(
-                              "Branch " + item.branchName,
-                              style: TextStyle(fontWeight: FontWeight.bold),
+                            Container(
+                              height: double.infinity,
+                              width: ResponsiveFlutter.of(context).scale(200),
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    "Branch " + item.branchName,
+                                    style:
+                                        TextStyle(fontWeight: FontWeight.bold),
+                                  ),
+                                  SizedBox(
+                                    height: 8,
+                                  ),
+                                  Text(item.rewardReward),
+                                  Text(item.redeemDate),
+                                ],
+                              ),
                             ),
-                            SizedBox(
-                              height: 8,
-                            ),
-                            Text(item.rewardReward),
-                            Text(item.redeemDate),
+                            Expanded(
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  SizedBox(
+                                    height: 10,
+                                  ),
+                                  Text(
+                                    "-" + item.rewardPoint + "pts",
+                                    style: TextStyle(
+                                      color: Colors.red,
+                                      fontWeight: FontWeight.w600,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            )
                           ],
                         ),
                       ),
-                      Expanded(
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            SizedBox(
-                              height: 10,
-                            ),
-                            Text(
-                              "-" + item.rewardPoint + "pts",
-                              style: TextStyle(
-                                color: Colors.red,
-                                fontWeight: FontWeight.w600,
-                              ),
-                            ),
-                          ],
-                        ),
-                      )
-                    ],
+                    ),
                   ),
+                ],
+              ));
+            })
+          : listWidgetHistory.add(Column(
+              children: [
+                SizedBox(height: 30),
+                Text(
+                  "No history today...",
+                  style:
+                      TextStyle(fontWeight: FontWeight.w300, letterSpacing: 3),
                 ),
-              ),
-            ),
-          ],
-        ));
-      });
+              ],
+            ));
       setState(() {
         loading = false;
       });
     }
   }
 
-  var firstDates;
-  var secondDate;
-  DateTime _startDate = DateTime.now();
-  String formattedDate = DateFormat('yyyy').format(DateTime.now());
-  DateTime _endDate = DateTime.now().add(Duration(days: 7));
-  List<DateTime> picked;
   datePicker() async {
     picked = await DateRagePicker.showDatePicker(
         context: context,
@@ -213,26 +248,81 @@ class _HistoryPageState extends State<HistoryPage> {
         firstDate: new DateTime(int.parse(formattedDate) - 5),
         lastDate: new DateTime(int.parse(formattedDate) + 1));
     if (picked != null) {
+      listWidgetHistory.clear();
+      listRewardWidgetHistory.clear();
+      listRewardHistory.clear();
+      listPurchaseHistory.clear();
       if (picked.length == 1) {
         setState(() {
+          dateFormat = null;
+          loading = true;
           firstDates = new DateFormat("yyyy-MM-dd").format(picked[0]);
           secondDate = new DateFormat("yyyy-MM-dd").format(picked[0]);
+
+          //for show to user
+          showFirstDate = new DateFormat("dd/MM").format(picked[0]);
+          showSecondDate = new DateFormat("dd/MM").format(picked[0]);
         });
         var jsons = {};
         jsons["start_date"] = firstDates;
         jsons["end_date"] = secondDate;
         jsons["type"] = dataPick.toLowerCase().trim();
-        // PurchasesHistoryModel().merchantHistoryByDate(jsons, context);
+        HistoryModel().userHistoryByDate(jsons, context).then((value) {
+          if (value.length != 0) {
+            loopListJson(dataPick.toLowerCase().trim(), value);
+          } else {
+            listWidgetHistory.add(
+              Column(
+                children: [
+                  SizedBox(height: 30),
+                  Text(
+                    "No history found...",
+                    style: TextStyle(
+                        fontWeight: FontWeight.w300, letterSpacing: 3),
+                  ),
+                ],
+              ),
+            );
+            setState(() {
+              loading = false;
+            });
+          }
+        });
       } else if (picked.length == 2) {
         setState(() {
+          dateFormat = null;
+          loading = true;
           firstDates = new DateFormat("yyyy-MM-dd").format(picked[0]);
           secondDate = new DateFormat("yyyy-MM-dd").format(picked[1]);
+          //for show to user
+          showFirstDate = new DateFormat("dd/MM").format(picked[0]);
+          showSecondDate = new DateFormat("dd/MM").format(picked[1]);
         });
         var jsons = {};
         jsons["start_date"] = firstDates;
         jsons["end_date"] = secondDate;
         jsons["type"] = dataPick.toLowerCase().trim();
-        // PurchasesHistoryModel().merchantHistoryByDate(jsons, context);
+        HistoryModel().userHistoryByDate(jsons, context).then((value) {
+          if (value.length != 0) {
+            loopListJson(dataPick.toLowerCase().trim(), value);
+          } else {
+            listWidgetHistory.add(
+              Column(
+                children: [
+                  SizedBox(height: 30),
+                  Text(
+                    "No history found...",
+                    style: TextStyle(
+                        fontWeight: FontWeight.w300, letterSpacing: 3),
+                  ),
+                ],
+              ),
+            );
+            setState(() {
+              loading = false;
+            });
+          }
+        });
       }
     }
   }
@@ -322,8 +412,12 @@ class _HistoryPageState extends State<HistoryPage> {
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
                         Text(
-                          dateFormat,
-                          style: TextStyle(color: Colors.black),
+                          dateFormat != null
+                              ? dateFormat
+                              : showFirstDate + " - " + showSecondDate,
+                          style: TextStyle(
+                              color: Colors.black,
+                              fontSize: dateFormat != null ? 15 : 10),
                         ),
                         Icon(
                           FontAwesomeIcons.calendarAlt,

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:yommie/class/notification.dart';
 import 'package:yommie/pages/drinks_page.dart';
 import 'package:yommie/pages/home_page.dart';
 import 'package:yommie/pages/news_page.dart';
@@ -39,6 +40,9 @@ class _NavigationBarState extends State<NavigationBar> {
 
   @override
   void initState() {
+    MyNotification().unsubscribeMessage(widget.userId);
+    MyNotification().subcribeMessage(widget.userId, context);
+
     if (widget.page == null) {
       _pageController = PageController();
       setState(() {

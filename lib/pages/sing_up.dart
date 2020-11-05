@@ -1,14 +1,10 @@
 import 'package:cool_alert/cool_alert.dart';
 import 'package:flutter/material.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 import 'package:yommie/class/alertDialog.dart';
 import 'package:yommie/class/hex_color.dart';
 import 'package:yommie/models/signUpModels.dart';
-import 'package:yommie/widget/custom_dropdown2.dart';
 import 'package:flutter/services.dart';
-
-import 'navigation_bar.dart';
 
 class SignUpPage extends StatefulWidget {
   SignUpPage({Key key}) : super(key: key);
@@ -19,9 +15,8 @@ class SignUpPage extends StatefulWidget {
 
 class _SignUpPageState extends State<SignUpPage> {
   final _formKey = GlobalKey<FormState>();
-  int _selected = 1;
-  Gender selectedUser;
-  List genders = [const Gender(1, 'Male'), const Gender(2, 'Female')];
+
+  String dataPick;
 
   InputBorder focusedErrorBorder = OutlineInputBorder(
     borderRadius: BorderRadius.all(Radius.circular(30.0)),
@@ -62,14 +57,14 @@ class _SignUpPageState extends State<SignUpPage> {
   validationForm() {
     if (_formKey.currentState.validate()) {
       if (password.text == confirmPassword.text) {
-        if (selectedUser != null) {
+        if (dataPick != null) {
           _formKey.currentState.save();
           var jsons = {};
           jsons["username"] = username.text;
           jsons["email"] = email.text;
           jsons["password"] = password.text;
-          jsons["dateOfBirth"] = "1998-10-10";
-          jsons["gender"] = selectedUser.name;
+          jsons["dateOfBirth"] = dateOfBirth.text;
+          jsons["gender"] = dataPick;
           SignUpModels().registerPhp(jsons, context);
         } else {
           DialogAction().alertDialogOneButton(context, "Failed",
@@ -98,83 +93,90 @@ class _SignUpPageState extends State<SignUpPage> {
         backgroundColor: Colors.transparent,
         body: Stack(
           children: [
-            Padding(
-              padding: const EdgeInsets.only(left: 30, right: 30),
-              child: Form(
-                key: _formKey,
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Container(
-                      width: double.infinity,
-                      height: 100,
-                      decoration: BoxDecoration(
-                        image: DecorationImage(
-                          image: AssetImage("assets/images/yomiesKL.png"),
-                          fit: BoxFit.cover,
+            SingleChildScrollView(
+              child: Padding(
+                padding: const EdgeInsets.only(left: 30, right: 30),
+                child: Form(
+                  key: _formKey,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      SizedBox(height:130),
+                      Container(
+                        width: double.infinity,
+                        height: 100,
+                        decoration: BoxDecoration(
+                          image: DecorationImage(
+                            image: AssetImage("assets/images/yomiesKL.png"),
+                            fit: BoxFit.cover,
+                          ),
                         ),
                       ),
-                    ),
-                    SizedBox(height: 15),
-                    nameInput(),
-                    SizedBox(height: 15),
-                    emailInput(),
-                    SizedBox(height: 15),
-                    passwordInput(),
-                    SizedBox(height: 15),
-                    confirmPasswordInput(),
-                    SizedBox(height: 15),
-                    dateOfBirthInput(),
-                    SizedBox(height: 15),
-                    CustomDropdownButton(
-                      elevation: 19,
-                      value: selectedUser,
-                      items: genders.map((dynamic user) {
-                        return new DropdownMenuItem(
-                          onTap: () {
-                            FocusScope.of(context).unfocus();
-                            SystemChannels.textInput
-                                .invokeMethod('TextInput.hide');
+                      SizedBox(height: 15),
+                      nameInput(),
+                      SizedBox(height: 15),
+                      emailInput(),
+                      SizedBox(height: 15),
+                      passwordInput(),
+                      SizedBox(height: 15),
+                      confirmPasswordInput(),
+                      SizedBox(height: 15),
+                      dateOfBirthInput(),
+                      SizedBox(height: 15),
+                      Container(
+                        width: double.infinity,
+                        height: 50.0,
+                        padding: EdgeInsets.only(left: 25),
+                        decoration: BoxDecoration(
+                          color: HexColor("#FFF5CC"),
+                          borderRadius: BorderRadius.circular(20.0),
+                          border: Border.all(
+                            color: HexColor("#FFF5CC"),
+                          ),
+                        ),
+                        child: DropdownButton<String>(
+                          underline: SizedBox(),
+                          value: dataPick,
+                          focusColor: Colors.black,
+                          iconDisabledColor: Colors.black,
+                          iconEnabledColor: Colors.black,
+                          isExpanded: true,
+                          style: TextStyle(color: Colors.black),
+                          dropdownColor: HexColor("#FFF5CC"),
+                          hint: Text(
+                            "Gender",
+                            style: TextStyle(color: Colors.black54),
+                          ),
+                          items: <String>['Male', 'Female'].map((String value) {
+                            return new DropdownMenuItem<String>(
+                              value: value,
+                              child: new Text(value),
+                            );
+                          }).toList(),
+                          onChanged: (value) {
+                            setState(() {
+                              dataPick = value;
+                            });
                           },
-                          value: user,
-                          child: selectedUser == null
-                              ? new Text(
-                                  user.name,
-                                  style: new TextStyle(color: Colors.grey),
-                                )
-                              : selectedUser.name == user.name
-                                  ? new Text(
-                                      user.name,
-                                      style: new TextStyle(color: Colors.black),
-                                    )
-                                  : new Text(
-                                      user.name,
-                                      style: new TextStyle(color: Colors.grey),
-                                    ),
-                        );
-                      }).toList(),
-                      onChanged: (dynamic newValue) {
-                        setState(() {
-                          selectedUser = newValue;
-                        });
-                      },
-                    ),
-                    SizedBox(height: 30),
-                    SizedBox(
-                      height: 40,
-                      width: 200,
-                      child: RaisedButton(
-                        color: HexColor('#CAF8FC'),
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(20)),
-                        onPressed: () {
-                          validationForm();
-                        },
-                        child: Text("SUBMIT"),
+                        ),
                       ),
-                    )
-                  ],
+                      SizedBox(height: 30),
+                      SizedBox(
+                        height: 40,
+                        width: 200,
+                        child: RaisedButton(
+                          color: HexColor('#CAF8FC'),
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(20)),
+                          onPressed: () {
+                            validationForm();
+                          },
+                          child: Text("SUBMIT"),
+                        ),
+                      )
+                    ],
+                  ),
                 ),
               ),
             ),
@@ -349,61 +351,4 @@ class _SignUpPageState extends State<SignUpPage> {
       textInputAction: TextInputAction.next,
     );
   }
-
-  Widget formUI() {
-    return new Container(
-      child: Stack(
-        children: [
-          Container(
-            width: double.infinity,
-            height: 50,
-            padding: EdgeInsets.only(left: 30),
-            alignment: Alignment.centerLeft,
-            decoration: BoxDecoration(
-              color: HexColor("#f8df78"),
-              shape: BoxShape.rectangle,
-              borderRadius: BorderRadius.all(Radius.circular(30.0)),
-            ),
-            child: DropdownButtonHideUnderline(
-              child: new DropdownButton(
-                hint: new Text("Select gender"),
-                isDense: true,
-                value: selectedUser == null ? null : selectedUser,
-                onChanged: (dynamic newValue) {
-                  setState(() {
-                    selectedUser = newValue;
-                  });
-                },
-                items: genders.map((dynamic user) {
-                  return new DropdownMenuItem(
-                    value: user,
-                    child: selectedUser == null
-                        ? new Text(
-                            user.name,
-                            style: new TextStyle(color: Colors.grey),
-                          )
-                        : selectedUser.name == user.name
-                            ? new Text(
-                                user.name,
-                                style: new TextStyle(color: Colors.black),
-                              )
-                            : new Text(
-                                user.name,
-                                style: new TextStyle(color: Colors.grey),
-                              ),
-                  );
-                }).toList(),
-              ),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-class Gender {
-  const Gender(this.id, this.name);
-  final String name;
-  final int id;
 }
