@@ -102,7 +102,7 @@ class _SignUpPageState extends State<SignUpPage> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      SizedBox(height:130),
+                      SizedBox(height: 130),
                       Container(
                         width: double.infinity,
                         height: 100,
