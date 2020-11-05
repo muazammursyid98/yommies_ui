@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:responsive_flutter/responsive_flutter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:url_launcher/url_launcher.dart';
 import 'package:yommie/class/hex_color.dart';
 import 'package:yommie/class/notification.dart';
 import 'package:yommie/models/homePageModels.dart';
@@ -62,7 +63,7 @@ class _HomePageState extends State<HomePage> {
 
       for (var u in dataLocation) {
         DataLocation item =
-            DataLocation(u["branch_id"], u["branch_name"], u["photo"]);
+            DataLocation(u["branch_id"], u["branch_name"], u["photo"], u["google_map"]);
         listLocation.add(item);
       }
 
@@ -633,29 +634,40 @@ class _HomePageState extends State<HomePage> {
                                   overflow: TextOverflow.ellipsis,
                                 ),
                                 Spacer(),
-                                Container(
-                                  height: 25,
-                                  width: 100,
-                                  margin: EdgeInsets.only(left: 10, right: 10),
-                                  alignment: Alignment.center,
-                                  decoration: BoxDecoration(
-                                    color: Theme.of(context).primaryColor,
-                                    shape: BoxShape.rectangle,
-                                    borderRadius:
-                                        BorderRadius.all(Radius.circular(30.0)),
-                                  ),
-                                  child: Text(
-                                    "Go Now",
-                                    style: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      color: Colors.white,
-                                      shadows: <Shadow>[
-                                        Shadow(
-                                            offset: Offset(1.0, 1.0),
-                                            blurRadius: 1.0,
-                                            color:
-                                                Colors.black.withOpacity(0.2)),
-                                      ],
+                                GestureDetector(
+                                  onTap: () async {
+                                    final url = item.location;
+                                    if (await canLaunch(url)) {
+                                      await launch(url);
+                                    } else {
+                                      throw 'Could not launch $url';
+                                    }
+                                  },
+                                  child: Container(
+                                    height: 25,
+                                    width: 100,
+                                    margin:
+                                        EdgeInsets.only(left: 10, right: 10),
+                                    alignment: Alignment.center,
+                                    decoration: BoxDecoration(
+                                      color: Theme.of(context).primaryColor,
+                                      shape: BoxShape.rectangle,
+                                      borderRadius: BorderRadius.all(
+                                          Radius.circular(30.0)),
+                                    ),
+                                    child: Text(
+                                      "Go Now",
+                                      style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        color: Colors.white,
+                                        shadows: <Shadow>[
+                                          Shadow(
+                                              offset: Offset(1.0, 1.0),
+                                              blurRadius: 1.0,
+                                              color: Colors.black
+                                                  .withOpacity(0.2)),
+                                        ],
+                                      ),
                                     ),
                                   ),
                                 ),

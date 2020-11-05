@@ -40,9 +40,6 @@ class _NavigationBarState extends State<NavigationBar> {
 
   @override
   void initState() {
-    MyNotification().unsubscribeMessage(widget.userId);
-    MyNotification().subcribeMessage(widget.userId, context);
-
     if (widget.page == null) {
       _pageController = PageController();
       setState(() {

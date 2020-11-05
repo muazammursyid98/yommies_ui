@@ -44,11 +44,13 @@ class DataLocation {
     this.branchId,
     this.branchName,
     this.photo,
+    this.location
   );
 
   String branchId;
   String branchName;
   String photo;
+  String location;
 }
 
 class DataProduct {
