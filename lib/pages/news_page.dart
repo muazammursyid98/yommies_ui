@@ -1,5 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:responsive_flutter/responsive_flutter.dart';
 import 'package:yommie/models/newsModels.dart';
 
 class NewsPage extends StatefulWidget {
@@ -67,6 +68,7 @@ class _NewsPageState extends State<NewsPage> {
         ),
         backgroundColor: Theme.of(context).primaryColor,
         body: Container(
+          padding: EdgeInsets.only(top: 20),
           decoration: BoxDecoration(
             color: Colors.white.withOpacity(0.9),
             borderRadius: BorderRadius.only(
@@ -76,11 +78,12 @@ class _NewsPageState extends State<NewsPage> {
           ),
           child: listAds.length != 0
               ? ListView.builder(
+                  physics: ClampingScrollPhysics(),
                   itemCount: listAds == null ? 0 : listAds.length,
                   itemBuilder: (BuildContext context, int index) {
                     final item = listAds[index];
                     return Container(
-                      height: 600,
+                      height: ResponsiveFlutter.of(context).verticalScale(390),
                       width: double.infinity,
                       margin: EdgeInsets.only(right: 7, left: 7, top: 0),
                       child: Column(

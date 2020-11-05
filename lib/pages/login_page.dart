@@ -3,7 +3,6 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:responsive_flutter/responsive_flutter.dart';
 import 'package:yommie/Theme/yommie_theme.dart';
 import 'package:yommie/class/hex_color.dart';
-import 'package:yommie/class/notification.dart';
 import 'package:yommie/models/loginViewModels.dart';
 import 'package:yommie/pages/forgot_password.dart';
 import 'package:yommie/pages/sing_up.dart';

@@ -3,11 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:yommie/class/alertDialog.dart';
-import 'package:yommie/class/hex_color.dart';
 import 'package:yommie/class/notification.dart';
 import 'package:yommie/models/profileModel.dart';
 import 'package:yommie/pages/change_password.dart';
-import 'package:yommie/pages/reset_password.dart';
 import 'package:yommie/pages/edit_profile.dart';
 
 import 'login_page.dart';
@@ -238,6 +236,7 @@ class _ProfilePageState extends State<ProfilePage> {
                               PageTransition(
                                 type: PageTransitionType.bottomToTop,
                                 child: EditProfile(
+                                  userImage: null,
                                   username: response["user_name"],
                                   email: response["email"],
                                   gender: response["gender"],

@@ -1,5 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:responsive_flutter/responsive_flutter.dart';
 import 'package:yommie/models/detailsMenuModel.dart';
 import 'package:yommie/models/producModels.dart';
 
@@ -93,6 +94,7 @@ class _DrinksPageState extends State<DrinksPage> {
                     ),
                     Expanded(
                       child: GridView.builder(
+                        physics: ClampingScrollPhysics(),
                         itemCount: listProduct == null ? 0 : listProduct.length,
                         gridDelegate:
                             new SliverGridDelegateWithFixedCrossAxisCount(
@@ -116,7 +118,7 @@ class _DrinksPageState extends State<DrinksPage> {
                                 child: Container(
                               height: double.infinity,
                               width: 189,
-                              margin: EdgeInsets.only(right: 7),
+                              margin: EdgeInsets.only(right: 7, left: 8),
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
@@ -176,13 +178,14 @@ class _DrinksPageState extends State<DrinksPage> {
                                               height: 5,
                                             ),
                                             Padding(
-                                              padding:
-                                                  EdgeInsets.only(left: 10),
+                                              padding: EdgeInsets.only(
+                                                  left: 5, right: 5),
                                               child: Text(
                                                 item.productName,
                                                 style: TextStyle(
                                                     fontWeight: FontWeight.bold,
-                                                    fontSize: 20),
+                                                    fontSize: 16),
+                                                textAlign: TextAlign.center,
                                               ),
                                             ),
                                             SizedBox(
@@ -197,8 +200,9 @@ class _DrinksPageState extends State<DrinksPage> {
                                                 Text(
                                                   "RM" + item.priceNormal,
                                                   style: TextStyle(
+                                                      fontSize: 15,
                                                       fontWeight:
-                                                          FontWeight.w400),
+                                                          FontWeight.w500),
                                                 ),
                                                 Text(
                                                   " or ",
@@ -208,8 +212,9 @@ class _DrinksPageState extends State<DrinksPage> {
                                                 Text(
                                                   item.point + "pts",
                                                   style: TextStyle(
+                                                      fontSize: 15,
                                                       fontWeight:
-                                                          FontWeight.w400),
+                                                          FontWeight.w500),
                                                 )
                                               ],
                                             ),
@@ -293,12 +298,12 @@ class _DrinksPageState extends State<DrinksPage> {
               Container(
                 margin: EdgeInsets.only(top: 20),
                 width: double.infinity,
-                height: 200,
+                height: ResponsiveFlutter.of(context).verticalScale(150),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
                     Container(
-                      width: 230,
+                      width: ResponsiveFlutter.of(context).scale(160),
                       height: double.infinity,
                       child: Container(
                         height: 100,
@@ -374,31 +379,39 @@ class _DrinksPageState extends State<DrinksPage> {
                                 ),
                               ],
                             ),
-                            SizedBox(height: 30),
-                            Text(
-                              "Receiving Points ",
-                              style: TextStyle(
-                                  color: Colors.grey,
-                                  fontWeight: FontWeight.bold),
+                            Spacer(),
+                            Flexible(
+                              fit: FlexFit.loose,
+                              child: Text(
+                                "Receiving Points ",
+                                style: TextStyle(
+                                    color: Colors.grey,
+                                    fontWeight: FontWeight.bold),
+                              ),
                             ),
-                            Row(
-                              children: [
-                                Text(
-                                  response["point"].toString(),
-                                  style: TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 16,
+                            Flexible(
+                              fit: FlexFit.loose,
+                              child: Row(
+                                children: [
+                                  Text(
+                                    response["point"].toString(),
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 16,
+                                    ),
                                   ),
-                                ),
-                                Text(
-                                  " pts",
-                                  style: TextStyle(
-                                    color: Colors.red,
-                                    fontWeight: FontWeight.w500,
-                                    fontSize: 16,
+                                  Expanded(
+                                    child: Text(
+                                      " pts",
+                                      style: TextStyle(
+                                        color: Colors.red,
+                                        fontWeight: FontWeight.w500,
+                                        fontSize: 16,
+                                      ),
+                                    ),
                                   ),
-                                ),
-                              ],
+                                ],
+                              ),
                             )
                           ],
                         ),

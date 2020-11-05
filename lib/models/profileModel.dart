@@ -44,7 +44,6 @@ class ProfileModel {
         DialogAction().alertDialogOneButton(
             context, message, CoolAlertType.error, reason, "Ok", () {
           Navigator.of(context).pop();
-          Navigator.of(context).pop();
         });
       }
     } catch (e) {

@@ -8,7 +8,6 @@ import 'package:responsive_flutter/responsive_flutter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:yommie/class/hex_color.dart';
-import 'package:yommie/class/notification.dart';
 import 'package:yommie/models/homePageModels.dart';
 import 'package:yommie/pages/locateUs_page.dart';
 import 'package:yommie/pages/my_qr.dart';
@@ -62,8 +61,8 @@ class _HomePageState extends State<HomePage> {
       print(listAds);
 
       for (var u in dataLocation) {
-        DataLocation item =
-            DataLocation(u["branch_id"], u["branch_name"], u["photo"], u["google_map"]);
+        DataLocation item = DataLocation(
+            u["branch_id"], u["branch_name"], u["photo"], u["google_map"]);
         listLocation.add(item);
       }
 
@@ -111,7 +110,7 @@ class _HomePageState extends State<HomePage> {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               Container(
-                height: 140,
+                height: ResponsiveFlutter.of(context).verticalScale(120),
                 width: double.infinity,
                 child: SafeArea(
                   child: Container(
@@ -169,6 +168,7 @@ class _HomePageState extends State<HomePage> {
             ),
           ),
           child: ListView(
+            physics: ClampingScrollPhysics(),
             children: [
               SizedBox(height: 20),
               listAds.length != 0 ? imageCarousel() : SizedBox(),
@@ -262,115 +262,133 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  Container buildContainerEvent() {
-    return Container(
-      padding: EdgeInsets.only(left: 11),
-      width: double.infinity,
-      height: 210,
-      child: Row(
-        children: [
-          Expanded(
-            child: ListView.builder(
-              physics: ClampingScrollPhysics(),
-              scrollDirection: Axis.horizontal,
-              itemCount: listEvent.length,
-              itemBuilder: (context, index) {
-                final item = listEvent[index];
-                return Container(
-                  height: double.infinity,
-                  width: 189,
-                  margin: EdgeInsets.only(right: 7),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Expanded(
-                        child: Container(
-                          width: double.infinity,
-                          height: double.infinity,
-                          decoration: BoxDecoration(
-                            color: Colors.white,
-                            borderRadius: BorderRadius.circular(10),
-                          ),
+  GestureDetector buildContainerEvent() {
+    return GestureDetector(
+      onTap: () {
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(
+            builder: (BuildContext context) => NavigationBar(
+              userId: widget.userId,
+              page: 1,
+            ),
+          ),
+        );
+      },
+      child: Container(
+        padding: EdgeInsets.only(left: 11),
+        width: double.infinity,
+        height: ResponsiveFlutter.of(context).verticalScale(170),
+        child: Row(
+          children: [
+            Expanded(
+              child: ListView.builder(
+                physics: ClampingScrollPhysics(),
+                scrollDirection: Axis.horizontal,
+                itemCount: listEvent.length,
+                itemBuilder: (context, index) {
+                  final item = listEvent[index];
+                  return Container(
+                    height: double.infinity,
+                    width: 189,
+                    margin: EdgeInsets.only(right: 7),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Expanded(
                           child: Container(
-                            margin: EdgeInsets.all(3),
+                            width: double.infinity,
+                            height: double.infinity,
                             decoration: BoxDecoration(
-                              border: Border.all(color: Colors.grey[300]),
+                              color: Colors.white,
                               borderRadius: BorderRadius.circular(10),
                             ),
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: [
-                                Container(
-                                  margin: EdgeInsets.all(0),
-                                  width: double.infinity,
-                                  height: 110,
-                                  child: ClipRRect(
-                                    borderRadius: BorderRadius.only(
-                                      topLeft: Radius.circular(10.0),
-                                      topRight: Radius.circular(10.0),
-                                    ),
-                                    child: CachedNetworkImage(
-                                      fit: BoxFit.cover,
-                                      useOldImageOnUrlChange: false,
-                                      imageUrl:
-                                          "https://yomies.com.my/pages/event/photo_event/${item.eventPhoto}",
-                                      errorWidget: (context, url, error) {
-                                        return Image(
-                                          image: AssetImage(
-                                              "assets/images/news1.jpg"),
-                                        );
-                                      },
-                                    ),
-                                  ),
-                                ),
-                                SizedBox(height: 10),
-                                Text(
-                                  item.eventName,
-                                  textAlign: TextAlign.center,
-                                  overflow: TextOverflow.ellipsis,
-                                  maxLines: 2,
-                                ),
-                                Spacer(),
-                                Container(
-                                  height: 25,
-                                  width: 100,
-                                  margin: EdgeInsets.only(left: 10, right: 10),
-                                  alignment: Alignment.center,
-                                  decoration: BoxDecoration(
-                                    color: Theme.of(context).primaryColor,
-                                    shape: BoxShape.rectangle,
-                                    borderRadius:
-                                        BorderRadius.all(Radius.circular(30.0)),
-                                  ),
-                                  child: Text(
-                                    "See More",
-                                    style: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      color: Colors.white,
-                                      shadows: <Shadow>[
-                                        Shadow(
-                                            offset: Offset(1.0, 1.0),
-                                            blurRadius: 1.0,
-                                            color:
-                                                Colors.black.withOpacity(0.2)),
-                                      ],
+                            child: Container(
+                              margin: EdgeInsets.all(3),
+                              decoration: BoxDecoration(
+                                border: Border.all(color: Colors.grey[300]),
+                                borderRadius: BorderRadius.circular(10),
+                              ),
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                                  Container(
+                                    margin: EdgeInsets.all(0),
+                                    width: double.infinity,
+                                    height: 110,
+                                    child: ClipRRect(
+                                      borderRadius: BorderRadius.only(
+                                        topLeft: Radius.circular(10.0),
+                                        topRight: Radius.circular(10.0),
+                                      ),
+                                      child: CachedNetworkImage(
+                                        fit: BoxFit.cover,
+                                        useOldImageOnUrlChange: false,
+                                        imageUrl:
+                                            "https://yomies.com.my/pages/event/photo_event/${item.eventPhoto}",
+                                        errorWidget: (context, url, error) {
+                                          return Image(
+                                            image: AssetImage(
+                                                "assets/images/news1.jpg"),
+                                          );
+                                        },
+                                      ),
                                     ),
                                   ),
-                                ),
-                                SizedBox(height: 6)
-                              ],
+                                  SizedBox(height: 10),
+                                  Padding(
+                                    padding: const EdgeInsets.only(
+                                        left: 8, right: 8),
+                                    child: Text(
+                                      item.eventName,
+                                      textAlign: TextAlign.center,
+                                      overflow: TextOverflow.ellipsis,
+                                      maxLines: 2,
+                                    ),
+                                  ),
+                                  Spacer(),
+                                  Container(
+                                    height: 25,
+                                    width: 100,
+                                    margin:
+                                        EdgeInsets.only(left: 10, right: 10),
+                                    alignment: Alignment.center,
+                                    decoration: BoxDecoration(
+                                      color: Theme.of(context).primaryColor,
+                                      shape: BoxShape.rectangle,
+                                      borderRadius: BorderRadius.all(
+                                          Radius.circular(30.0)),
+                                    ),
+                                    child: Text(
+                                      "See More",
+                                      style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        color: Colors.white,
+                                        shadows: <Shadow>[
+                                          Shadow(
+                                              offset: Offset(1.0, 1.0),
+                                              blurRadius: 1.0,
+                                              color: Colors.black
+                                                  .withOpacity(0.2)),
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                  SizedBox(height: 6)
+                                ],
+                              ),
                             ),
                           ),
                         ),
-                      ),
-                    ],
-                  ),
-                );
-              },
+                      ],
+                    ),
+                  );
+                },
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
@@ -455,7 +473,7 @@ class _HomePageState extends State<HomePage> {
     return Container(
       padding: EdgeInsets.only(left: 11),
       width: double.infinity,
-      height: 210,
+      height: ResponsiveFlutter.of(context).verticalScale(170),
       child: Row(
         children: [
           Expanded(
@@ -468,7 +486,7 @@ class _HomePageState extends State<HomePage> {
                 return Container(
                   height: double.infinity,
                   width: 189,
-                  margin: EdgeInsets.only(right: 7),
+                  margin: EdgeInsets.only(right: 7, left: 7),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -514,36 +532,55 @@ class _HomePageState extends State<HomePage> {
                                   ),
                                 ),
                                 SizedBox(height: 10),
-                                Text(
-                                  item.productName,
-                                  textAlign: TextAlign.center,
-                                  overflow: TextOverflow.ellipsis,
-                                  maxLines: 2,
+                                Padding(
+                                  padding:
+                                      const EdgeInsets.only(left: 7, right: 7),
+                                  child: Text(
+                                    item.productName,
+                                    textAlign: TextAlign.center,
+                                    overflow: TextOverflow.ellipsis,
+                                    maxLines: 2,
+                                  ),
                                 ),
                                 Spacer(),
-                                Container(
-                                  height: 25,
-                                  width: 100,
-                                  margin: EdgeInsets.only(left: 10, right: 10),
-                                  alignment: Alignment.center,
-                                  decoration: BoxDecoration(
-                                    color: Theme.of(context).primaryColor,
-                                    shape: BoxShape.rectangle,
-                                    borderRadius:
-                                        BorderRadius.all(Radius.circular(30.0)),
-                                  ),
-                                  child: Text(
-                                    "See More",
-                                    style: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      color: Colors.white,
-                                      shadows: <Shadow>[
-                                        Shadow(
-                                            offset: Offset(1.0, 1.0),
-                                            blurRadius: 1.0,
-                                            color:
-                                                Colors.black.withOpacity(0.2)),
-                                      ],
+                                GestureDetector(
+                                  onTap: () {
+                                    Navigator.pushReplacement(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (BuildContext context) =>
+                                            NavigationBar(
+                                          userId: widget.userId,
+                                          page: 2,
+                                        ),
+                                      ),
+                                    );
+                                  },
+                                  child: Container(
+                                    height: 25,
+                                    width: 100,
+                                    margin:
+                                        EdgeInsets.only(left: 10, right: 10),
+                                    alignment: Alignment.center,
+                                    decoration: BoxDecoration(
+                                      color: Theme.of(context).primaryColor,
+                                      shape: BoxShape.rectangle,
+                                      borderRadius: BorderRadius.all(
+                                          Radius.circular(30.0)),
+                                    ),
+                                    child: Text(
+                                      "See More",
+                                      style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        color: Colors.white,
+                                        shadows: <Shadow>[
+                                          Shadow(
+                                              offset: Offset(1.0, 1.0),
+                                              blurRadius: 1.0,
+                                              color: Colors.black
+                                                  .withOpacity(0.2)),
+                                        ],
+                                      ),
                                     ),
                                   ),
                                 ),
@@ -568,7 +605,7 @@ class _HomePageState extends State<HomePage> {
     return Container(
       padding: EdgeInsets.only(left: 11),
       width: double.infinity,
-      height: 210,
+      height: ResponsiveFlutter.of(context).verticalScale(170),
       child: Row(
         children: [
           Expanded(
@@ -604,7 +641,7 @@ class _HomePageState extends State<HomePage> {
                               crossAxisAlignment: CrossAxisAlignment.center,
                               children: [
                                 Container(
-                                  margin: EdgeInsets.all(0),
+                                  margin: EdgeInsets.all(3),
                                   width: double.infinity,
                                   height: 110,
                                   child: ClipRRect(
@@ -627,11 +664,15 @@ class _HomePageState extends State<HomePage> {
                                   ),
                                 ),
                                 SizedBox(height: 10),
-                                Text(
-                                  item.branchName,
-                                  textAlign: TextAlign.center,
-                                  maxLines: 2,
-                                  overflow: TextOverflow.ellipsis,
+                                Padding(
+                                  padding:
+                                      const EdgeInsets.only(left: 7, right: 7),
+                                  child: Text(
+                                    item.branchName.replaceAll('&#39;', '’'),
+                                    textAlign: TextAlign.center,
+                                    maxLines: 2,
+                                    overflow: TextOverflow.ellipsis,
+                                  ),
                                 ),
                                 Spacer(),
                                 GestureDetector(
@@ -691,7 +732,7 @@ class _HomePageState extends State<HomePage> {
   GestureDetector buildExpandedReward() {
     return GestureDetector(
       onTap: () {
-        Navigator.push(
+        Navigator.pushReplacement(
           context,
           MaterialPageRoute(
             builder: (BuildContext context) => NavigationBar(
@@ -748,7 +789,7 @@ class _HomePageState extends State<HomePage> {
   GestureDetector buildExpandedMenu() {
     return GestureDetector(
       onTap: () {
-        Navigator.push(
+        Navigator.pushReplacement(
           context,
           MaterialPageRoute(
             builder: (BuildContext context) => NavigationBar(
@@ -778,7 +819,8 @@ class _HomePageState extends State<HomePage> {
   Container imageCarousel() {
     final double height = MediaQuery.of(context).size.height;
     return Container(
-      height: 230.0,
+      height: ResponsiveFlutter.of(context).verticalScale(170),
+      // height: 230.0,
       margin: EdgeInsets.only(left: 20, right: 20, top: 20),
       width: double.infinity,
       child: CarouselSlider(
@@ -789,7 +831,7 @@ class _HomePageState extends State<HomePage> {
               height: double.infinity,
               width: double.infinity,
               child: CachedNetworkImage(
-                fit: BoxFit.contain,
+                fit: BoxFit.cover,
                 useOldImageOnUrlChange: false,
                 imageUrl: "https://yomies.com.my/pages/ads/photo/" + i.adsPhoto,
                 errorWidget: (context, url, error) {

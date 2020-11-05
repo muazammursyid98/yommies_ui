@@ -1,15 +1,27 @@
+import 'dart:convert';
+import 'dart:io';
+
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:image_cropper/image_cropper.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 import 'package:yommie/models/profileModel.dart';
 
 class EditProfile extends StatefulWidget {
+  final String userImage;
   final String username;
   final String email;
   final String gender;
   final String dateOfBirth;
 
-  EditProfile({this.username, this.email, this.gender, this.dateOfBirth});
+  EditProfile(
+      {this.userImage,
+      this.username,
+      this.email,
+      this.gender,
+      this.dateOfBirth});
 
   @override
   _EditProfileState createState() => _EditProfileState();
@@ -25,6 +37,10 @@ class _EditProfileState extends State<EditProfile> {
 
   String _radioValue; //Initial definition of radio button value
   String choice;
+
+  File imageFile;
+  String userImage;
+  final picker = ImagePicker();
 
   var maskFormatter = new MaskTextInputFormatter(
       mask: '##/##/####', filter: {"#": RegExp(r'[0-9]')});
@@ -46,9 +62,75 @@ class _EditProfileState extends State<EditProfile> {
     });
   }
 
+  _openGallery(BuildContext context) async {
+    var pitcure =
+        await picker.getImage(source: ImageSource.gallery, maxWidth: 600);
+    if (pitcure != null) {
+      File imageCrop = await ImageCropper.cropImage(
+          sourcePath: pitcure.path,
+          aspectRatioPresets: [
+            CropAspectRatioPreset.square,
+            // CropAspectRatioPreset.ratio3x2,
+            // CropAspectRatioPreset.original,
+            // CropAspectRatioPreset.ratio4x3,
+            // CropAspectRatioPreset.ratio16x9
+          ],
+          androidUiSettings: AndroidUiSettings(
+              toolbarTitle: 'Cropper',
+              toolbarColor: Colors.deepOrange,
+              toolbarWidgetColor: Colors.white,
+              initAspectRatio: CropAspectRatioPreset.square,
+              lockAspectRatio: true),
+          iosUiSettings: IOSUiSettings(
+            minimumAspectRatio: 1.0,
+          ));
+      if (mounted) {
+        this.setState(() {
+          userImage = null;
+          imageFile = imageCrop;
+        });
+      }
+    }
+    Navigator.of(context).pop();
+  }
+
+  _openCamera(BuildContext context) async {
+    var pitcure =
+        await picker.getImage(source: ImageSource.camera, imageQuality: 50);
+    if (pitcure != null) {
+      File imageCrop = await ImageCropper.cropImage(
+        sourcePath: pitcure.path,
+        aspectRatioPresets: [
+          CropAspectRatioPreset.square,
+          // CropAspectRatioPreset.ratio3x2,
+          // CropAspectRatioPreset.original,
+          // CropAspectRatioPreset.ratio4x3,
+          // CropAspectRatioPreset.ratio16x9
+        ],
+        androidUiSettings: AndroidUiSettings(
+            toolbarTitle: 'Cropper',
+            toolbarColor: Colors.deepOrange,
+            toolbarWidgetColor: Colors.white,
+            initAspectRatio: CropAspectRatioPreset.square,
+            lockAspectRatio: false),
+        iosUiSettings: IOSUiSettings(
+          minimumAspectRatio: 1.0,
+        ),
+      );
+      if (mounted) {
+        setState(() {
+          userImage = null;
+          imageFile = imageCrop;
+        });
+      }
+    }
+    Navigator.of(context).pop();
+  }
+
   @override
   void initState() {
     setState(() {
+      userImage = widget.userImage;
       username.text = widget.username;
       email.text = widget.email;
       dateOfBirth.text = widget.dateOfBirth;
@@ -103,20 +185,28 @@ class _EditProfileState extends State<EditProfile> {
                     child: Stack(
                       children: [
                         Container(
-                          width: 90,
-                          height: 90,
+                          width: 120,
+                          height: 120,
                           decoration: BoxDecoration(
+                            border: Border.all(color: Colors.grey[300]),
                             shape: BoxShape.circle,
-                            image: DecorationImage(
-                              image: AssetImage('assets/images/user1.jpg'),
-                            ),
-                            boxShadow: [
-                              BoxShadow(
-                                color: Color(0xffd6a5c0),
-                                blurRadius: 40,
-                                offset: Offset(0, 10),
+                          ),
+                          child: Container(
+                            margin: EdgeInsets.all(2),
+                            decoration: BoxDecoration(
+                              shape: BoxShape.circle,
+                              image: DecorationImage(
+                                fit: BoxFit.cover,
+                                image: userImage != null
+                                    ? CachedNetworkImage(
+                                        imageUrl: 'url + itemImage',
+                                        fit: BoxFit.cover,
+                                      )
+                                    : imageFile != null
+                                        ? FileImage(imageFile)
+                                        : AssetImage('assets/images/user1.jpg'),
                               ),
-                            ],
+                            ),
                           ),
                         ),
                         Positioned(
@@ -134,7 +224,9 @@ class _EditProfileState extends State<EditProfile> {
                                       Icons.edit,
                                       size: 16,
                                     )),
-                                onTap: () {},
+                                onTap: () {
+                                  _showChoiceDialog(context);
+                                },
                               ),
                             ),
                           ),
@@ -243,11 +335,23 @@ class _EditProfileState extends State<EditProfile> {
   GestureDetector bottomWidget() {
     return GestureDetector(
       onTap: () {
-        var jsons = {};
-        jsons["username"] = username.text;
-        jsons["dob"] = dateOfBirth.text;
-        jsons["gender"] = choice;
-        ProfileModel().userProfileUpdate(jsons, context);
+        if (imageFile != null) {
+          List<int> imageBytes = imageFile.readAsBytesSync();
+          String base64Image = base64.encode(imageBytes);
+          var jsons = {};
+          jsons["username"] = username.text;
+          jsons["dob"] = dateOfBirth.text;
+          jsons["gender"] = choice;
+          jsons["userimage"] = base64Image;
+
+          ProfileModel().userProfileUpdate(jsons, context);
+        } else {
+          var jsons = {};
+          jsons["username"] = username.text;
+          jsons["dob"] = dateOfBirth.text;
+          jsons["gender"] = choice;
+          ProfileModel().userProfileUpdate(jsons, context);
+        }
       },
       child: Container(
         width: MediaQuery.of(context).size.width,
@@ -279,6 +383,45 @@ class _EditProfileState extends State<EditProfile> {
           ],
         ),
       ),
+    );
+  }
+
+  Future<void> _showChoiceDialog(BuildContext context) {
+    return showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.all(Radius.circular(10.0)),
+          ),
+          title: Text(
+            "Add Image",
+            style: TextStyle(fontWeight: FontWeight.bold),
+          ),
+          content: SingleChildScrollView(
+            child: ListBody(
+              children: <Widget>[
+                GestureDetector(
+                  child: Text("Choose from gallery"),
+                  onTap: () {
+                    _openGallery(context);
+                  },
+                ),
+                Divider(),
+                Padding(
+                  padding: EdgeInsets.all(8.0),
+                ),
+                GestureDetector(
+                  child: Text("Take photo"),
+                  onTap: () {
+                    _openCamera(context);
+                  },
+                )
+              ],
+            ),
+          ),
+        );
+      },
     );
   }
 }
