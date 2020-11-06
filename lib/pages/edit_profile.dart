@@ -198,13 +198,12 @@ class _EditProfileState extends State<EditProfile> {
                               image: DecorationImage(
                                 fit: BoxFit.cover,
                                 image: userImage != null
-                                    ? CachedNetworkImage(
-                                        imageUrl: 'url + itemImage',
-                                        fit: BoxFit.cover,
+                                    ? NetworkImage(
+                                        "https://yomies.com.my/pages/user/photo/${widget.userImage}?v=${DateTime.now().millisecondsSinceEpoch}",
                                       )
                                     : imageFile != null
                                         ? FileImage(imageFile)
-                                        : AssetImage('assets/images/user1.jpg'),
+                                        : AssetImage('assets/images/placeholder-avatar.png'),
                               ),
                             ),
                           ),

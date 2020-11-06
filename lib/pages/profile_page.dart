@@ -1,5 +1,7 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cool_alert/cool_alert.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:yommie/class/alertDialog.dart';
@@ -83,7 +85,14 @@ class _ProfilePageState extends State<ProfilePage> {
                           decoration: BoxDecoration(
                             shape: BoxShape.circle,
                             image: DecorationImage(
-                              image: AssetImage('assets/images/user1.jpg'),
+                              image: response["imageico"] == null
+                                  ? AssetImage('assets/images/placeholder-avatar.png')
+                                  : NetworkImage(
+                                      "https://yomies.com.my/pages/user/photo/${response["imageico"]}" +
+                                          "?d=" +
+                                          DateFormat.jm()
+                                              .format(DateTime.now()),
+                                    ),
                             ),
                           ),
                         ),
@@ -236,7 +245,7 @@ class _ProfilePageState extends State<ProfilePage> {
                               PageTransition(
                                 type: PageTransitionType.bottomToTop,
                                 child: EditProfile(
-                                  userImage: null,
+                                  userImage: response["imageico"],
                                   username: response["user_name"],
                                   email: response["email"],
                                   gender: response["gender"],
