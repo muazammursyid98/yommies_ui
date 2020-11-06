@@ -1,8 +1,10 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:cool_alert/cool_alert.dart';
 import 'package:flutter/material.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:responsive_flutter/responsive_flutter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:yommie/class/alertDialog.dart';
 import 'package:yommie/models/rewardDetail.dart';
 import 'package:yommie/models/rewardModels.dart';
 import 'package:yommie/pages/detail_reward.dart';
@@ -307,18 +309,31 @@ class _RewardPageState extends State<RewardPage> {
                                 SizedBox(
                                   height: 20,
                                 ),
-                                Container(
-                                  width: double.infinity,
-                                  height: 25,
-                                  child: Text(
-                                    "Unlock at ${item.point} Points",
-                                    textAlign: TextAlign.start,
-                                    style: TextStyle(
-                                        color: Colors.black,
-                                        fontSize: 16,
-                                        fontWeight: FontWeight.bold),
-                                  ),
-                                ),
+                                item.status != "LOCK"
+                                    ? Container(
+                                        width: double.infinity,
+                                        height: 25,
+                                        child: Text(
+                                          "Unlock at ${item.point} Points",
+                                          textAlign: TextAlign.start,
+                                          style: TextStyle(
+                                              color: Colors.black,
+                                              fontSize: 16,
+                                              fontWeight: FontWeight.bold),
+                                        ),
+                                      )
+                                    : Container(
+                                        width: double.infinity,
+                                        height: 25,
+                                        child: Text(
+                                          "Unlock at ${item.point} Points",
+                                          textAlign: TextAlign.start,
+                                          style: TextStyle(
+                                              color: Colors.grey,
+                                              fontSize: 16,
+                                              fontWeight: FontWeight.bold),
+                                        ),
+                                      ),
                                 SizedBox(height: 8),
                                 Row(
                                   mainAxisAlignment: MainAxisAlignment.start,
@@ -370,13 +385,18 @@ class _RewardPageState extends State<RewardPage> {
                                         ],
                                       ),
                                     ),
+                                    Icon(
+                                      Icons.arrow_forward_ios,
+                                      size: 16,
+                                    ),
+                                    SizedBox(width: 10)
                                   ],
                                 ),
                                 SizedBox(height: 10),
                                 item.status != "LOCK"
                                     ? Container(
-                                        height: 40,
-                                        width: 200,
+                                        height: 30,
+                                        width: 220,
                                         alignment: Alignment.center,
                                         child: Center(
                                           child: RaisedButton(
@@ -404,7 +424,7 @@ class _RewardPageState extends State<RewardPage> {
                                               });
                                             },
                                             child: Text(
-                                              "USED AT COUNTER",
+                                              "REDEEM AT COUNTER",
                                               style: TextStyle(
                                                   color: Colors.white,
                                                   fontWeight: FontWeight.bold),
@@ -413,16 +433,25 @@ class _RewardPageState extends State<RewardPage> {
                                         ),
                                       )
                                     : SizedBox(
-                                        height: 40,
-                                        width: 100,
+                                        height: 30,
+                                        width: 120,
                                         child: RaisedButton(
                                           color: Colors.grey,
                                           shape: RoundedRectangleBorder(
                                               borderRadius:
                                                   BorderRadius.circular(20)),
-                                          onPressed: () {},
+                                          onPressed: () {
+                                            DialogAction().alertDialogOneButton(
+                                                context,
+                                                'Info',
+                                                CoolAlertType.info,
+                                                'Insuficient point',
+                                                'Ok', () {
+                                              Navigator.of(context).pop();
+                                            });
+                                          },
                                           child: Text(
-                                            "USED",
+                                            "Redeem",
                                             style: TextStyle(
                                                 fontWeight: FontWeight.bold,
                                                 color: Colors.white),

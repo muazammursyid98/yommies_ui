@@ -8,6 +8,7 @@ import 'package:responsive_flutter/responsive_flutter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:yommie/class/hex_color.dart';
+import 'package:yommie/class/responsive.dart';
 import 'package:yommie/models/homePageModels.dart';
 import 'package:yommie/pages/locateUs_page.dart';
 import 'package:yommie/pages/my_qr.dart';
@@ -33,6 +34,8 @@ class _HomePageState extends State<HomePage> {
 
   String username;
   String userpoint;
+
+  Responsive responsive;
 
   @override
   void initState() {
@@ -98,6 +101,7 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
+    responsive = Responsive.of(context);
     if (loading) {
       return Center(child: CircularProgressIndicator());
     } else {
@@ -110,7 +114,7 @@ class _HomePageState extends State<HomePage> {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               Container(
-                height: ResponsiveFlutter.of(context).verticalScale(120),
+                height: responsive.hp(16),
                 width: double.infinity,
                 child: SafeArea(
                   child: Container(
@@ -121,7 +125,7 @@ class _HomePageState extends State<HomePage> {
                       children: [
                         Spacer(),
                         Text(
-                          "Total Loyalty",
+                          "Total Points",
                           style: TextStyle(
                               fontSize: 16, fontWeight: FontWeight.w500),
                         ),
@@ -193,7 +197,7 @@ class _HomePageState extends State<HomePage> {
                       height: 20,
                     )
                   : SizedBox(),
-              listEvent.length != 0 ? buildTitle("Event") : SizedBox(),
+              listEvent.length != 0 ? buildTitle("News") : SizedBox(),
               listEvent.length != 0 ? SizedBox(height: 20) : SizedBox(),
               listEvent.length != 0 ? buildContainerEvent() : SizedBox(),
               SizedBox(height: 40),
@@ -221,7 +225,13 @@ class _HomePageState extends State<HomePage> {
                   userId: userId,
                 ),
               ),
-            );
+            ).then((value) {
+              listAds.clear();
+              listLocation.clear();
+              listProduct.clear();
+              listEvent.clear();
+              callApi();
+            });
           },
           child: Icon(FontAwesomeIcons.qrcode),
         ),
@@ -278,7 +288,7 @@ class _HomePageState extends State<HomePage> {
       child: Container(
         padding: EdgeInsets.only(left: 11),
         width: double.infinity,
-        height: ResponsiveFlutter.of(context).verticalScale(170),
+        height: responsive.dp(25),
         child: Row(
           children: [
             Expanded(
@@ -397,7 +407,7 @@ class _HomePageState extends State<HomePage> {
     return Container(
       margin: EdgeInsets.only(left: 20, right: 20, top: 20),
       width: double.infinity,
-      height: ResponsiveFlutter.of(context).scale(150),
+      height: responsive.hp(24),
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.all(
@@ -473,7 +483,7 @@ class _HomePageState extends State<HomePage> {
     return Container(
       padding: EdgeInsets.only(left: 11),
       width: double.infinity,
-      height: ResponsiveFlutter.of(context).verticalScale(170),
+      height: responsive.dp(25),
       child: Row(
         children: [
           Expanded(
@@ -605,7 +615,7 @@ class _HomePageState extends State<HomePage> {
     return Container(
       padding: EdgeInsets.only(left: 11),
       width: double.infinity,
-      height: ResponsiveFlutter.of(context).verticalScale(170),
+      height: responsive.dp(25),
       child: Row(
         children: [
           Expanded(
@@ -819,8 +829,7 @@ class _HomePageState extends State<HomePage> {
   Container imageCarousel() {
     final double height = MediaQuery.of(context).size.height;
     return Container(
-      height: ResponsiveFlutter.of(context).verticalScale(170),
-      // height: 230.0,
+      height: responsive.dp(26),
       margin: EdgeInsets.only(left: 20, right: 20, top: 20),
       width: double.infinity,
       child: CarouselSlider(

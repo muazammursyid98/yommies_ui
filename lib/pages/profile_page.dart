@@ -20,10 +20,19 @@ class ProfilePage extends StatefulWidget {
 }
 
 class _ProfilePageState extends State<ProfilePage> {
-  bool loading = true;
+  bool loading = false;
   var response;
+
   @override
   void initState() {
+    callApi();
+    super.initState();
+  }
+
+  callApi() {
+    setState(() {
+      loading = true;
+    });
     var jsons = {};
     ProfileModel().userProfile(jsons, context).then((value) {
       setState(() {
@@ -31,7 +40,6 @@ class _ProfilePageState extends State<ProfilePage> {
         loading = false;
       });
     });
-    super.initState();
   }
 
   @override
@@ -86,7 +94,8 @@ class _ProfilePageState extends State<ProfilePage> {
                             shape: BoxShape.circle,
                             image: DecorationImage(
                               image: response["imageico"] == null
-                                  ? AssetImage('assets/images/placeholder-avatar.png')
+                                  ? AssetImage(
+                                      'assets/images/placeholder-avatar.png')
                                   : NetworkImage(
                                       "https://yomies.com.my/pages/user/photo/${response["imageico"]}" +
                                           "?d=" +
@@ -252,7 +261,9 @@ class _ProfilePageState extends State<ProfilePage> {
                                   dateOfBirth: response["dob"],
                                 ),
                               ),
-                            );
+                            ).then((value) {
+                              callApi();
+                            });
                           },
                         ),
                       ),

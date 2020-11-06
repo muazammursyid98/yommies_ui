@@ -1,8 +1,8 @@
 import 'package:cool_alert/cool_alert.dart';
 
 class DialogAction {
-  alertDialog(context, title, type, text, confirmBtnText, cancelBtnText,
-      Function onConfirm, Function onCancel) {
+  alertDialog(context, title, CoolAlertType type, text, confirmBtnText,
+      cancelBtnText, Function onConfirm, Function onCancel) {
     CoolAlert.show(
       context: context,
       title: title,
@@ -16,8 +16,8 @@ class DialogAction {
     );
   }
 
-  alertDialogOneButton(
-      context, title, type, text, confirmBtnText, Function onConfirm) {
+  alertDialogOneButton(context, title, CoolAlertType type, text, confirmBtnText,
+      Function onConfirm) {
     CoolAlert.show(
       context: context,
       title: title,

@@ -70,36 +70,48 @@ class _NavigationBarState extends State<NavigationBar> {
     return Expanded(
       child: GestureDetector(
         onTap: () => _pageController.jumpToPage(index),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            SizedBox(
-              height: 5,
-            ),
-            Icon(
-              icons[index],
-              size: 23.0,
-              color: _page == index
-                  ? Theme.of(context).primaryColor
-                  : Colors.black38,
-            ),
-            SizedBox(
-              height: 5,
-            ),
-            Text(
-              text[index],
-              style: TextStyle(
-                fontWeight: FontWeight.bold,
-                fontSize: 10.0,
-                color: _page == index
-                    ? Theme.of(context).primaryColor
-                    : Colors.black,
+        child: Container(
+          height: double.infinity,
+          width: double.infinity,
+          child: Column(
+            children: [
+              Expanded(
+                child: Column(
+                  mainAxisSize: MainAxisSize.max,
+                  children: [
+                    SizedBox(
+                      height: 10,
+                    ),
+                    Icon(
+                      icons[index],
+                      size: 23.0,
+                      color: _page == index
+                          ? Theme.of(context).primaryColor
+                          : Colors.black38,
+                    ),
+                    SizedBox(
+                      height: 5,
+                    ),
+                    Text(
+                      text[index],
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 10.0,
+                        color: _page == index
+                            ? Theme.of(context).primaryColor
+                            : Colors.black,
+                      ),
+                    ),
+                    Expanded(
+                      child: SizedBox(
+                        height: 5,
+                      ),
+                    ),
+                  ],
+                ),
               ),
-            ),
-            SizedBox(
-              height: 5,
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );

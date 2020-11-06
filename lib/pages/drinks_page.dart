@@ -1,8 +1,12 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:responsive_flutter/responsive_flutter.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:yommie/class/responsive.dart';
 import 'package:yommie/models/detailsMenuModel.dart';
 import 'package:yommie/models/producModels.dart';
+import 'package:yommie/pages/my_qr.dart';
 
 class DrinksPage extends StatefulWidget {
   @override
@@ -14,6 +18,11 @@ class _DrinksPageState extends State<DrinksPage> {
   bool loading = false;
   @override
   void initState() {
+    callApi();
+    super.initState();
+  }
+
+  callApi() {
     setState(() {
       loading = true;
     });
@@ -24,11 +33,18 @@ class _DrinksPageState extends State<DrinksPage> {
         loading = false;
       });
     });
-    super.initState();
+  }
+
+  @override
+  void dispose() {
+    listProduct.clear();
+    super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
+    final responsive = Responsive.of(context);
+
     if (loading) {
       return Center(child: CircularProgressIndicator());
     } else {
@@ -48,7 +64,7 @@ class _DrinksPageState extends State<DrinksPage> {
                   ),
                   Expanded(
                     child: Text(
-                      "Drinks".toUpperCase(),
+                      "Menu".toUpperCase(),
                       style: TextStyle(
                           fontSize: 18,
                           fontWeight: FontWeight.bold,
@@ -117,7 +133,7 @@ class _DrinksPageState extends State<DrinksPage> {
                             child: GridTile(
                                 child: Container(
                               height: double.infinity,
-                              width: 189,
+                              width: 160,
                               margin: EdgeInsets.only(right: 7, left: 8),
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -274,6 +290,27 @@ class _DrinksPageState extends State<DrinksPage> {
                         fontWeight: FontWeight.w300, letterSpacing: 3),
                   ),
                 ),
+        ),
+        floatingActionButton: FloatingActionButton(
+          backgroundColor: Colors.yellow,
+          onPressed: () async {
+            SharedPreferences prefs = await SharedPreferences.getInstance();
+            var firstname = prefs.getString('firstName');
+            var userId = prefs.getString('userId');
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (BuildContext context) => MyQRPage(
+                  username: firstname,
+                  userId: userId,
+                ),
+              ),
+            ).then((value) {
+              listProduct.clear();
+              callApi();
+            });
+          },
+          child: Icon(FontAwesomeIcons.qrcode),
         ),
       );
     }

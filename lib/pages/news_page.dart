@@ -1,7 +1,11 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:responsive_flutter/responsive_flutter.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:yommie/class/responsive.dart';
 import 'package:yommie/models/newsModels.dart';
+import 'package:yommie/pages/my_qr.dart';
 
 class NewsPage extends StatefulWidget {
   NewsPage({Key key}) : super(key: key);
@@ -16,6 +20,11 @@ class _NewsPageState extends State<NewsPage> {
 
   @override
   void initState() {
+    callApi();
+    super.initState();
+  }
+
+  callApi() {
     setState(() {
       loading = true;
     });
@@ -26,7 +35,6 @@ class _NewsPageState extends State<NewsPage> {
         loading = false;
       });
     });
-    super.initState();
   }
 
   @override
@@ -37,6 +45,7 @@ class _NewsPageState extends State<NewsPage> {
 
   @override
   Widget build(BuildContext context) {
+   final responsive = Responsive.of(context);
     if (loading) {
       return Center(child: CircularProgressIndicator());
     } else {
@@ -55,7 +64,7 @@ class _NewsPageState extends State<NewsPage> {
                     width: 30,
                   ),
                   Text(
-                    "What's News".toUpperCase(),
+                    "What's New".toUpperCase(),
                     style: TextStyle(
                         fontSize: 18,
                         fontWeight: FontWeight.bold,
@@ -83,7 +92,7 @@ class _NewsPageState extends State<NewsPage> {
                   itemBuilder: (BuildContext context, int index) {
                     final item = listAds[index];
                     return Container(
-                      height: ResponsiveFlutter.of(context).verticalScale(390),
+                      height: responsive.dp(51),
                       width: double.infinity,
                       margin: EdgeInsets.only(right: 7, left: 7, top: 0),
                       child: Column(
@@ -191,6 +200,27 @@ class _NewsPageState extends State<NewsPage> {
                         fontWeight: FontWeight.w300, letterSpacing: 3),
                   ),
                 ),
+        ),
+        floatingActionButton: FloatingActionButton(
+          backgroundColor: Colors.yellow,
+          onPressed: () async {
+            SharedPreferences prefs = await SharedPreferences.getInstance();
+            var firstname = prefs.getString('firstName');
+            var userId = prefs.getString('userId');
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (BuildContext context) => MyQRPage(
+                  username: firstname,
+                  userId: userId,
+                ),
+              ),
+            ).then((value) {
+              listAds.clear();
+              callApi();
+            });
+          },
+          child: Icon(FontAwesomeIcons.qrcode),
         ),
       );
     }

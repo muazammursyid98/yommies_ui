@@ -48,25 +48,31 @@ class _MyQRPageState extends State<MyQRPage> {
                         ),
                       ),
                     ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        Text(
-                          "Hello, ",
-                          style: TextStyle(
-                            fontSize: 23,
-                          ),
-                        ),
-                        Text(
-                          "${widget.username}",
-                          style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            fontSize: 23,
-                          ),
-                        )
-                      ],
+                    Text(
+                      "My QR Code",
+                      style: TextStyle(
+                        fontSize: 23,
+                      ),
                     ),
+                    // Row(
+                    //   mainAxisAlignment: MainAxisAlignment.center,
+                    //   crossAxisAlignment: CrossAxisAlignment.center,
+                    //   children: [
+                    //     Text(
+                    //       "Hello, ",
+                    //       style: TextStyle(
+                    //         fontSize: 23,
+                    //       ),
+                    //     ),
+                    //     Text(
+                    //       "${widget.username}",
+                    //       style: TextStyle(
+                    //         fontWeight: FontWeight.bold,
+                    //         fontSize: 23,
+                    //       ),
+                    //     )
+                    //   ],
+                    // ),
                     SizedBox(
                       height: 10,
                     ),
@@ -92,6 +98,8 @@ class _MyQRPageState extends State<MyQRPage> {
       ),
       backgroundColor: Colors.grey[200],
       body: Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Container(
             margin: EdgeInsets.only(top: 20),
