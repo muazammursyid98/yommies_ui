@@ -22,7 +22,9 @@ class RewardModels {
               u["photo"],
               u["start_date"],
               u["end_date"],
-              u["status"]);
+              u["status"],
+              u["messeage"],
+              u["reason"]);
           listRewards.add(item);
         }
         return listRewards;
@@ -38,17 +40,18 @@ class RewardModels {
 
 class Reward {
   Reward(
-    this.userId,
-    this.id,
-    this.reward,
-    this.subTitle,
-    this.tnc,
-    this.point,
-    this.photo,
-    this.startDate,
-    this.endDate,
-    this.status,
-  );
+      this.userId,
+      this.id,
+      this.reward,
+      this.subTitle,
+      this.tnc,
+      this.point,
+      this.photo,
+      this.startDate,
+      this.endDate,
+      this.status,
+      this.message,
+      this.reason);
 
   String userId;
   String id;
@@ -60,4 +63,6 @@ class Reward {
   String startDate;
   String endDate;
   String status;
+  String message;
+  String reason;
 }

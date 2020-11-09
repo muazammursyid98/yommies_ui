@@ -100,7 +100,7 @@ class _RewardPageState extends State<RewardPage> {
                     fit: BoxFit.cover,
                     useOldImageOnUrlChange: false,
                     imageUrl:
-                        "https://yomies.com.my/pages/reward/photo/yomie-bg-2-6441242523-8875398728.jpg",
+                        "https://yomies.com.my/pages/product/photo/${item.photo}",
                     errorWidget: (context, url, error) {
                       return Image(
                         image: AssetImage("assets/images/news1.jpg"),
@@ -159,7 +159,7 @@ class _RewardPageState extends State<RewardPage> {
                     fit: BoxFit.cover,
                     useOldImageOnUrlChange: false,
                     imageUrl:
-                        "https://yomies.com.my/pages/reward/photo/yomie-bg-2-6441242523-8875398728.jpg",
+                        "https://yomies.com.my/pages/freegift/photo/${item.photo}",
                     errorWidget: (context, url, error) {
                       return Image(
                         image: AssetImage("assets/images/news1.jpg"),
@@ -281,7 +281,7 @@ class _RewardPageState extends State<RewardPage> {
                               .rewardDetailPhp(jsons, context)
                               .then((value) {
                             getMyProduct(value);
-                            _detailsReward(value, context);
+                            _detailsReward(value, context, item.endDate);
                           });
                         }
                       },
@@ -335,65 +335,77 @@ class _RewardPageState extends State<RewardPage> {
                                         ),
                                       ),
                                 SizedBox(height: 8),
-                                Row(
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Container(
-                                      width: 80,
-                                      height: 80,
-                                      decoration: BoxDecoration(
-                                        shape: BoxShape.circle,
+                                Expanded(
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Container(
+                                        width: 80,
+                                        height: 80,
+                                        decoration: BoxDecoration(
+                                          shape: BoxShape.circle,
+                                        ),
+                                        child: CachedNetworkImage(
+                                          fit: BoxFit.cover,
+                                          useOldImageOnUrlChange: false,
+                                          imageUrl:
+                                              "https://yomies.com.my/pages/reward/photo/${item.photo}",
+                                          errorWidget: (context, url, error) {
+                                            return Image(
+                                              image: AssetImage(
+                                                  "assets/images/news1.jpg"),
+                                            );
+                                          },
+                                        ),
                                       ),
-                                      child: CachedNetworkImage(
-                                        fit: BoxFit.cover,
-                                        useOldImageOnUrlChange: false,
-                                        imageUrl:
-                                            "https://yomies.com.my/pages/reward/photo/${item.photo}",
-                                        errorWidget: (context, url, error) {
-                                          return Image(
-                                            image: AssetImage(
-                                                "assets/images/news1.jpg"),
-                                          );
-                                        },
+                                      SizedBox(
+                                        width: 15,
                                       ),
-                                    ),
-                                    SizedBox(
-                                      width: 15,
-                                    ),
-                                    Expanded(
-                                      child: Column(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.start,
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          Text(
-                                            item.reward,
-                                            style: TextStyle(
-                                              color: Colors.black,
-                                              fontSize: 16,
+                                      Expanded(
+                                        child: Column(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.start,
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            Text(
+                                              item.reward,
+                                              style: TextStyle(
+                                                color: Colors.black,
+                                                fontSize: 16,
+                                              ),
                                             ),
-                                          ),
-                                          Text(
-                                            item.tnc,
-                                            style: TextStyle(
-                                              color: Colors.black54,
-                                              fontSize: 16,
+                                            Text(
+                                              item.tnc,
+                                              style: TextStyle(
+                                                color: Colors.black54,
+                                                fontSize: 14,
+                                              ),
                                             ),
-                                          ),
-                                        ],
+                                            Spacer(),
+                                            Text(
+                                              "Expired date : " + item.endDate,
+                                              style: TextStyle(
+                                                color: Colors.black45,
+                                                fontSize: 14,
+                                              ),
+                                            ),
+                                            SizedBox(height: 8),
+                                          ],
+                                        ),
                                       ),
-                                    ),
-                                    Icon(
-                                      Icons.arrow_forward_ios,
-                                      size: 16,
-                                    ),
-                                    SizedBox(width: 10)
-                                  ],
+                                      Icon(
+                                        Icons.arrow_forward_ios,
+                                        size: 16,
+                                      ),
+                                      SizedBox(width: 10)
+                                    ],
+                                  ),
                                 ),
                                 SizedBox(height: 10),
-                                item.status != "LOCK"
+                                item.status != "LOCK" && item.status != "FULLY REDEEM"
                                     ? Container(
                                         height: 30,
                                         width: 220,
@@ -432,32 +444,64 @@ class _RewardPageState extends State<RewardPage> {
                                           ),
                                         ),
                                       )
-                                    : SizedBox(
-                                        height: 30,
-                                        width: 120,
-                                        child: RaisedButton(
-                                          color: Colors.grey,
-                                          shape: RoundedRectangleBorder(
-                                              borderRadius:
-                                                  BorderRadius.circular(20)),
-                                          onPressed: () {
-                                            DialogAction().alertDialogOneButton(
-                                                context,
-                                                'Info',
-                                                CoolAlertType.info,
-                                                'Insuficient point',
-                                                'Ok', () {
-                                              Navigator.of(context).pop();
-                                            });
-                                          },
-                                          child: Text(
-                                            "Redeem",
-                                            style: TextStyle(
-                                                fontWeight: FontWeight.bold,
-                                                color: Colors.white),
+                                    : item.status != "FULLY REDEEM"
+                                        ? SizedBox(
+                                            height: 30,
+                                            width: 120,
+                                            child: RaisedButton(
+                                              color: Colors.grey,
+                                              shape: RoundedRectangleBorder(
+                                                  borderRadius:
+                                                      BorderRadius.circular(
+                                                          20)),
+                                              onPressed: () {
+                                                DialogAction()
+                                                    .alertDialogOneButton(
+                                                        context,
+                                                        item.message,
+                                                        CoolAlertType.info,
+                                                        item.reason,
+                                                        'Ok', () {
+                                                  Navigator.of(context).pop();
+                                                });
+                                              },
+                                              child: Text(
+                                                "Redeem",
+                                                style: TextStyle(
+                                                    fontWeight: FontWeight.bold,
+                                                    color: Colors.white),
+                                              ),
+                                            ),
+                                          )
+                                        : SizedBox(
+                                            height: 30,
+                                            width: 160,
+                                            child: RaisedButton(
+                                              color: Colors.grey,
+                                              shape: RoundedRectangleBorder(
+                                                  borderRadius:
+                                                      BorderRadius.circular(
+                                                          20)),
+                                              onPressed: () {
+                                                DialogAction()
+                                                    .alertDialogOneButton(
+                                                        context,
+                                                        item.message,
+                                                        CoolAlertType.info,
+                                                        item.reason,
+                                                        'Ok', () {
+                                                  Navigator.of(context).pop();
+                                                });
+                                              },
+                                              child: Text(
+                                                "Fully Redeem",
+                                                style: TextStyle(
+                                                    fontWeight: FontWeight.bold,
+                                                    color: Colors.white),
+                                              ),
+                                            ),
                                           ),
-                                        ),
-                                      ),
+                                SizedBox(height: 10),
                               ],
                             ),
                           ),
@@ -478,7 +522,7 @@ class _RewardPageState extends State<RewardPage> {
     }
   }
 
-  void _detailsReward(response, context) {
+  void _detailsReward(response, context, endDate) {
     showModalBottomSheet(
       context: context,
       isScrollControlled: true,
@@ -505,65 +549,83 @@ class _RewardPageState extends State<RewardPage> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      "Detail Reward".toUpperCase() + " 100 Points",
+                      "Detail Reward ".toUpperCase() +
+                          response["point"] +
+                          " points",
                       style:
                           TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
                     ),
                     SizedBox(height: 10),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Container(
-                          width: 90,
-                          height: 90,
-                          decoration: BoxDecoration(
-                            shape: BoxShape.circle,
+                    Expanded(
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Container(
+                            width: 90,
+                            height: 90,
+                            decoration: BoxDecoration(
+                              shape: BoxShape.circle,
+                            ),
+                            child: CachedNetworkImage(
+                              fit: BoxFit.cover,
+                              useOldImageOnUrlChange: false,
+                              imageUrl:
+                                  "https://yomies.com.my/pages/reward/photo/${response["photo"]}",
+                              errorWidget: (context, url, error) {
+                                return Image(
+                                  image: AssetImage("assets/images/news1.jpg"),
+                                );
+                              },
+                            ),
                           ),
-                          child: CachedNetworkImage(
-                            fit: BoxFit.cover,
-                            useOldImageOnUrlChange: false,
-                            imageUrl:
-                                "https://yomies.com.my/pages/reward/photo/yomie-bg-2-6441242523-8875398728.jpg",
-                            errorWidget: (context, url, error) {
-                              return Image(
-                                image: AssetImage("assets/images/news1.jpg"),
-                              );
-                            },
-                          ),
-                        ),
-                        SizedBox(
-                          width: 8,
-                        ),
-                        Expanded(
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                "Free 1x drink",
-                                style: TextStyle(
-                                  color: Colors.black,
-                                  fontSize: 16,
+                          Padding(
+                            padding: const EdgeInsets.only(left: 10),
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  response["reward"],
+                                  style: TextStyle(
+                                    color: Colors.black,
+                                    fontSize: 16,
+                                  ),
                                 ),
-                              ),
-                              Text(
-                                "Redeem any of smoothies drinks at nearest store in Klang Valley",
-                                style: TextStyle(
-                                  color: Colors.black54,
-                                  fontSize: 16,
+                                Text(
+                                  response["sub_title"],
+                                  style: TextStyle(
+                                    color: Colors.black54,
+                                    fontSize: 14,
+                                  ),
                                 ),
-                              ),
-                            ],
+                                Spacer(),
+                                Text(
+                                  "Expired date : " + endDate,
+                                  style: TextStyle(
+                                    color: Colors.black45,
+                                    fontSize: 14,
+                                  ),
+                                ),
+                                SizedBox(height: 30),
+                              ],
+                            ),
                           ),
-                        ),
-                      ],
-                    ),
+                          SizedBox(
+                            width: 8,
+                          ),
+                        ],
+                      ),
+                    )
                   ],
                 ),
               ),
-              SizedBox(height: 20),
-              itemList.length != 0
+              Divider(
+                height: 1,
+                thickness: 1,
+              ),
+              SizedBox(height: 10),
+              response["product"] != null
                   ? Text(
                       "Your rewards drinks",
                       style: TextStyle(
@@ -572,11 +634,15 @@ class _RewardPageState extends State<RewardPage> {
                           color: Colors.grey),
                     )
                   : SizedBox(),
-              Column(
-                children: itemList,
-              ),
-              SizedBox(height: 20),
-              itemListFreegift.length != 0
+              response["product"] != null
+                  ? Column(
+                      children: itemList,
+                    )
+                  : SizedBox(),
+              response["product"] != null
+                  ? SizedBox(height: 20)
+                  : SizedBox(height: 0),
+              response["freegift"] != null
                   ? Text(
                       "Freegift",
                       style: TextStyle(
@@ -585,9 +651,12 @@ class _RewardPageState extends State<RewardPage> {
                           color: Colors.grey),
                     )
                   : SizedBox(),
-              Column(
-                children: itemListFreegift,
-              ),
+              response["freegift"] != null
+                  ? Column(
+                      children: itemListFreegift,
+                    )
+                  : SizedBox(),
+              SizedBox(height: 30)
             ],
           ),
         ),

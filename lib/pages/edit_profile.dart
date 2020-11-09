@@ -2,10 +2,12 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:intl/intl.dart';
 import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 import 'package:yommie/models/profileModel.dart';
 
@@ -203,7 +205,8 @@ class _EditProfileState extends State<EditProfile> {
                                       )
                                     : imageFile != null
                                         ? FileImage(imageFile)
-                                        : AssetImage('assets/images/placeholder-avatar.png'),
+                                        : AssetImage(
+                                            'assets/images/placeholder-avatar.png'),
                               ),
                             ),
                           ),
@@ -320,6 +323,27 @@ class _EditProfileState extends State<EditProfile> {
                         fontFamily: 'Karla',
                       ),
                     ),
+                    onTap: () {
+                      showCupertinoModalPopup<void>(
+                        context: context,
+                        builder: (BuildContext context) {
+                          return _buildBottomPicker(
+                            CupertinoDatePicker(
+                              mode: CupertinoDatePickerMode.date,
+                              maximumDate: DateTime.now(),
+                              initialDateTime: DateTime(1998, 1, 1),
+                              onDateTimeChanged: (DateTime newDateTime) {
+                                setState(() {
+                                  final formatter = DateFormat('dd/MM/yyyy');
+                                  dateOfBirth.text =
+                                      formatter.format(newDateTime);
+                                });
+                              },
+                            ),
+                          );
+                        },
+                      );
+                    },
                   ),
                 ],
               ),
@@ -327,6 +351,29 @@ class _EditProfileState extends State<EditProfile> {
           ),
           Align(alignment: Alignment.bottomCenter, child: bottomWidget())
         ],
+      ),
+    );
+  }
+
+  double _kPickerSheetHeight = 216.0;
+  Widget _buildBottomPicker(Widget picker) {
+    return Container(
+      height: _kPickerSheetHeight,
+      padding: const EdgeInsets.only(top: 6.0),
+      color: CupertinoColors.white,
+      child: DefaultTextStyle(
+        style: const TextStyle(
+          color: CupertinoColors.black,
+          fontSize: 22.0,
+        ),
+        child: GestureDetector(
+          // Blocks taps from propagating to the modal sheet and popping.
+          onTap: () {},
+          child: SafeArea(
+            top: false,
+            child: picker,
+          ),
+        ),
       ),
     );
   }
@@ -339,7 +386,8 @@ class _EditProfileState extends State<EditProfile> {
           String base64Image = base64.encode(imageBytes);
           var jsons = {};
           jsons["username"] = username.text;
-          jsons["dob"] = dateOfBirth.text;
+          jsons["dob"] = dateOfBirth.text.replaceAll("/", "-");
+          ;
           jsons["gender"] = choice;
           jsons["userimage"] = base64Image;
 
