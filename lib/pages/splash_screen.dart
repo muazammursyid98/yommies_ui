@@ -5,6 +5,7 @@ import 'package:responsive_flutter/responsive_flutter.dart';
 import 'package:yommie/class/notification.dart';
 import 'package:yommie/pages/login_page.dart';
 import 'package:yommie/pages/navigation_bar.dart';
+import 'package:yommie/pages/navigation_bar_dummy.dart';
 
 class SplashScreen extends StatefulWidget {
   final String userId;
@@ -29,7 +30,9 @@ class _SplashScreenState extends State<SplashScreen> {
           : Navigator.pushReplacement(
               context,
               MaterialPageRoute(
-                builder: (BuildContext context) => NavigationBar(),
+                builder: (BuildContext context) => NavigationBarDummy(
+                  userId: widget.userId,
+                ),
               ),
             );
     });

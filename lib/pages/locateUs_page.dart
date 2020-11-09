@@ -55,6 +55,7 @@ class _LocateUsState extends State<LocateUs> {
       ),
       backgroundColor: Theme.of(context).primaryColor,
       body: Container(
+        padding: EdgeInsets.only(bottom: 10, top: 10),
         decoration: BoxDecoration(
           color: Colors.white.withOpacity(0.9),
           borderRadius: BorderRadius.only(
@@ -69,7 +70,7 @@ class _LocateUsState extends State<LocateUs> {
             return Container(
               height: 450,
               width: double.infinity,
-              margin: EdgeInsets.only(right: 7, left: 7, top: 0),
+              margin: EdgeInsets.only(right: 7, left: 7, top: 10),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -121,7 +122,7 @@ class _LocateUsState extends State<LocateUs> {
                                   children: [
                                     SizedBox(height: 8),
                                     Text(
-                                      item.branchName,
+                                      item.branchName.replaceAll('&#39;', '’'),
                                       style: TextStyle(
                                           color: Colors.black,
                                           fontSize: 16,

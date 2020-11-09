@@ -6,6 +6,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:yommie/class/alertDialog.dart';
 import 'package:yommie/class/notification.dart';
 import 'package:yommie/pages/navigation_bar.dart';
+import 'package:yommie/pages/navigation_bar_dummy.dart';
 import 'package:yommie/provider/rest.dart';
 
 class LoginViewModels {
@@ -29,7 +30,7 @@ class LoginViewModels {
             context,
             MaterialPageRoute(
               builder: (BuildContext context) =>
-                  NavigationBar(userId: map["userId"]),
+                  NavigationBarDummy(userId: map["userId"]),
             ),
           );
         } else {

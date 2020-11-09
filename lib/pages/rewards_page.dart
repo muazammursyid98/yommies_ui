@@ -286,6 +286,7 @@ class _RewardPageState extends State<RewardPage> {
                         }
                       },
                       child: Container(
+                        margin: EdgeInsets.only(top:10),
                         height: 200,
                         width: double.infinity,
                         child: Container(

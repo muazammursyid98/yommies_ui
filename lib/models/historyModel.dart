@@ -38,8 +38,6 @@ class HistoryModel {
       var result = await GetAPI.providers(jsons, "user-history-filter.php");
       var statusCode = result[0];
       var response = result[1];
-      print(response);
-
       if (statusCode == 200) {
         final jsonResponse = json.decode(response);
         return jsonResponse;

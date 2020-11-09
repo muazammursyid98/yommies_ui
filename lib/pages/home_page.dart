@@ -12,6 +12,7 @@ import 'package:yommie/class/responsive.dart';
 import 'package:yommie/models/homePageModels.dart';
 import 'package:yommie/pages/locateUs_page.dart';
 import 'package:yommie/pages/my_qr.dart';
+import 'package:yommie/pages/navigation_bar_dummy.dart';
 import 'package:yommie/provider/globals.dart' as globals;
 
 import 'navigation_bar.dart';
@@ -56,12 +57,11 @@ class _HomePageState extends State<HomePage> {
       final dataProduct =
           value["data_product"] == null ? [] : value["data_product"];
       final dataEvent = value["data_event"] == null ? [] : value["data_event"];
-      print(dataAds);
+
       for (var u in dataAds) {
         DataAd item = DataAd(u["ads_id"], u["ads_photo"]);
         listAds.add(item);
       }
-      print(listAds);
 
       for (var u in dataLocation) {
         DataLocation item = DataLocation(
@@ -278,7 +278,7 @@ class _HomePageState extends State<HomePage> {
         Navigator.pushReplacement(
           context,
           MaterialPageRoute(
-            builder: (BuildContext context) => NavigationBar(
+            builder: (BuildContext context) => NavigationBarDummy(
               userId: widget.userId,
               page: 1,
             ),
@@ -559,7 +559,7 @@ class _HomePageState extends State<HomePage> {
                                       context,
                                       MaterialPageRoute(
                                         builder: (BuildContext context) =>
-                                            NavigationBar(
+                                            NavigationBarDummy(
                                           userId: widget.userId,
                                           page: 2,
                                         ),
@@ -745,7 +745,7 @@ class _HomePageState extends State<HomePage> {
         Navigator.pushReplacement(
           context,
           MaterialPageRoute(
-            builder: (BuildContext context) => NavigationBar(
+            builder: (BuildContext context) => NavigationBarDummy(
               userId: widget.userId,
               page: 3,
             ),

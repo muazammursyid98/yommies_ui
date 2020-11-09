@@ -101,7 +101,9 @@ class _HistoryPageState extends State<HistoryPage> {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Text(
-                                    "Branch " + item.branchName,
+                                    "Branch " +
+                                        item.branchName
+                                            .replaceAll('&#39;', '’'),
                                     style:
                                         TextStyle(fontWeight: FontWeight.bold),
                                   ),
@@ -185,7 +187,9 @@ class _HistoryPageState extends State<HistoryPage> {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Text(
-                                    "Branch " + item.branchName,
+                                    "Branch " +
+                                        item.branchName
+                                            .replaceAll('&#39;', '’'),
                                     style:
                                         TextStyle(fontWeight: FontWeight.bold),
                                   ),

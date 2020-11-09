@@ -110,8 +110,10 @@ class _DrinksPageState extends State<DrinksPage> {
                     ),
                     Expanded(
                       child: GridView.builder(
+                        cacheExtent: 9999,
                         physics: ClampingScrollPhysics(),
                         itemCount: listProduct == null ? 0 : listProduct.length,
+                        padding: EdgeInsets.only(top: 10, bottom: 10),
                         gridDelegate:
                             new SliverGridDelegateWithFixedCrossAxisCount(
                           crossAxisCount: 2,
@@ -134,7 +136,8 @@ class _DrinksPageState extends State<DrinksPage> {
                                 child: Container(
                               height: double.infinity,
                               width: 160,
-                              margin: EdgeInsets.only(right: 7, left: 8),
+                              margin:
+                                  EdgeInsets.only(right: 7, left: 8, top: 10),
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
@@ -174,6 +177,9 @@ class _DrinksPageState extends State<DrinksPage> {
                                                       BorderRadius.circular(
                                                           5.0),
                                                   child: CachedNetworkImage(
+                                                    placeholder: (context,
+                                                            url) =>
+                                                        Center(child: CircularProgressIndicator()),
                                                     fit: BoxFit.cover,
                                                     useOldImageOnUrlChange:
                                                         false,
