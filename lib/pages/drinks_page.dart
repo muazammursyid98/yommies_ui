@@ -179,7 +179,9 @@ class _DrinksPageState extends State<DrinksPage> {
                                                   child: CachedNetworkImage(
                                                     placeholder: (context,
                                                             url) =>
-                                                        Center(child: CircularProgressIndicator()),
+                                                        Center(
+                                                            child:
+                                                                CircularProgressIndicator()),
                                                     fit: BoxFit.cover,
                                                     useOldImageOnUrlChange:
                                                         false,
@@ -203,7 +205,8 @@ class _DrinksPageState extends State<DrinksPage> {
                                               padding: EdgeInsets.only(
                                                   left: 5, right: 5),
                                               child: Text(
-                                                item.productName,
+                                                item.productName
+                                                    .replaceAll('&#39;', '’'),
                                                 style: TextStyle(
                                                     fontWeight: FontWeight.bold,
                                                     fontSize: 16),
