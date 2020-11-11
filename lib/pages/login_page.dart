@@ -41,6 +41,7 @@ class _LoginPageState extends State<LoginPage> {
                   ),
                 ),
               ),
+              SizedBox(height:10),
               SizedBox(height: ResponsiveFlutter.of(context).verticalScale(20)),
               TextField(
                 controller: email,
