@@ -40,10 +40,10 @@ class _SplashScreenState extends State<SplashScreen> {
 
   @override
   void initState() {
-    if (widget.userId != null) {
-      MyNotification().unsubscribeMessage(widget.userId);
-      MyNotification().subcribeMessage(widget.userId, context);
-    }
+    // if (widget.userId != null) {
+    //   MyNotification().unsubscribeMessage(widget.userId);
+    //   MyNotification().subcribeMessage(widget.userId, context);
+    // }
     super.initState();
     removeScreen();
   }

@@ -54,7 +54,10 @@ class MyNotification {
     var iOS = new IOSNotificationDetails();
     var platform = new NotificationDetails(android: android, iOS: iOS);
     await flutterLocalNotificationsPlugin.show(
-        0, notification['title'], notification['body'], platform);
+        0,
+        notification['title'].replaceAll('&#39;', '’'),
+        notification['body'].replaceAll('&#39;', '’'),
+        platform);
   }
 
   callNotification(userId, BuildContext context) {
@@ -104,4 +107,3 @@ class MyNotification {
     _firebaseMessaging.unsubscribeFromTopic("$userId");
   }
 }
-

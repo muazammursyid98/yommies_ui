@@ -44,7 +44,7 @@ class _NewsPageState extends State<NewsPage> {
 
   @override
   Widget build(BuildContext context) {
-   final responsive = Responsive.of(context);
+    final responsive = Responsive.of(context);
     if (loading) {
       return Center(child: CircularProgressIndicator());
     } else {
@@ -76,7 +76,7 @@ class _NewsPageState extends State<NewsPage> {
         ),
         backgroundColor: Theme.of(context).primaryColor,
         body: Container(
-          padding: EdgeInsets.only(top: 20,bottom: 10),
+          padding: EdgeInsets.only(top: 20, bottom: 10),
           decoration: BoxDecoration(
             color: Colors.white.withOpacity(0.9),
             borderRadius: BorderRadius.only(
@@ -153,7 +153,8 @@ class _NewsPageState extends State<NewsPage> {
                                                 MainAxisAlignment.spaceBetween,
                                             children: [
                                               Text(
-                                                item.adsTitle,
+                                                item.adsTitle
+                                                    .replaceAll('&#39;', '’'),
                                                 style: TextStyle(
                                                     color: Colors.pink,
                                                     fontSize: 24,
