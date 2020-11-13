@@ -134,29 +134,29 @@ class _MyQRPageState extends State<MyQRPage> {
               ),
             ),
           ),
-          Container(
-            color: Colors.grey[200],
-            width: double.infinity,
-            padding: EdgeInsets.only(left: 20, right: 20, top: 13),
-            height: MediaQuery.of(context).size.height * 0.35,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                SizedBox(height: 10),
-                Text(
-                  "MY REWARDS",
-                  style: TextStyle(
-                    color: HexColor('#E8A2A2'),
-                    fontWeight: FontWeight.bold,
-                    fontSize: 18,
-                  ),
-                ),
-                myRewards(),
-                // myRewards(),
-              ],
-            ),
-          )
+          // Container(
+          //   color: Colors.grey[200],
+          //   width: double.infinity,
+          //   padding: EdgeInsets.only(left: 20, right: 20, top: 13),
+          //   height: MediaQuery.of(context).size.height * 0.35,
+          //   child: Column(
+          //     crossAxisAlignment: CrossAxisAlignment.start,
+          //     mainAxisAlignment: MainAxisAlignment.start,
+          //     children: [
+          //       SizedBox(height: 10),
+          //       Text(
+          //         "MY REWARDS",
+          //         style: TextStyle(
+          //           color: HexColor('#E8A2A2'),
+          //           fontWeight: FontWeight.bold,
+          //           fontSize: 18,
+          //         ),
+          //       ),
+          //       myRewards(),
+          //       // myRewards(),
+          //     ],
+          //   ),
+          // )
         ],
       ),
     );

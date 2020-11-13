@@ -118,7 +118,7 @@ class _DrinksPageState extends State<DrinksPage> {
                         gridDelegate:
                             new SliverGridDelegateWithFixedCrossAxisCount(
                           crossAxisCount: 2,
-                          childAspectRatio: MediaQuery.of(context).size.width /
+                          childAspectRatio: MediaQuery.of(context).size.width/
                               (MediaQuery.of(context).size.height / 1.1),
                         ),
                         itemBuilder: (context, index) {
@@ -130,7 +130,7 @@ class _DrinksPageState extends State<DrinksPage> {
                               DetailsMenuModel()
                                   .productDetailPhp(jsons, context)
                                   .then((value) {
-                                _detailsMenu(value, context);
+                                _detailsMenu(value,context);
                               });
                             },
                             child: GridTile(
@@ -332,7 +332,7 @@ class _DrinksPageState extends State<DrinksPage> {
       isScrollControlled: true,
       backgroundColor: Colors.transparent,
       builder: (context) => Container(
-          height: MediaQuery.of(context).size.height * 0.50,
+          height: MediaQuery.of(context).size.height * 0.60,
           decoration: new BoxDecoration(
             color: Colors.white,
             borderRadius: new BorderRadius.only(
@@ -345,7 +345,7 @@ class _DrinksPageState extends State<DrinksPage> {
               Container(
                 margin: EdgeInsets.only(top: 20),
                 width: double.infinity,
-                height: responsive.hp(50),
+                height: ResponsiveFlutter.of(context).verticalScale(180),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
@@ -353,7 +353,7 @@ class _DrinksPageState extends State<DrinksPage> {
                       width: ResponsiveFlutter.of(context).scale(160),
                       height: double.infinity,
                       child: Container(
-                        height: responsive.hp(10),
+                        height: 100,
                         width: double.infinity,
                         margin: EdgeInsets.only(
                             left: 10, top: 15, right: 5, bottom: 2),
@@ -382,7 +382,7 @@ class _DrinksPageState extends State<DrinksPage> {
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             Text(
-                              response["product_name"],
+                              response["product_name"].replaceA,
                               style: TextStyle(
                                 fontWeight: FontWeight.w500,
                                 fontSize: 22,
