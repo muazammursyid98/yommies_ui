@@ -91,7 +91,7 @@ class _NewsPageState extends State<NewsPage> {
                   itemBuilder: (BuildContext context, int index) {
                     final item = listAds[index];
                     return Container(
-                      height: responsive.dp(51),
+                      height: responsive.hp(80),
                       width: double.infinity,
                       margin: EdgeInsets.only(right: 7, left: 7, top: 10),
                       child: Column(

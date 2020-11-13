@@ -14,6 +14,7 @@ class DrinksPage extends StatefulWidget {
 }
 
 class _DrinksPageState extends State<DrinksPage> {
+  var responsive;
   List<Product> listProduct = [];
   bool loading = false;
   @override
@@ -43,7 +44,7 @@ class _DrinksPageState extends State<DrinksPage> {
 
   @override
   Widget build(BuildContext context) {
-    final responsive = Responsive.of(context);
+    responsive = Responsive.of(context);
 
     if (loading) {
       return Center(child: CircularProgressIndicator());
@@ -118,7 +119,7 @@ class _DrinksPageState extends State<DrinksPage> {
                             new SliverGridDelegateWithFixedCrossAxisCount(
                           crossAxisCount: 2,
                           childAspectRatio: MediaQuery.of(context).size.width /
-                              (MediaQuery.of(context).size.height / 1.5),
+                              (MediaQuery.of(context).size.height / 1.1),
                         ),
                         itemBuilder: (context, index) {
                           final item = listProduct[index];
@@ -182,7 +183,7 @@ class _DrinksPageState extends State<DrinksPage> {
                                                         Center(
                                                             child:
                                                                 CircularProgressIndicator()),
-                                                    fit: BoxFit.cover,
+                                                    fit: BoxFit.contain,
                                                     useOldImageOnUrlChange:
                                                         false,
                                                     imageUrl:
@@ -344,7 +345,7 @@ class _DrinksPageState extends State<DrinksPage> {
               Container(
                 margin: EdgeInsets.only(top: 20),
                 width: double.infinity,
-                height: ResponsiveFlutter.of(context).verticalScale(150),
+                height: responsive.hp(50),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
@@ -352,7 +353,7 @@ class _DrinksPageState extends State<DrinksPage> {
                       width: ResponsiveFlutter.of(context).scale(160),
                       height: double.infinity,
                       child: Container(
-                        height: 100,
+                        height: responsive.hp(10),
                         width: double.infinity,
                         margin: EdgeInsets.only(
                             left: 10, top: 15, right: 5, bottom: 2),

@@ -1,8 +1,10 @@
+import 'dart:io';
+
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
-import 'package:yommie/pages/navigation_bar.dart';
+import 'package:yommie/pages/navigation_bar_dummy.dart';
 
 class MyNotification {
   final flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
@@ -16,7 +18,7 @@ class MyNotification {
     Navigator.push(
       contextx,
       MaterialPageRoute(
-        builder: (BuildContext context) => NavigationBar(
+        builder: (BuildContext context) => NavigationBarDummy(
           userId: userIdx,
           page: null,
         ),
@@ -32,7 +34,7 @@ class MyNotification {
       Navigator.push(
         context,
         MaterialPageRoute(
-          builder: (BuildContext context) => NavigationBar(
+          builder: (BuildContext context) => NavigationBarDummy(
             userId: userId,
             page: null,
           ),
@@ -75,30 +77,38 @@ class MyNotification {
     contextx = context;
     userIdx = userId;
     var android = new AndroidInitializationSettings('yomieslogo');
-    var ios = new IOSInitializationSettings();
-    // var macOS = new MacOSInitializationSettings();
+    var ios = new IOSInitializationSettings(
+      requestAlertPermission: true,
+      requestBadgePermission: true,
+      requestSoundPermission: false,
+      onDidReceiveLocalNotification: (id, title, body, payload) async {
+        var android = new AndroidNotificationDetails(
+            'id', 'channel ', 'description',
+            priority: Priority.high, importance: Importance.max);
+        var iOS = new IOSNotificationDetails();
+        var platform = new NotificationDetails(android: android, iOS: iOS);
+        await flutterLocalNotificationsPlugin.show(
+            id,
+            title.replaceAll('&#39;', '’'),
+            body.replaceAll('&#39;', '’'),
+            platform);
+      },
+    );
     var platform = new InitializationSettings(android: android, iOS: ios);
+    if (Platform.isIOS) {
+      _firebaseMessaging.requestNotificationPermissions(
+          const IosNotificationSettings(sound: true, badge: true, alert: true));
+      _firebaseMessaging.onIosSettingsRegistered
+          .listen((IosNotificationSettings settings) {
+        print(settings);
+      });
+    }
     flutterLocalNotificationsPlugin.initialize(platform,
         onSelectNotification: onSelectNotification);
     _firebaseMessaging.onTokenRefresh.listen(sendTokenToServer);
     _firebaseMessaging.getToken();
     _firebaseMessaging.subscribeToTopic('$userId');
     callNotification(userId, context);
-    // _firebaseMessaging.configure(
-    //     onMessage: (Map<String, dynamic> message) async {
-    //   showNotification(message);
-    // }, onLaunch: (Map<String, dynamic> message) async {
-    //   handleRouting(messages, context, userId);
-    // }, onResume: (Map<String, dynamic> message) async {
-    //   handleRouting(messages, context, userId);
-    // });
-    //Needed by iOS only
-    _firebaseMessaging.requestNotificationPermissions(
-        const IosNotificationSettings(sound: true, badge: true, alert: true));
-    _firebaseMessaging.onIosSettingsRegistered
-        .listen((IosNotificationSettings settings) {
-      print(settings);
-    });
   }
 
   unsubscribeMessage(userId) {

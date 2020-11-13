@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:responsive_flutter/responsive_flutter.dart';
 import 'package:yommie/class/notification.dart';
 import 'package:yommie/pages/login_page.dart';
-import 'package:yommie/pages/navigation_bar.dart';
 import 'package:yommie/pages/navigation_bar_dummy.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -40,10 +39,11 @@ class _SplashScreenState extends State<SplashScreen> {
 
   @override
   void initState() {
-    // if (widget.userId != null) {
-    //   MyNotification().unsubscribeMessage(widget.userId);
-    //   MyNotification().subcribeMessage(widget.userId, context);
-    // }
+    if (widget.userId != null) {
+      MyNotification().unsubscribeMessage(widget.userId);
+      MyNotification().unsubscribeMessage(widget.userId);
+      MyNotification().subcribeMessage(widget.userId, context);
+    }
     super.initState();
     removeScreen();
   }

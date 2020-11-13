@@ -288,7 +288,7 @@ class _HomePageState extends State<HomePage> {
       child: Container(
         padding: EdgeInsets.only(left: 11),
         width: double.infinity,
-        height: responsive.dp(25),
+        height: responsive.hp(35),
         child: Row(
           children: [
             Expanded(
@@ -333,7 +333,7 @@ class _HomePageState extends State<HomePage> {
                                         topRight: Radius.circular(10.0),
                                       ),
                                       child: CachedNetworkImage(
-                                        fit: BoxFit.cover,
+                                        fit: BoxFit.contain,
                                         useOldImageOnUrlChange: false,
                                         imageUrl:
                                             "https://yomies.com.my/pages/event/photo_event/${item.eventPhoto}",
@@ -483,7 +483,7 @@ class _HomePageState extends State<HomePage> {
     return Container(
       padding: EdgeInsets.only(left: 11),
       width: double.infinity,
-      height: responsive.dp(25),
+      height: responsive.hp(35),
       child: Row(
         children: [
           Expanded(
@@ -528,7 +528,7 @@ class _HomePageState extends State<HomePage> {
                                       topRight: Radius.circular(10.0),
                                     ),
                                     child: CachedNetworkImage(
-                                      fit: BoxFit.cover,
+                                      fit: BoxFit.contain,
                                       useOldImageOnUrlChange: false,
                                       imageUrl:
                                           "https://yomies.com.my/pages/product/photo/${item.photo}",
@@ -615,7 +615,7 @@ class _HomePageState extends State<HomePage> {
     return Container(
       padding: EdgeInsets.only(left: 11),
       width: double.infinity,
-      height: responsive.dp(25),
+      height: responsive.hp(35),
       child: Row(
         children: [
           Expanded(
@@ -660,7 +660,7 @@ class _HomePageState extends State<HomePage> {
                                       topRight: Radius.circular(10.0),
                                     ),
                                     child: CachedNetworkImage(
-                                      fit: BoxFit.cover,
+                                      fit: BoxFit.contain,
                                       useOldImageOnUrlChange: false,
                                       imageUrl:
                                           "https://yomies.com.my/pages/location/photo/${item.photo}",
@@ -840,7 +840,7 @@ class _HomePageState extends State<HomePage> {
               height: double.infinity,
               width: double.infinity,
               child: CachedNetworkImage(
-                fit: BoxFit.cover,
+                fit: BoxFit.contain,
                 useOldImageOnUrlChange: false,
                 imageUrl: "https://yomies.com.my/pages/ads/photo/" + i.adsPhoto,
                 errorWidget: (context, url, error) {
