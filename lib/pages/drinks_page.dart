@@ -118,7 +118,7 @@ class _DrinksPageState extends State<DrinksPage> {
                         gridDelegate:
                             new SliverGridDelegateWithFixedCrossAxisCount(
                           crossAxisCount: 2,
-                          childAspectRatio: MediaQuery.of(context).size.width/
+                          childAspectRatio: MediaQuery.of(context).size.width /
                               (MediaQuery.of(context).size.height / 1.1),
                         ),
                         itemBuilder: (context, index) {
@@ -130,7 +130,7 @@ class _DrinksPageState extends State<DrinksPage> {
                               DetailsMenuModel()
                                   .productDetailPhp(jsons, context)
                                   .then((value) {
-                                _detailsMenu(value,context);
+                                _detailsMenu(value, context);
                               });
                             },
                             child: GridTile(
@@ -382,7 +382,7 @@ class _DrinksPageState extends State<DrinksPage> {
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             Text(
-                              response["product_name"].replaceA,
+                              response["product_name"].replaceAll('&#39;', '’'),
                               style: TextStyle(
                                 fontWeight: FontWeight.w500,
                                 fontSize: 22,
