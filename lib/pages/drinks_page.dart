@@ -119,7 +119,7 @@ class _DrinksPageState extends State<DrinksPage> {
                             new SliverGridDelegateWithFixedCrossAxisCount(
                           crossAxisCount: 2,
                           childAspectRatio: MediaQuery.of(context).size.width /
-                              (MediaQuery.of(context).size.height / 1.1),
+                              (MediaQuery.of(context).size.height / 1.4),
                         ),
                         itemBuilder: (context, index) {
                           final item = listProduct[index];
@@ -183,7 +183,7 @@ class _DrinksPageState extends State<DrinksPage> {
                                                         Center(
                                                             child:
                                                                 CircularProgressIndicator()),
-                                                    fit: BoxFit.contain,
+                                                    fit: BoxFit.fitHeight,
                                                     useOldImageOnUrlChange:
                                                         false,
                                                     imageUrl:

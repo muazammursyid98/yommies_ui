@@ -288,7 +288,7 @@ class _HomePageState extends State<HomePage> {
       child: Container(
         padding: EdgeInsets.only(left: 11),
         width: double.infinity,
-        height: responsive.hp(35),
+        height: responsive.wp(60),
         child: Row(
           children: [
             Expanded(
@@ -483,7 +483,7 @@ class _HomePageState extends State<HomePage> {
     return Container(
       padding: EdgeInsets.only(left: 11),
       width: double.infinity,
-      height: responsive.hp(35),
+      height: responsive.wp(55),
       child: Row(
         children: [
           Expanded(
@@ -615,7 +615,7 @@ class _HomePageState extends State<HomePage> {
     return Container(
       padding: EdgeInsets.only(left: 11),
       width: double.infinity,
-      height: responsive.hp(35),
+      height: responsive.wp(60),
       child: Row(
         children: [
           Expanded(
