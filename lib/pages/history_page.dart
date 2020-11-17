@@ -422,9 +422,12 @@ class _HistoryPageState extends State<HistoryPage> {
                               color: Colors.black,
                               fontSize: dateFormat != null ? 15 : 10),
                         ),
-                        Icon(
-                          FontAwesomeIcons.calendarAlt,
-                          color: Colors.black,
+                        Flexible(
+                          fit: FlexFit.loose,
+                          child: Icon(
+                            FontAwesomeIcons.calendarAlt,
+                            color: Colors.black,
+                          ),
                         ),
                       ],
                     ),

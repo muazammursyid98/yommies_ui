@@ -99,36 +99,41 @@ class _MyQRPageState extends State<MyQRPage> {
       backgroundColor: Colors.grey[200],
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
-        mainAxisAlignment: MainAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.start,
         children: [
           Container(
-            margin: EdgeInsets.only(top: 20),
-            width: 200,
-            height: 200,
-            decoration: BoxDecoration(
-              color: Colors.white,
-              border: Border.all(color: Colors.white),
-              borderRadius: BorderRadius.circular(10),
-            ),
+            width: double.infinity,
+            height: 300,
+            alignment: Alignment.center,
             child: Container(
-              width: 100,
-              height: 100,
+              margin: EdgeInsets.only(top: 20),
+              width: 200,
+              height: 200,
+              decoration: BoxDecoration(
+                color: Colors.white,
+                border: Border.all(color: Colors.white),
+                borderRadius: BorderRadius.circular(10),
+              ),
               child: Container(
-                margin: EdgeInsets.all(3),
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  border: Border.all(color: Colors.grey[300]),
-                  borderRadius: BorderRadius.circular(10),
-                ),
-                child: ClipRRect(
-                  borderRadius: BorderRadius.circular(10),
-                  child: QrImage(
-                    foregroundColor: Colors.black87.withOpacity(0.7),
-                    backgroundColor: Colors.white,
-                    data: widget.userId,
-                    version: QrVersions.auto,
-                    size: 250,
-                    gapless: false,
+                width: 100,
+                height: 100,
+                child: Container(
+                  margin: EdgeInsets.all(3),
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    border: Border.all(color: Colors.grey[300]),
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(10),
+                    child: QrImage(
+                      foregroundColor: Colors.black87.withOpacity(0.7),
+                      backgroundColor: Colors.white,
+                      data: widget.userId,
+                      version: QrVersions.auto,
+                      size: 250,
+                      gapless: false,
+                    ),
                   ),
                 ),
               ),
