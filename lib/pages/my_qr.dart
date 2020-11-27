@@ -35,15 +35,15 @@ class _MyQRPageState extends State<MyQRPage> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Expanded(
-                      child: Container(
-                        margin:
-                            EdgeInsets.symmetric(vertical: 20, horizontal: 30),
-                        width: double.infinity,
-                        height: double.infinity,
-                        decoration: BoxDecoration(
-                          image: DecorationImage(
-                            image: AssetImage("assets/images/yomiesKL.png"),
-                            fit: BoxFit.cover,
+                      child: Center(
+                        child: Container(
+                          width: MediaQuery.of(context).size.height * 0.3,
+                          height: MediaQuery.of(context).size.height * 0.2,
+                          decoration: BoxDecoration(
+                            image: DecorationImage(
+                              image: AssetImage("assets/images/yomiesKL.png"),
+                              fit: BoxFit.cover,
+                            ),
                           ),
                         ),
                       ),

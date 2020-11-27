@@ -8,6 +8,7 @@ import 'package:responsive_flutter/responsive_flutter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:yommie/class/hex_color.dart';
+import 'package:yommie/class/LayoutUI.dart';
 import 'package:yommie/class/responsive.dart';
 import 'package:yommie/models/homePageModels.dart';
 import 'package:yommie/pages/locateUs_page.dart';
@@ -37,6 +38,8 @@ class _HomePageState extends State<HomePage> {
   String userpoint;
 
   Responsive responsive;
+
+  bool useMobileLayout = false;
 
   @override
   void initState() {
@@ -102,6 +105,9 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     responsive = Responsive.of(context);
+    List list = [];
+    list = LayoutUI().getLayout(context);
+    useMobileLayout = list[0];
     if (loading) {
       return Center(child: CircularProgressIndicator());
     } else {
@@ -114,7 +120,9 @@ class _HomePageState extends State<HomePage> {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               Container(
-                height: responsive.hp(16),
+                height: useMobileLayout
+                    ? MediaQuery.of(context).size.height * 0.1 + 50
+                    : MediaQuery.of(context).size.height * 0.1,
                 width: double.infinity,
                 child: SafeArea(
                   child: Container(
@@ -288,7 +296,9 @@ class _HomePageState extends State<HomePage> {
       child: Container(
         padding: EdgeInsets.only(left: 11),
         width: double.infinity,
-        height: responsive.wp(60),
+        height: useMobileLayout
+            ? MediaQuery.of(context).size.height * 0.2 + 50
+            : MediaQuery.of(context).size.height * 0.2,
         child: Row(
           children: [
             Expanded(
@@ -324,7 +334,7 @@ class _HomePageState extends State<HomePage> {
                                 crossAxisAlignment: CrossAxisAlignment.center,
                                 children: [
                                   Container(
-                                    margin: EdgeInsets.all(0),
+                                    margin: EdgeInsets.all(3),
                                     width: double.infinity,
                                     height: 110,
                                     child: ClipRRect(
@@ -483,7 +493,9 @@ class _HomePageState extends State<HomePage> {
     return Container(
       padding: EdgeInsets.only(left: 11),
       width: double.infinity,
-      height: responsive.wp(55),
+      height: useMobileLayout
+          ? MediaQuery.of(context).size.height * 0.2 + 50
+          : MediaQuery.of(context).size.height * 0.2,
       child: Row(
         children: [
           Expanded(
@@ -519,7 +531,7 @@ class _HomePageState extends State<HomePage> {
                               crossAxisAlignment: CrossAxisAlignment.center,
                               children: [
                                 Container(
-                                  margin: EdgeInsets.all(0),
+                                  margin: EdgeInsets.all(3),
                                   width: double.infinity,
                                   height: 110,
                                   child: ClipRRect(
@@ -615,7 +627,9 @@ class _HomePageState extends State<HomePage> {
     return Container(
       padding: EdgeInsets.only(left: 11),
       width: double.infinity,
-      height: responsive.wp(60),
+      height: useMobileLayout
+          ? MediaQuery.of(context).size.height * 0.2 + 50
+          : MediaQuery.of(context).size.height * 0.2,
       child: Row(
         children: [
           Expanded(

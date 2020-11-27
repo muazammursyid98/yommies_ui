@@ -5,6 +5,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:yommie/class/responsive.dart';
 import 'package:yommie/models/newsModels.dart';
 import 'package:yommie/pages/my_qr.dart';
+import 'package:yommie/class/LayoutUI.dart';
 
 class NewsPage extends StatefulWidget {
   NewsPage({Key key}) : super(key: key);
@@ -16,6 +17,8 @@ class NewsPage extends StatefulWidget {
 class _NewsPageState extends State<NewsPage> {
   List<Ads> listAds = [];
   bool loading = false;
+
+  bool useMobileLayout = false;
 
   @override
   void initState() {
@@ -45,6 +48,9 @@ class _NewsPageState extends State<NewsPage> {
   @override
   Widget build(BuildContext context) {
     final responsive = Responsive.of(context);
+    List list = [];
+    list = LayoutUI().getLayout(context);
+    useMobileLayout = list[0];
     if (loading) {
       return Center(child: CircularProgressIndicator());
     } else {
@@ -91,7 +97,9 @@ class _NewsPageState extends State<NewsPage> {
                   itemBuilder: (BuildContext context, int index) {
                     final item = listAds[index];
                     return Container(
-                      height: responsive.wp(140),
+                      height: useMobileLayout
+                          ? MediaQuery.of(context).size.height * 0.6
+                          : MediaQuery.of(context).size.height * 0.5 - 90,
                       width: double.infinity,
                       margin: EdgeInsets.only(right: 7, left: 7, top: 10),
                       child: Column(

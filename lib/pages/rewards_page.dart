@@ -228,18 +228,16 @@ class _RewardPageState extends State<RewardPage> {
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
-                SizedBox(
-                  width: 30,
-                ),
                 Expanded(
-                  child: Container(
-                    margin: EdgeInsets.symmetric(vertical: 30, horizontal: 40),
-                    width: 80,
-                    height: 100,
-                    decoration: BoxDecoration(
-                      image: DecorationImage(
-                        image: AssetImage("assets/images/yomiesKL.png"),
-                        fit: BoxFit.cover,
+                  child: Center(
+                    child: Container(
+                      width: MediaQuery.of(context).size.height * 0.3,
+                      height: MediaQuery.of(context).size.height * 0.2,
+                      decoration: BoxDecoration(
+                        image: DecorationImage(
+                          image: AssetImage("assets/images/yomiesKL.png"),
+                          fit: BoxFit.cover,
+                        ),
                       ),
                     ),
                   ),
@@ -286,7 +284,7 @@ class _RewardPageState extends State<RewardPage> {
                         }
                       },
                       child: Container(
-                        margin: EdgeInsets.only(top:10),
+                        margin: EdgeInsets.only(top: 10),
                         height: 200,
                         width: double.infinity,
                         child: Container(
@@ -406,7 +404,8 @@ class _RewardPageState extends State<RewardPage> {
                                   ),
                                 ),
                                 SizedBox(height: 10),
-                                item.status != "LOCK" && item.status != "FULLY REDEEM"
+                                item.status != "LOCK" &&
+                                        item.status != "FULLY REDEEM"
                                     ? Container(
                                         height: 30,
                                         width: 220,
