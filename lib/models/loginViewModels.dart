@@ -25,7 +25,7 @@ class LoginViewModels {
           prefs.setString("firstName", map["firstname"]);
           prefs.setString("email", map["email"]);
           prefs.setString("token", map["token"]);
-          GetAPI.setupHTTPHeader(map["token"]);
+          GetAPI.setupHTTPHeader(map["token"]); 
           Navigator.pushReplacement(
             context,
             MaterialPageRoute(
