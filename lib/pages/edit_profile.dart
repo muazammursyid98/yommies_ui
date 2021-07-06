@@ -387,7 +387,6 @@ class _EditProfileState extends State<EditProfile> {
           var jsons = {};
           jsons["username"] = username.text;
           jsons["dob"] = dateOfBirth.text.replaceAll("/", "-");
-          ;
           jsons["gender"] = choice;
           jsons["userimage"] = base64Image;
 

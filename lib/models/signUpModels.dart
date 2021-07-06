@@ -7,7 +7,7 @@ import 'package:yommie/class/alertDialog.dart';
 import 'package:yommie/provider/rest.dart';
 
 class SignUpModels {
-  registerPhp(jsons, context) async {
+  static Future registerPhp(jsons, context) async {
     try {
       var result = await GetAPI.providers(jsons, "register.php");
       var statusCode = result[0];

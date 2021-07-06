@@ -23,6 +23,8 @@ class _SignUpPageState extends State<SignUpPage> {
   String dateOfBirthPicker;
 
   bool loading = false;
+  bool validationGender = false;
+  bool validationBOD = false;
 
   InputBorder focusedErrorBorder = OutlineInputBorder(
     borderRadius: BorderRadius.all(Radius.circular(30.0)),
@@ -62,56 +64,39 @@ class _SignUpPageState extends State<SignUpPage> {
 
   validationForm() {
     if (_formKey.currentState.validate()) {
-      if (password.text == confirmPassword.text) {
-        if (dataPick != null && dateOfBirthPicker != null) {
+        if (password.text == confirmPassword.text) {
           setState(() {
-            loading = false;
+            loading = true;
           });
           _formKey.currentState.save();
           var jsons = {};
           jsons["username"] = username.text;
           jsons["email"] = email.text;
           jsons["password"] = password.text;
-          jsons["dateOfBirth"] = dateOfBirthPicker.replaceAll("/", "-");
+          jsons["dateOfBirth"] = dateOfBirthPicker == null ? null:dateOfBirthPicker.replaceAll("/", "-");
           jsons["gender"] = dataPick;
-          SignUpModels().registerPhp(jsons, context);
+          SignUpModels.registerPhp(jsons, context).then((value) {
+            setState(() {
+                          loading = false;
+                        });
+          });
         } else {
           setState(() {
             loading = false;
           });
-          if (dataPick == null) {
-            DialogAction().alertDialogOneButton(context, "Ops !",
-                CoolAlertType.error, "Please select your gender", "Ok", () {
-              Navigator.of(context).pop();
-            });
-          } else {
-            DialogAction().alertDialogOneButton(
-                context,
-                "Ops !",
-                CoolAlertType.error,
-                "Please insert your date of birth",
-                "Ok", () {
-              Navigator.of(context).pop();
-            });
-          }
+          DialogAction().alertDialogOneButton(
+              context,
+              "Failed",
+              CoolAlertType.error,
+              "Please try again your password not matched",
+              "Ok", () {
+            Navigator.of(context).pop();
+          });
         }
-      } else {
-        setState(() {
-          loading = false;
-        });
-        DialogAction().alertDialogOneButton(
-            context,
-            "Failed",
-            CoolAlertType.error,
-            "Please try again your password not matched",
-            "Ok", () {
-          Navigator.of(context).pop();
-        });
-      }
-    } else {
-      setState(() {
-        loading = false;
-      });
+    }else {
+       setState(() {
+            loading = false;
+          });
     }
   }
 
@@ -200,6 +185,23 @@ class _SignUpPageState extends State<SignUpPage> {
                                   ),
                           ),
                         ),
+                        validationBOD == true
+                            ? SizedBox(height: 10)
+                            : SizedBox(),
+                        validationBOD == true
+                            ? Row(
+                                children: [
+                                  SizedBox(
+                                    width: 20,
+                                  ),
+                                  Text(
+                                    'Invalid Date Of Birth',
+                                    style: TextStyle(
+                                        color: Colors.red[300], fontSize: 12),
+                                  ),
+                                ],
+                              )
+                            : SizedBox(),
                         // dateOfBirthInput(),
                         SizedBox(height: 15),
                         Container(
@@ -240,6 +242,21 @@ class _SignUpPageState extends State<SignUpPage> {
                             },
                           ),
                         ),
+                        SizedBox(height: 10),
+                        validationGender == true
+                            ? Row(
+                                children: [
+                                  SizedBox(
+                                    width: 20,
+                                  ),
+                                  Text(
+                                    'Invalid Gender',
+                                    style: TextStyle(
+                                        color: Colors.red[300], fontSize: 12),
+                                  ),
+                                ],
+                              )
+                            : SizedBox(),
                         SizedBox(height: 30),
                         SizedBox(
                           height: 40,

@@ -54,6 +54,8 @@ class _HomePageState extends State<HomePage> {
     var jsons = {};
     // jsons["userId"] = widget.userId;
     HomePageModels().homepagePhp(jsons, context).then((value) {
+      print(value);
+      print(value["data_ads"]);
       final dataAds = value["data_ads"] == null ? [] : value["data_ads"];
       final dataLocation =
           value["data_location"] == null ? [] : value["data_location"];
