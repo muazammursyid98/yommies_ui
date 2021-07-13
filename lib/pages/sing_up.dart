@@ -64,39 +64,41 @@ class _SignUpPageState extends State<SignUpPage> {
 
   validationForm() {
     if (_formKey.currentState.validate()) {
-        if (password.text == confirmPassword.text) {
-          setState(() {
-            loading = true;
-          });
-          _formKey.currentState.save();
-          var jsons = {};
-          jsons["username"] = username.text;
-          jsons["email"] = email.text;
-          jsons["password"] = password.text;
-          jsons["dateOfBirth"] = dateOfBirthPicker == null ? null:dateOfBirthPicker.replaceAll("/", "-");
-          jsons["gender"] = dataPick;
-          SignUpModels.registerPhp(jsons, context).then((value) {
-            setState(() {
-                          loading = false;
-                        });
-          });
-        } else {
+      if (password.text == confirmPassword.text) {
+        setState(() {
+          loading = true;
+        });
+        _formKey.currentState.save();
+        var jsons = {};
+        jsons["username"] = username.text;
+        jsons["email"] = email.text;
+        jsons["password"] = password.text;
+        jsons["dateOfBirth"] = dateOfBirthPicker == null
+            ? null
+            : dateOfBirthPicker.replaceAll("/", "-");
+        jsons["gender"] = dataPick;
+        SignUpModels.registerPhp(jsons, context).then((value) {
           setState(() {
             loading = false;
           });
-          DialogAction().alertDialogOneButton(
-              context,
-              "Failed",
-              CoolAlertType.error,
-              "Please try again your password not matched",
-              "Ok", () {
-            Navigator.of(context).pop();
-          });
-        }
-    }else {
-       setState(() {
-            loading = false;
-          });
+        });
+      } else {
+        setState(() {
+          loading = false;
+        });
+        DialogAction().alertDialogOneButton(
+            context,
+            "Failed",
+            CoolAlertType.error,
+            "Please try again your password not matched",
+            "Ok", () {
+          Navigator.of(context).pop();
+        });
+      }
+    } else {
+      setState(() {
+        loading = false;
+      });
     }
   }
 
